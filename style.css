@@ -1,7 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background-color: black;
 }
 
+.container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+}
 .item-container {
     margin-top: 20px;
     display: flex;
@@ -18,12 +32,16 @@ body{
     width: 500px;
     display: flex;
     gap: 10px;
+    justify-content: center;
 }
 
 .slot {
+    display: flex;
     width: 60px;
     height: 60px;
     background: #ccc;
+    align-items: center;
+    justify-content: center;
 }
 
 .item {

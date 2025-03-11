@@ -17,8 +17,6 @@ clickableItems.forEach(item => {
     item.addEventListener('click', addItem);
 });
 
-
-
 function removeItem(){
 
 }
