@@ -1,0 +1,33 @@
+body{
+    background-color: black;
+}
+
+.item-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.clickable-item {
+    width: 50px;
+    height: 50px;
+    background: red;
+}
+
+.inventory {
+    width: 500px;
+    display: flex;
+    gap: 10px;
+}
+
+.slot {
+    width: 60px;
+    height: 60px;
+    background: #ccc;
+}
+
+.item {
+    width: 40px;
+    height: 40px;
+    background: red;
+}
