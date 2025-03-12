@@ -1,22 +1,33 @@
 
 //---------------------------------------- Items array with name and color --------------------------------------------//
 
+
+
 // Add more if needed to create more items
 const itemTypes = [
     {
+        capacity: 5,
         name: 'Ruby',
         color: 'red'
     },
     {
+        capacity: 5,
         name: 'Sapphire',
         color: 'blue'
     },
     {
+        capacity: 5,
         name: 'Emerald',
         color: 'green'
+    },
+    {
+        capacity: 5,
+        name: 'Amethyst',
+        color: 'purple'
     }
 
 ]
+
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
@@ -48,9 +59,15 @@ function createClickableItem() {
         clickableItem.classList.add('clickable-item');
         // Sets color from itemsTypes array
         clickableItem.style.backgroundColor = itemType.color;
+        //Store the item name on the clickable element
+        clickableItem.dataset.itemName = itemType.name;
 
         // Adds click function that calls addItem with specific itemType
-        clickableItem.onclick =() => addItem (itemType);
+        clickableItem.onclick =() => {
+            addItem (itemType);
+        //fjerner items fra screen når de bliver klikket på
+            clickableItem.style.display = 'none';
+        }
 
         // Adds clickableItem to container
         container.appendChild(clickableItem);
@@ -81,19 +98,20 @@ function addItem(itemType) {
 
 
 // Removes items when clicked
-function removeItem(event) {
-// If you click directly on item
-    if (event.target.classList.contains('item')) {
-        event.target.parentElement.removeChild(event.target);
-    }
-// Or if you click on a slot that contains an item
-    else if (event.target.classList.contains('slot') &&
-        event.target.hasChildNodes()) {
-        event.target.removeChild(event.target.firstChild);
-    }
+    function removeItem(event) {
+        if (event.target.classList.contains('item')) {
+            const itemName = event.target.dataset.itemName;
+            event.target.parentElement.removeChild(event.target);
 
-}
-
+            // Find the corresponding clickable item and show it again
+            const clickableItems = document.querySelectorAll('.clickable-item');
+            clickableItems.forEach(clickable => {
+                if (clickable.dataset.itemName === itemName) {
+                    clickable.style.display = 'block';
+                }
+            });
+        }
+    }
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
 
@@ -106,3 +124,4 @@ const slots = document.querySelectorAll('.slot');
 slots.forEach(slot => {
     slot.addEventListener('click', removeItem);
 });
+
