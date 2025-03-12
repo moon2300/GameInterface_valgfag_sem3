@@ -6,7 +6,6 @@
 
 body{
     background-color: black;
-
 }
 
 .container{
@@ -22,35 +21,14 @@ body{
     margin-top: 20px;
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 500px;
 }
 
 .clickable-item {
     width: 50px;
     height: 50px;
-    position: relative;
+    background: red;
     cursor: pointer;
 }
-
-
-.itemNameTip {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1000;
-    top: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-
 
 .inventory {
     width: 500px;
@@ -71,90 +49,6 @@ body{
 .item {
     width: 40px;
     height: 40px;
-    position: relative;
-    cursor: pointer;
-}
-.item-counter {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 2px 4px;
-    border-radius: 3px;
-    font-size: 12px;
-    min-width: 16px;
-    text-align: center;
-}
-
-.notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 0, 0, 0.9);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 5px;
-    font-size: 16px;
-    z-index: 1000;
-    animation: fadeInOut 2s ease-in-out forwards;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    15% { opacity: 1; }
-    85% { opacity: 1; }
-    100% { opacity: 0; }
-}
-=======
     background: red;
-}
-
-
-.gamemenu{
-    font-size: 70px;
-    color: white;
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    width: 100vw;
-    height: 100vh;
-    gap: 20px;
-}
-
-.titel{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spilknapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-}
-button{
-    align-items: center;
-    justify-content: center;
-    width: 448px;
-    height:64px;
-    font-size: 40px;
-    font-weight: 550;
-    border-radius: 25px;
-    border-style: none;
-}
-
-button:hover{
-    background-color: #989898;
-}
-
-.icons{
-    width: 100%;
-    display: flex;
-    align-items: end;
-    justify-content: end;
+    cursor: pointer;
 }
