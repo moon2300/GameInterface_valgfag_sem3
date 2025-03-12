@@ -160,6 +160,14 @@ function createInventorySlots() {
     }
 }
 
+const clickableItems = document.querySelectorAll('.clickable-item');
+clickableItems.forEach(item => {
+    item.addEventListener('click', addItem);
+});
+
+
+
+
 // Initialize Game
 function initGame() {
     createClickableItems();
