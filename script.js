@@ -68,7 +68,6 @@ function createClickableItem() {
         //fjerner items fra screen når de bliver klikket på
             clickableItem.style.display = 'none';
         }
-
         // Adds clickableItem to container
         container.appendChild(clickableItem);
     });
