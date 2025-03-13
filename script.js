@@ -1,6 +1,8 @@
 
 //---------------------------------------- Items array with name and color --------------------------------------------//
-
+uiSettings = {
+    volume: true,
+}
 
 
 // Add more if needed to create more items
@@ -124,3 +126,19 @@ slots.forEach(slot => {
     slot.addEventListener('click', removeItem);
 });
 
+const volumeButton = document.querySelector('#volumeToggle');
+volumeButton.addEventListener('click', volumeToggle);
+function volumeToggle () {
+    const volumeOn = volumeButton.querySelector('#volumeOn');
+    const volumeOff = volumeButton.querySelector('#volumeOff');
+    if (uiSettings.volume === true) {
+        uiSettings.volume = false
+        volumeOn.style.display = 'none';
+        volumeOff.style.display = 'block';
+
+    } else {
+        uiSettings.volume = true
+        volumeOn.style.display = 'block';
+        volumeOff.style.display = 'none';
+    }
+}

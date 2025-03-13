@@ -50,11 +50,11 @@ body{
     cursor: pointer;
 }
 
-.gamemenu{
+.gameMenu{
     font-size: 70px;
     color: white;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     width: 100vw;
     height: 100vh;
     gap: 20px;
@@ -92,9 +92,78 @@ button:hover{
 
 .icons{
     width: 100%;
+    gap: 10px;
     display: flex;
-    align-items: end;
-    justify-content: end;
+    align-items: start;
+    justify-content: right;
+
+    #settings{
+        padding-top: 10px;
+    }
+}
+
+#volumeOff{
+    display: none;
+}
+
+.top{
+    padding-top: 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .lif-penge{
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        height: 100%;
+        gap: 10px;
+    }
+
+}
+.life,.penge{
+    width: 200px;
+    height: 40px;
+    background-color: white;
+}
+
+.mini-map{
+    width: 300px;
+    height: 200px;
+    background-color: white;
+
+}
+
+.mid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bottom{
+    display: flex;
+}
+.inventory-slots{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.action-box{
+    width: 400px;
+    height: 300px;
+    background-color: white;
+}
+
+.chat-box{
+    width: 100%;
+    height: 100%;
+
+}
+
+.dato{
+    width: 100%;
+    height: 100%;
 }
 .top{
     width: 100%;
