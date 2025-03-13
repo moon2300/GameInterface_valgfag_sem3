@@ -11,11 +11,10 @@ body{
 .container{
     width: 100vw;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    padding-bottom: 25px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    padding: 25px;
+
 }
 .item-container {
     margin-top: 20px;
@@ -96,4 +95,90 @@ button:hover{
     display: flex;
     align-items: end;
     justify-content: end;
+}
+.top{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+.lif-penge{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    height: 100%;
+    gap: 10px;
+}
+
+}
+.life,.penge{
+    width: 200px;
+    height: 40px;
+    background-color: white;
+}
+
+.mini-map{
+    width: 300px;
+    height: 170px;
+    background-color: white;
+
+}
+
+.mid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bottom{
+    display: flex;
+}
+.inventory-slots{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+}
+
+
+.action-box{
+    width: 500px;
+    height: 300px;
+    background-color: white;
+}
+
+.chat-box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+
+}
+
+.chat{
+    width: 300px;
+    height: 100px;
+    background-color: white;
+}
+.dato{
+    width: 100%;
+    height: 100%;
+}
+
+.map-box{
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-knapper{
+    display: flex;
+    justify-content: end;
+
+
+}
+
+.volume,.settings{
+    width: 50px;
+    height: 50px;
+    font-size: 10px;
 }
