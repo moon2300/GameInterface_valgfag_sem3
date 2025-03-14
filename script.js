@@ -184,6 +184,7 @@ settingsButton.addEventListener('click',() => {
     openSettings();
 });
 
+
 function openSettings() {
     showNotification("Settings menu is open");
 }
