@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="gameMenu">
+<div class="startMenuScreen">
     <div class="icons">
         <img id="settings" alt="settings" src="picz/GearWideConnected.svg" width="50px">
         <div id="volumeToggle">
@@ -22,17 +22,24 @@
     </div>
 
     <div class="spilknapper">
-        <button>New Game</button>
-        <button>Load Game</button>
+        <button class="newGame">New Game</button>
+        <button class="loadGame">Load Game</button>
     </div>
 
 
+   <!-- <div class="notifikation-container">
+        <div class="notification">notifikation</div>
+        <div class="notification">notifikation</div>
+        <div class="notification">notifikation</div>
+        <div class="notification">notifikation</div>
 
+
+    </div> -->
 
 </div>
 
 
-<div class="container">
+<div class="gameScreen">
 
     <div class="top">
         <div class="lif-penge">
@@ -45,7 +52,10 @@
 
 
             <div class="mini-map">mini map</div>
+            <div class="setting-box">
             <button class="settings">settings</button>
+            </div>
+
             </div>
 
 
@@ -54,7 +64,15 @@
     </div>
 
     <div class="mid">
-        <div class="action-box">Actions</div>
+        <div class="action-box">
+            <div class="action-buttons">
+                <button id="valg1">Udforsk grotte</button>
+                <button id="valg2">Køb i butik</button>
+                <button id="valg3">Bekæmp monster</button>
+            </div>
+            <div id="tekst">Velkommen til blah blah. Din quest er at blah blah. Du befinder dig nu foran (et eller andet) hvor går du hen? brug de overstående knapper</div>
+        </div>
+
     </div>
 
     <div class="bottom">
@@ -76,14 +94,21 @@
                 <div class="slot"></div>
                 <div class="slot"></div>
             </div>
+
         </div>
 
         <div class="dato">
 
+
         </div>
 
+
     </div>
+
+
 </div>
+
+
 
 <!--<button class="volume">volume</button>-->
 

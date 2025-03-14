@@ -80,7 +80,7 @@ function createClickableItem() {
         // Adds click function that calls addItem with specific itemType
         clickableItem.onclick =() => {
             addItem (itemType);
-        //fjerner items fra screen når de bliver klikket på
+            //fjerner items fra screen når de bliver klikket på
             clickableItem.style.display = 'none';
         }
         // Adds clickableItem to container
@@ -112,20 +112,20 @@ function addItem(itemType) {
 
 
 // Removes items when clicked
-    function removeItem(event) {
-        if (event.target.classList.contains('item')) {
-            const itemName = event.target.dataset.itemName;
-            event.target.parentElement.removeChild(event.target);
+function removeItem(event) {
+    if (event.target.classList.contains('item')) {
+        const itemName = event.target.dataset.itemName;
+        event.target.parentElement.removeChild(event.target);
 
-            // Find the corresponding clickable item and show it again
-            const clickableItems = document.querySelectorAll('.clickable-item');
-            clickableItems.forEach(clickable => {
-                if (clickable.dataset.itemName === itemName) {
-                    clickable.style.display = 'block';
-                }
-            });
-        }
+        // Find the corresponding clickable item and show it again
+        const clickableItems = document.querySelectorAll('.clickable-item');
+        clickableItems.forEach(clickable => {
+            if (clickable.dataset.itemName === itemName) {
+                clickable.style.display = 'block';
+            }
+        });
     }
+}
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
 
