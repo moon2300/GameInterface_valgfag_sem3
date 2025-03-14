@@ -6,7 +6,64 @@
 
 body{
     background-color: black;
+}
 
+
+.startMenuScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 70px;
+    color: white;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 25px;
+
+}
+.icons{
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    align-items: start;
+    justify-content: right;
+
+    #settings{
+        padding-top: 10px;
+    }
+}
+
+#volumeOff{
+    display: none;
+}
+
+.titel{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spilknapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+.spilknapper button{
+    align-items: center;
+    justify-content: center;
+    width: 448px;
+    height:64px;
+    font-size: 40px;
+    font-weight: 550;
+    border-radius: 25px;
+    border-style: none;
+}
+
+button:hover{
+    background-color: #989898;
 }
 
 .gameScreen{
@@ -15,8 +72,113 @@ body{
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     padding: 25px;
+}
+
+.top{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .lif-penge{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 10px;
+    }
 
 }
+.life,.penge{
+    width: 200px;
+    height: 40px;
+    background-color: white;
+}
+
+.gameInformation{
+    display: flex;
+    justify-content: end;
+}
+
+.map-box{
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    gap: 10px;
+}
+.mini-map{
+    width: 300px;
+    height: 200px;
+    background-color: white;
+}
+
+.settings{
+    width: 50px;
+    height: 50px;
+    font-size: 10px;
+    border-radius: 25px;
+    border-style: none;
+}
+.setting-box{
+    display: flex;
+    justify-content: end;
+}
+
+.mid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.action-box{
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+}
+.action-buttons{
+    padding-top: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.action-buttons button {
+    background-color: grey;
+    width: 135px;
+    height: 40px;
+    color: white;
+    border-radius: 25px;
+    border-style: none;
+    font-size: 14px;
+}
+
+.action-buttons button:hover{
+background-color: #5c5c5c;
+}
+#tekst{
+padding: 50px;
+}
+
+.bottom{
+    display: flex;
+    padding-top: 50px;
+}
+
+.chat-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 100%;
+    height: 100%;
+}
+.chat{
+    width: 300px;
+    height: 100px;
+    background-color: white;
+}
+.inventory-slots{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .item-container {
     margin-top: 20px;
     gap: 10px;
@@ -50,244 +212,10 @@ body{
     height: 40px;
     cursor: pointer;
 }
-
-.startMenuScreen{
-    font-size: 70px;
-    color: white;
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    width: 100vw;
-    height: 100vh;
-    gap: 20px;
-    padding: 25px;
-
-}
-
-.titel{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spilknapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-}
-.spilknapper button{
-    align-items: center;
-    justify-content: center;
-    width: 448px;
-    height:64px;
-    font-size: 40px;
-    font-weight: 550;
-    border-radius: 25px;
-    border-style: none;
-}
-
-button:hover{
-    background-color: #989898;
-}
-
-.icons{
-    width: 100%;
-    gap: 10px;
-    display: flex;
-    align-items: start;
-    justify-content: right;
-
-    #settings{
-        padding-top: 10px;
-    }
-}
-
-#volumeOff{
-    display: none;
-}
-
-.top{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-
-    .lif-penge{
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        gap: 10px;
-    }
-
-}
-.life,.penge{
-    width: 200px;
-    height: 40px;
-    background-color: white;
-}
-
-.mini-map{
-    width: 300px;
-    height: 200px;
-    background-color: white;
-
-}
-
-.mid{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.bottom{
-    display: flex;
-}
-.inventory-slots{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-
-.action-box{
-    width: 400px;
-    height: 300px;
-    background-color: white;
-}
-
-.chat-box{
-    width: 100%;
-    height: 100%;
-
-}
-
 .dato{
     width: 100%;
     height: 100%;
 }
-
-
-.lif-penge{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    height: 100%;
-
-}
-
-
-.life,.penge{
-    width: 200px;
-    height: 40px;
-    background-color: white;
-}
-
-.mini-map{
-    width: 300px;
-    height: 170px;
-    background-color: white;
-
-}
-
-.mid{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.bottom{
-    display: flex;
-    padding-top: 50px;
-    position: relative;
-    color: white;
-}
-.inventory-slots{
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
-}
-
-
-.action-box{
-    width: 500px;
-    height: 300px;
-    background-color: white;
-    position: absolute;
-}
-
-.chat-box{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-
-}
-
-.chat{
-    width: 300px;
-    height: 100px;
-    background-color: white;
-}
-.dato{
-    width: 100%;
-    height: 100%;
-    color: white;
-}
-
-.map-box{
-    display: flex;
-    justify-content: end;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.setting-knapper{
-    display: flex;
-    justify-content: end;
-
-
-}
-
-.settings{
-    width: 50px;
-    height: 50px;
-    font-size: 10px;
-    border-radius: 25px;
-    border-style: none;
-}
-.setting-box{
-    display: flex;
-    justify-content: end;
-}
-
-.action-buttons{
-    padding-top: 50px;
-    display: flex;
-    justify-content: space-evenly;
-}
-.action-buttons button{
-    background-color: grey;
-    width: 135px;
-    height: 40px;
-    color: white;
-    border-radius: 25px;
-    border-style: none;
-    font-size: 14px;
-
-
-}
-
-
-.action-buttons button:hover{
-    background-color: #5c5c5c;
-}
-#tekst{
-    padding: 50px;
-}
-
 
 .notifikation-container{
     right: 0;
