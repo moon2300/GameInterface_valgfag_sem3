@@ -2,8 +2,6 @@
 //---------------------------------------- Items array with name and color --------------------------------------------//
 uiSettings = {
     volume: true,
-    showScreen: true,
-    gameMenuVisible: true,
 }
 
 
@@ -31,17 +29,6 @@ const itemTypes = [
     }
 
 ]
-
-function showNotification(message) {
-    const existingNotification = document.querySelector('.notification');
-
-    const notification = document.createElement('div');
-    notification.classList.add('notification');
-    notification.textContent = message;
-    document.querySelector('.notifications').appendChild(notification);
-
-    notification.addEventListener('animationend', () => notification.remove());
-}
 
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
@@ -148,42 +135,10 @@ function volumeToggle () {
         uiSettings.volume = false
         volumeOn.style.display = 'none';
         volumeOff.style.display = 'block';
-        showNotification('Volume off');
 
     } else {
         uiSettings.volume = true
         volumeOn.style.display = 'block';
         volumeOff.style.display = 'none';
-        showNotification('Volume on');
     }
-}
-
-function shownScreen() {
-    const startScreen = document.querySelector('.startMenuScreen');
-    const gameScreen = document.querySelector('.gameScreen');
-    if (uiSettings.showScreen) {
-        startScreen.style.display = 'none';
-        gameScreen.style.display = 'grid';
-    } else {
-        startScreen.style.display = 'grid';
-        gameScreen.style.display = 'none';
-    }
-
-    uiSettings.showScreen = !uiSettings.showScreen;
-}
-
-document.querySelector('.gameScreen').style.display = 'none';
-
-document.querySelector('.newGame').addEventListener('click', shownScreen);
-
-
-
-const settingsButton = document.querySelector('.settings');
-settingsButton.addEventListener('click',() => {
-    showNotification("Settings menu is open");
-    openSettings();
-});
-
-function openSettings() {
-    showNotification("Settings menu is open");
 }
