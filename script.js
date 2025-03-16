@@ -1,4 +1,3 @@
-
 //---------------------------------------- Items array with name and color --------------------------------------------//
 uiSettings = {
     volume: true,
@@ -32,7 +31,7 @@ const itemTypes = [
 
 
 function showNotification(message) {
-   // const existingNotification = document.querySelector('.notification');
+    // const existingNotification = document.querySelector('.notification');
 
 function showNotification(header, message) {
 
@@ -139,7 +138,7 @@ function addItemToInventory(itemType){
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
                 updateCounter(item);
-                showNotification(`${name} blev lagt til stakken! (antal: ${count + 1})`);
+                showNotification(${name} blev lagt til stakken! (antal: ${count + 1}));
                 return true;
             }
         }
@@ -150,7 +149,7 @@ function addItemToInventory(itemType){
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
             slot.appendChild(item);
-            showNotification(`${itemType.name} blev tilføjet til dit inventory!`);
+            showNotification(${itemType.name} blev tilføjet til dit inventory!);
             return true;
         }
     }
@@ -174,16 +173,16 @@ function removeItemFromInventory(itemType){
                 count--;
                 item.dataset.count = count.toString();
                 updateCounter(item);
-                showNotification(`Én ${itemType.name} fjernet. (antal tilbage: ${count})`);
+                showNotification(Én ${itemType.name} fjernet. (antal tilbage: ${count}));
             } else {
                 slot.removeChild(item);
-                showNotification(`${itemType.name} helt fjernet.`);
+                showNotification(${itemType.name} helt fjernet.);
             }
             return;
         }
     }
 
-    showNotification(`Ingen ${itemType.name} i inventory!`);
+    showNotification(Ingen ${itemType.name} i inventory!);
 }
 
 
@@ -342,53 +341,41 @@ function goCave(){
 }
 
 function collectItems() {
-    const actionButtonsContainer = document.querySelector('.action-buttons-container');
-    actionButtonsContainer.innerHTML = ''; // Ryd container først
+    const valgButtons = [valg1, valg2, valg3];
+    const plusButtons = document.querySelectorAll(".plusKnap");
+    const minusButtons = document.querySelectorAll(".minusKnap");
 
-    const collectContainer = document.createElement('div');
-    collectContainer.classList.add('collect-items-container');
+    valgButtons.forEach((button, index) => {
+        const itemType = itemTypes[index];
 
-    itemTypes.forEach(itemType => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('collect-item');
+        if (itemType) {
+            // setup item name on valg buttons
+            button.style.display = 'inline-block';
+            button.innerText = itemType.name;
+            button.onclick = null; // <-- explicitly remove onclick from valg buttons
 
-        // minusknap
-        const minusKnap = document.createElement('div');
-        minusKnap.classList.add('minusKnap');
-        minusKnap.textContent = '-';
-        minusKnap.onclick = () => removeItemFromInventory(itemType);
+            // setup plus button correctly
+            plusButtons[index].style.display = 'inline-block';
+            //plus knappen
+            plusButtons[index].onclick = () => {
+                addItemToInventory(itemType);
+            };
 
-        // Item navn (almindelig div i stedet for button)
-        const itemLabel = document.createElement('div');
-        itemLabel.classList.add('item-label');
-        itemLabel.textContent = itemType.name;
-
-        // plusknap
-        const plusKnap = document.createElement('div');
-        plusKnap.classList.add('plusKnap');
-        plusKnap.textContent = '+';
-        plusKnap.onclick = () => addItemToInventory(itemType);
-
-        itemDiv.appendChild(minusKnap);
-        itemDiv.appendChild(itemLabel);
-        itemDiv.appendChild(plusKnap);
-
-        collectContainer.appendChild(itemDiv);
+            // setup minus button correctly
+            minusButtons[index].style.display = 'inline-block';
+            //minusknappen
+            minusButtons[index].onclick = () => {
+                removeItemFromInventory(itemType);
+            };
+        } else {
+            button.style.display = 'none';
+            plusButtons[index].style.display = 'none';
+            minusButtons[index].style.display = 'none';
+        }
     });
-
-    // Tilføj enkelt "Return to Town"-knap nedenfor
-    const returnBtn = document.createElement('button');
-    returnBtn.classList.add('return-button');
-    returnBtn.textContent = 'Return to cave entrance';
-    returnBtn.onclick = goCave;
-
-    collectContainer.appendChild(returnBtn);
-
-    actionButtonsContainer.appendChild(collectContainer);
 
     actionText.innerText = "You see colorful crystals and stones around. Which one will you take?";
 }
-
 
 function buyLife(){
     actionText.innerText = "You bought more life!";
