@@ -5,11 +5,10 @@ uiSettings = {
     showScreen: true,
 }
 
-
 // Add more if needed to create more items
 const itemTypes = [
     {
-        capacity: 5,
+        capacity: 10,
         name: 'Ruby',
         color: 'red'
     },
@@ -19,7 +18,7 @@ const itemTypes = [
         color: 'blue'
     },
     {
-        capacity: 5,
+        capacity: 2,
         name: 'Emerald',
         color: 'green'
     },
@@ -31,7 +30,12 @@ const itemTypes = [
 
 ]
 
+
+function showNotification(message) {
+   // const existingNotification = document.querySelector('.notification');
+
 function showNotification(header, message) {
+
     const notification = document.createElement('div');
     notification.classList.add('notification');
     notification.style.display = 'block';
@@ -103,97 +107,92 @@ function showNotification(header, message) {
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
-function createItem(itemType) {
-    // Creates new div element
+// Opretter et nyt item med en counter og hover-effekt
+function createItem(itemType, count = 1) {
     const item = document.createElement('div');
-    // Adds styling from CSS .item
     item.classList.add('item');
-    // Set background color from itemsTypes
-    item.style.backgroundColor = itemType.color
-    // Saves name as attribute for identification
+    item.style.backgroundColor = itemType.color;
     item.dataset.itemName = itemType.name;
+    item.dataset.count = count.toString();
+
+    // Tilføj item counter element
+    const counter = document.createElement('div');
+    counter.classList.add('item-counter');
+    item.appendChild(counter);
+
+    updateCounter(item); // Opdaterer tælleren synligt
+    addHoverEvents(item); // Hover-effekt til itemnavn
+
     return item;
 }
 
 
-//--------------------------------------- Creates the Items outside inventory ----------------------------------------//
-
-function createClickableItem() {
-    // Finds items-container div
-    const container = document.querySelector('.item-container')
-
-    // For each ItemsType in the array
-    itemTypes.forEach(itemType => {
-
-        // Makes new clickable dic element
-        const clickableItem = document.createElement('div');
-        // Adds styling from CSS .clickable-item
-        clickableItem.classList.add('clickable-item');
-        // Sets color from itemsTypes array
-        clickableItem.style.backgroundColor = itemType.color;
-        //Store the item name on the clickable element
-        clickableItem.dataset.itemName = itemType.name;
-
-        // Adds click function that calls addItem with specific itemType
-        clickableItem.onclick =() => {
-            addItem (itemType);
-            //fjerner items fra screen når de bliver klikket på
-            clickableItem.style.display = 'none';
-        }
-        // Adds clickableItem to container
-        container.appendChild(clickableItem);
-    });
-}
 
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
-// Adds Item to first empty slot
-function addItem(itemType) {
-    // Finds all inventory slot
+// Tilføjer items til inventory med tæller
+function addItemToInventory(itemType){
     const slots = document.querySelectorAll('.slot');
 
-    // Looks at all slots
+    // Hvis item findes i inventory allerede
     for (let slot of slots) {
-        // If slots has no item
-        if (!slot.hasChildNodes()) {
-            // Makes new item
-            const item = createItem(itemType);
-            // Adds item to empty slot
-            slot.appendChild(item);
-            // Stops when first empty slot is found
-            break;
+        if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
+            const item = slot.firstElementChild;
+            const count = parseInt(item.dataset.count || '1');
+            const { capacity, name } = itemType;
+
+            if (count < capacity) {
+                item.dataset.count = (count + 1).toString();
+                updateCounter(item);
+                showNotification(`${name} blev lagt til stakken! (antal: ${count + 1})`);
+                return true;
+            }
         }
     }
-}
 
-
-// Removes items when clicked
-function removeItem(event) {
-    if (event.target.classList.contains('item')) {
-        const itemName = event.target.dataset.itemName;
-        event.target.parentElement.removeChild(event.target);
-
-        // Find the corresponding clickable item and show it again
-        const clickableItems = document.querySelectorAll('.clickable-item');
-        clickableItems.forEach(clickable => {
-            if (clickable.dataset.itemName === itemName) {
-                clickable.style.display = 'block';
-            }
-        });
+    // Hvis item ikke findes, oprettes ny stack
+    for (let slot of slots) {
+        if (!slot.hasChildNodes()) {
+            const item = createItem(itemType);
+            slot.appendChild(item);
+            showNotification(`${itemType.name} blev tilføjet til dit inventory!`);
+            return true;
+        }
     }
+
+    showNotification("Inventory er fuldt!");
+    return false;
 }
+
+
+//items bliver fjernet fra inventory
+function removeItemFromInventory(itemType){
+    const slots = document.querySelectorAll('.slot');
+
+    for (let i = slots.length - 1; i >= 0; i--) {
+        const slot = slots[i];
+        if (slot.hasChildNodes() && slot.firstChild.dataset.itemName === itemType.name) {
+            const item = slot.firstChild;
+            let count = parseInt(item.dataset.count || '1');
+
+            if (count > 1) {
+                count--;
+                item.dataset.count = count.toString();
+                updateCounter(item);
+                showNotification(`Én ${itemType.name} fjernet. (antal tilbage: ${count})`);
+            } else {
+                slot.removeChild(item);
+                showNotification(`${itemType.name} helt fjernet.`);
+            }
+            return;
+        }
+    }
+
+    showNotification(`Ingen ${itemType.name} i inventory!`);
+}
+
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
-
-// Generate the clickable items
-createClickableItem();
-
-
-// Adds click event to all slots to items can be removed
-const slots = document.querySelectorAll('.slot');
-slots.forEach(slot => {
-    slot.addEventListener('click', removeItem);
-});
 
 const volumeButton = document.querySelector('#volumeToggle');
 volumeButton.addEventListener('click', volumeToggle);
@@ -242,16 +241,44 @@ function openSettings() {
     showNotification("Settings Notification⚙", "Settings menu is open");
 }
 
+//-------------------------------------------------------andre events-------------------------------------------------//
+
+// Opdaterer tælleren på item-elementet
+function updateCounter(itemElement) {
+    const counter = itemElement.querySelector('.item-counter');
+    const count = parseInt(itemElement.dataset.count || '0');
+
+    counter.textContent = count.toString();
+    counter.style.display = count > 1 ? 'block' : 'none';
+}
+
+// Tilføjer hover-effekt til items med item-navn
+function addHoverEvents(item) {
+    const showItemTip = () => {
+        const itemTip = document.createElement('div');
+        itemTip.classList.add('itemNameTip');
+        itemTip.textContent = item.dataset.itemName;
+        item.appendChild(itemTip);
+    };
+
+    const hideItemTip = () => {
+        const itemTip = item.querySelector('.itemNameTip');
+        if (itemTip) itemTip.remove();
+    };
+
+    item.addEventListener('mouseenter', showItemTip);
+    item.addEventListener('mouseleave', hideItemTip);
+}
+
 //-------------------------------------------------- action box-------------------------------------------------------//
 
-let energy = 100;
-let gold = 50;
+//let energy = 100;
+//let gold = 50;
 
 const valg1 = document.querySelector("#valg1");
 const valg2 = document.querySelector("#valg2");
 const valg3 = document.querySelector("#valg3");
 const actionText = document.querySelector("#text");
-
 
 function update(action) {
     valg1.innerText = action["button text"][0];
@@ -317,8 +344,54 @@ function goCave(){
 }
 
 function collectItems() {
-    update(gameActions[3]);
+    const actionButtonsContainer = document.querySelector('.action-buttons-container');
+    actionButtonsContainer.innerHTML = ''; // Ryd container først
+
+    const collectContainer = document.createElement('div');
+    collectContainer.classList.add('collect-items-container');
+
+    itemTypes.forEach(itemType => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('collect-item');
+
+        // minusknap
+        const minusKnap = document.createElement('div');
+        minusKnap.classList.add('minusKnap');
+        minusKnap.textContent = '-';
+        minusKnap.onclick = () => removeItemFromInventory(itemType);
+
+        // Item navn (almindelig div i stedet for button)
+        const itemLabel = document.createElement('div');
+        itemLabel.classList.add('item-label');
+        itemLabel.textContent = itemType.name;
+
+        // plusknap
+        const plusKnap = document.createElement('div');
+        plusKnap.classList.add('plusKnap');
+        plusKnap.textContent = '+';
+        plusKnap.onclick = () => addItemToInventory(itemType);
+
+        itemDiv.appendChild(minusKnap);
+        itemDiv.appendChild(itemLabel);
+        itemDiv.appendChild(plusKnap);
+
+        collectContainer.appendChild(itemDiv);
+    });
+
+    // Tilføj enkelt "Return to Town"-knap nedenfor
+    const returnBtn = document.createElement('button');
+    returnBtn.classList.add('return-button');
+    returnBtn.textContent = 'Return to cave entrance';
+    returnBtn.onclick = goCave;
+
+    collectContainer.appendChild(returnBtn);
+
+    actionButtonsContainer.appendChild(collectContainer);
+
+    actionText.innerText = "You see colorful crystals and stones around. Which one will you take?";
 }
+
+
 function buyLife(){
     actionText.innerText = "You bought more life!";
 }
