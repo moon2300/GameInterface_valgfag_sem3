@@ -198,23 +198,24 @@ const valg3 = document.querySelector("#valg3");
 const actionText = document.querySelector("#text");
 
 
-function update(action){
+function update(action) {
     valg1.innerText = action["button text"][0];
     valg2.innerText = action["button text"][1];
 
     valg1.onclick = action["button function"][0];
     valg2.onclick = action["button function"][1];
 
-    if (action["button text"][2] && action["button function"][2]) {
+    if (action["button text"][2]) {
         valg3.style.display = 'inline-block';
         valg3.innerText = action["button text"][2];
         valg3.onclick = action["button function"][2];
     } else {
-        valg3.style.display = 'block';
+        valg3.style.display = 'none';
     }
 
     actionText.innerText = action.text;
 }
+
 
 const gameActions = [
     {
@@ -236,10 +237,10 @@ const gameActions = [
         text: "You are in the cave."
     },
     {
-        name: "Cave",
-        "button text": ["Return to Town", "Fight Dragon", "Explore deeper"],
-        "button function": [townSquare, fightMonster, collectItems],
-        text: "You are in the cave."
+        name: "deep cave",
+        "button text": ["Ruby", "Emerald", "Sapphire"],
+        "button function": [townSquare, fightMonster, townSquare],
+        text: "You see colorful crystals and stones laying around, would you like to take some with you?."
     }
 ];
 
@@ -261,7 +262,7 @@ function goCave(){
 }
 
 function collectItems() {
-
+    update(gameActions[3]);
 }
 function buyLife(){
     actionText.innerText = "You bought more life!";
