@@ -3,7 +3,6 @@
 uiSettings = {
     volume: true,
     showScreen: true,
-    gameMenuVisible: true,
 }
 
 
@@ -88,7 +87,6 @@ function createClickableItem() {
     });
 }
 
-
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Adds Item to first empty slot
@@ -161,15 +159,15 @@ function volumeToggle () {
 function shownScreen() {
     const startScreen = document.querySelector('.startMenuScreen');
     const gameScreen = document.querySelector('.gameScreen');
-    if (uiSettings.showScreen) {
+    if (uiSettings.showScreen === true) {
+        uiSettings.showScreen = false
         startScreen.style.display = 'none';
         gameScreen.style.display = 'grid';
     } else {
+        uiSettings.showScreen = true
         startScreen.style.display = 'grid';
         gameScreen.style.display = 'none';
     }
-
-    uiSettings.showScreen = !uiSettings.showScreen;
 }
 
 document.querySelector('.gameScreen').style.display = 'none';
@@ -180,11 +178,100 @@ document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 const settingsButton = document.querySelector('.settings');
 settingsButton.addEventListener('click',() => {
-    showNotification("Settings menu is open");
+    console.log("det virker");
     openSettings();
 });
 
 
 function openSettings() {
     showNotification("Settings menu is open");
+}
+
+//-------------------------------------------------- action box-------------------------------------------------------//
+
+let energy = 100;
+let gold = 50;
+
+const valg1 = document.querySelector("#valg1");
+const valg2 = document.querySelector("#valg2");
+const valg3 = document.querySelector("#valg3");
+const actionText = document.querySelector("#text");
+
+
+function update(action) {
+    valg1.innerText = action["button text"][0];
+    valg2.innerText = action["button text"][1];
+
+    valg1.onclick = action["button function"][0];
+    valg2.onclick = action["button function"][1];
+
+    if (action["button text"][2]) {
+        valg3.style.display = 'inline-block';
+        valg3.innerText = action["button text"][2];
+        valg3.onclick = action["button function"][2];
+    } else {
+        valg3.style.display = 'none';
+    }
+
+    actionText.innerText = action.text;
+}
+
+
+const gameActions = [
+    {
+        name: "Town",
+        "button text": ["Explore cave", "Go to store"],
+        "button function": [goCave, goStore],
+        text: "You are back in the town square!. "
+    },
+    {
+        name: "Store",
+        "button text": ["Buy life", "Buy weapon", "Return to Town"],
+        "button function": [buyLife, buyWeapon, townSquare],
+        text: "You are in the store! what would you like to buy?"
+    },
+    {
+        name: "Cave",
+        "button text": ["Return to Town", "Fight Dragon", "Explore deeper"],
+        "button function": [townSquare, fightMonster, collectItems],
+        text: "You are in the cave."
+    },
+    {
+        name: "deep cave",
+        "button text": ["Ruby", "Emerald", "Sapphire"],
+        "button function": [townSquare, fightMonster, townSquare],
+        text: "You see colorful crystals and stones laying around, would you like to take some with you?."
+    }
+];
+
+
+
+valg1.onclick = goCave;
+valg2.onclick = goStore;
+valg3.onclick = fightMonster;
+
+function townSquare(){
+    update(gameActions[0]);
+    valg3.style.display = 'none';
+}
+function goStore(){
+    update(gameActions[1]);
+}
+function goCave(){
+    update(gameActions[2]);
+}
+
+function collectItems() {
+    update(gameActions[3]);
+}
+function buyLife(){
+    actionText.innerText = "You bought more life!";
+}
+
+function buyWeapon(){
+    actionText.innerText = "You bought a new weapon!";
+}
+
+function fightMonster(){
+    actionText.innerText = "You are fighting the monster!";
 }
