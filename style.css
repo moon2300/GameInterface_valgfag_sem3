@@ -3,12 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body{
     background-color: black;
 }
-
-
 .startMenuScreen{
     width: 100vw;
     height: 100vh;
@@ -18,7 +15,6 @@ body{
     grid-template-rows: 1fr 1fr 1fr 1fr;
     gap: 20px;
     padding: 25px;
-
 }
 .icons{
     width: 100%;
@@ -202,7 +198,6 @@ button:hover{
     background-color: white;
 }
 .action-buttons-container{
-    padding-top: 50px;
     display: flex;
     justify-content: space-evenly;
 }
@@ -242,8 +237,9 @@ button:hover{
 .plusKnap:hover, .minusKnap:hover {
     background-color: #45a049;
 }
+
 #text{
-    padding: 50px;
+    padding: 40px;
 }
 
 .bottom{
@@ -258,6 +254,7 @@ button:hover{
     width: 100%;
     height: 100%;
 }
+
 .chat{
     width: 300px;
     height: 100px;
@@ -282,6 +279,20 @@ button:hover{
     cursor: pointer;
 }
 
+.collect-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.collect-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .inventory {
     width: 500px;
     display: flex;
@@ -296,13 +307,54 @@ button:hover{
     background: #ccc;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .item {
     width: 40px;
     height: 40px;
-    cursor: pointer;
 }
+
+.item-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+.return-button{
+    background-color: grey;
+    width: 135px;
+    height: 40px;
+    color: white;
+    border-radius: 25px;
+    border-style: none;
+    font-size: 14px;
+}
+.item-counter {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    display: none;
+}
+
+.itemNameTip {
+    position: absolute;
+    top: -10px;
+    background-color: rgb(92, 92, 92);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+
+
 .dato{
     width: 100%;
     height: 100%;
@@ -313,7 +365,6 @@ button:hover{
     bottom: 0;
     position: absolute;
 }
-
 
 .notifikation{
     background-color: white;
