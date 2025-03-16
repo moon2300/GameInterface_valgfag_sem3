@@ -146,17 +146,6 @@ button:hover{
     gap: 10px;
 }
 
-=======
-    width: 500px;
-    height: 300px;
-    background-color: white;
-}
-.action-buttons{
-    padding-top: 50px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
 .action-buttons button {
     background-color: grey;
     width: 135px;
@@ -168,7 +157,6 @@ button:hover{
 }
 
 .action-buttons button:hover{
-
     background-color: #5c5c5c;
 }
 .plusKnap, .minusKnap {
@@ -188,12 +176,6 @@ button:hover{
 }
 #text{
     padding: 50px;
-}
-=======
-background-color: #5c5c5c;
-}
-#tekst{
-padding: 50px;
 }
 
 .bottom{
