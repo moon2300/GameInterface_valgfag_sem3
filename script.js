@@ -28,7 +28,7 @@ uiSettings = {
     showScreen: true,
 }
 
-
+const discoveredItems = new Set();
 // Add more if needed to create more items
 const itemTypes = [
     {
@@ -171,6 +171,11 @@ function createItem(itemType, count = 1) {
 function addItemToInventory(itemType){
     const slots = document.querySelectorAll('.slot');
 
+    if (!discoveredItems.has(itemType.name)) {
+        discoveredItems.add(itemType.name);
+        showNotification('New item found', `Nice! you found ${itemType.name}!`);
+    }
+
     // Hvis item findes i inventory allerede
     for (let slot of slots) {
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
@@ -181,7 +186,6 @@ function addItemToInventory(itemType){
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
                 updateCounter(item);
-                showNotification(`${name} blev lagt til stakken! (antal: ${count + 1})`);
                 return true;
             }
         }
@@ -192,7 +196,6 @@ function addItemToInventory(itemType){
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
             slot.appendChild(item);
-            showNotification(`${itemType.name} blev tilføjet til dit inventory!`);
             return true;
         }
     }
