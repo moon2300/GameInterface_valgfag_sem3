@@ -1,3 +1,27 @@
+let intro = document.querySelector('.intro');
+let logo = document.querySelector('.logoHeader');
+let logoSpan = document.querySelectorAll('.logo');
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        logoSpan.forEach((span, idx)=>{
+            setTimeout(() => {
+                span.classList.add('active');
+            },(idx + 1) * 400)
+        });
+        setTimeout(() => {
+            logoSpan.forEach((span, idx) =>{
+                setTimeout(() => {
+                    span.classList.remove('active');
+                    span.classList.add('fade');
+                }, (idx + 1) * 50)
+            })
+        }, 2000);
+        setTimeout(() => {
+            intro.style.top = '100vh';
+        }, 2300)
+    })
+});
 
 //---------------------------------------- Items array with name and color --------------------------------------------//
 uiSettings = {
@@ -32,6 +56,11 @@ const itemTypes = [
 ]
 
 function showNotification(header, message) {
+
+
+
+
+
     const notification = document.createElement('div');
     notification.classList.add('notification');
     notification.style.display = 'block';
@@ -50,9 +79,13 @@ function showNotification(header, message) {
     closeButton.classList.add('closeNotification');
     closeButton.innerHTML = '&times;';
 
+    const maxNotifications = 3; // Set your desired maximum number here
+
     const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
         ? '.gameScreen .notificationSystem'
         : '.startMenuScreen .notificationSystem';
+    const notificationSystem = document.querySelector(activeScreen);
+    const existingNotifications = notificationSystem.querySelectorAll('.notification');
 
 
     // Add elements to notification
@@ -62,6 +95,10 @@ function showNotification(header, message) {
 
     let fadeOutTimeout;
 
+    // Remove oldest notifications if we exceed the maximum
+    if (existingNotifications.length >= maxNotifications) {
+        existingNotifications[0].remove();
+    }
     // Function to start/reset the fadeout timer
     const startFadeOutTimer = () => {
         clearTimeout(fadeOutTimeout); // Clear any existing timeout
@@ -233,7 +270,8 @@ document.querySelector('.gameScreen').style.display = 'none';
 document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 
-
+const settingsButtonStart = document.querySelector('#settings');
+settingsButtonStart.addEventListener('click',openSettings)
 const settingsButton = document.querySelector('.settings');
 settingsButton.addEventListener('click',openSettings)
 
