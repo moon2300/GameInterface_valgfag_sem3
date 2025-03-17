@@ -116,7 +116,6 @@ function createItem(itemType, count = 1) {
 }
 
 
-
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Tilføjer items til inventory med tæller
@@ -325,15 +324,25 @@ valg3.onclick = fightMonster;
 function townSquare(){
     document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[0]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
     valg3.style.display = 'none';
+
 }
 function goStore(){
     document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[1]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
 }
 function goCave(){
     document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[2]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
 }
 
 function collectItems() {
@@ -356,6 +365,7 @@ function collectItems() {
 
         // Minus-knap
         const minusKnap = document.createElement('div');
+        minusKnap.style.display ='flex';
         minusKnap.classList.add('minusKnap');
         minusKnap.textContent = '-';
         minusKnap.onclick = () => removeItemFromInventory(itemType);
@@ -367,6 +377,7 @@ function collectItems() {
 
         // Plus-knap
         const plusKnap = document.createElement('div');
+        plusKnap.style.display ='flex';
         plusKnap.classList.add('plusKnap');
         plusKnap.textContent = '+';
         plusKnap.onclick = () => addItemToInventory(itemType);

@@ -242,10 +242,11 @@ button:hover{
     background-color: #4CAF50;
     color: white;
     border-radius: 50%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
 }
 
 .plusKnap:hover, .minusKnap:hover {
