@@ -289,6 +289,7 @@ function addHoverEvents(item) {
 let gold = 50;
 
 const plusKnapGold = document.querySelector(".plusKnapGold");
+const minusKnapGold = document.querySelector(".minusKnapGold");
 const goldText = document.querySelector("#goldText ");
 function gainGold(){
        gold ++
@@ -298,12 +299,15 @@ function gainGold(){
 
 }
 
-/*function loseGold{
-    if (gold)
-} */
+function loseGold(){
+    gold --
+    goldText.innerText = gold;
+
+    showNotification("Make sure you dont go broke!", "you've lost one Gold");
+}
 
 plusKnapGold.onclick = gainGold;
-
+minusKnapGold.onclick = loseGold;
     document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
     // Left click to add an item
