@@ -50,6 +50,11 @@ function showNotification(header, message) {
     closeButton.classList.add('closeNotification');
     closeButton.innerHTML = '&times;';
 
+    const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
+        ? '.gameScreen .notificationSystem'
+        : '.startMenuScreen .notificationSystem';
+
+
     // Add elements to notification
     notification.appendChild(closeButton);
     notification.appendChild(headerText);
@@ -89,7 +94,7 @@ function showNotification(header, message) {
         }
     });
 
-    document.querySelector('.notificationSystem').appendChild(notification);
+    document.querySelector(activeScreen).appendChild(notification);
 
     // Start initial fadeout timer
     startFadeOutTimer();
@@ -225,14 +230,11 @@ document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 
 const settingsButton = document.querySelector('.settings');
-settingsButton.addEventListener('click',() => {
-    console.log("det virker");
-    openSettings();
-});
+settingsButton.addEventListener('click',openSettings)
 
 
 function openSettings() {
-    showNotification("Settings menu is open");
+    showNotification("Settings Notification⚙", "Settings menu is open");
 }
 
 //-------------------------------------------------------andre events-------------------------------------------------//
