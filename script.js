@@ -219,7 +219,6 @@ function removeItemFromInventory(itemType){
                 count--;
                 item.dataset.count = count.toString();
                 updateCounter(item);
-                showNotification(`Én ${itemType.name} fjernet. (antal tilbage: ${count})`);
             } else {
                 slot.removeChild(item);
                 showNotification(`${itemType.name} helt fjernet.`);
@@ -358,3 +357,36 @@ minusKnapGold.onclick = loseGold;
     });
 });
 
+
+// Initial health value (0 to 100)
+let health = 100;
+
+const lifeBar = document.querySelector("#lifeBar");
+const lifePercent = document.querySelector("#lifePercent");
+const plusKnap = document.querySelector(".plusKnap");
+const minusKnap = document.querySelector(".minusKnap");
+
+function updateLifeBar() {
+    lifeBar.style.width = health + "%";
+    lifePercent.textContent = health + "%";
+}
+
+function gainLife() {
+    // Increase health by 10 points, capped at 100
+    health = Math.min(health + 10, 100);
+    updateLifeBar();
+    showNotification("You're saved!", "You just gained 10% health");
+}
+
+function loseLife() {
+    // Decrease health by 10 points, minimum 0
+    health = Math.max(health - 10, 0);
+    updateLifeBar();
+    showNotification("You're dyeing!!", "You just lost 10% health");
+}
+
+
+plusKnap.onclick = gainLife;
+minusKnap.onclick = loseLife;
+
+updateLifeBar();
