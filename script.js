@@ -30,10 +30,6 @@ const itemTypes = [
 
 ]
 
-
-function showNotification(message) {
-   // const existingNotification = document.querySelector('.notification');
-
 function showNotification(header, message) {
 
     const notification = document.createElement('div');
