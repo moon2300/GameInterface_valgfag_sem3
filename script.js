@@ -1,5 +1,4 @@
 let intro = document.querySelector('.intro');
-let logo = document.querySelector('.logoHeader');
 let logoSpan = document.querySelectorAll('.logo');
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -18,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
             })
         }, 2000);
         setTimeout(() => {
-            intro.style.top = '100vh';
+            intro.style.top = '-100vh';
         }, 2300)
     })
 });
@@ -28,6 +27,7 @@ uiSettings = {
     volume: true,
     showScreen: true,
 }
+
 
 // Add more if needed to create more items
 const itemTypes = [
@@ -74,7 +74,7 @@ function showNotification(header, message) {
     closeButton.classList.add('closeNotification');
     closeButton.innerHTML = '&times;';
 
-    const maxNotifications = 3; // Set your desired maximum number here
+    const maxNotifications = 4; // Set your desired maximum number here
 
     const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
         ? '.gameScreen .notificationSystem'
@@ -82,6 +82,10 @@ function showNotification(header, message) {
     const notificationSystem = document.querySelector(activeScreen);
     const existingNotifications = notificationSystem.querySelectorAll('.notification');
 
+    // Remove old notifications if we exceed the maximum
+    if (existingNotifications.length >= maxNotifications) {
+        existingNotifications[0].remove();
+    }
 
     // Add elements to notification
     notification.appendChild(closeButton);
@@ -90,10 +94,6 @@ function showNotification(header, message) {
 
     let fadeOutTimeout;
 
-    // Remove oldest notifications if we exceed the maximum
-    if (existingNotifications.length >= maxNotifications) {
-        existingNotifications[0].remove();
-    }
     // Function to start/reset the fadeout timer
     const startFadeOutTimer = () => {
         clearTimeout(fadeOutTimeout); // Clear any existing timeout
@@ -103,21 +103,46 @@ function showNotification(header, message) {
             }
         }, 4000);
     };
-notification.style.display = 'block';
 
-// Mouse leave - restart the timeout
-notification.addEventListener('mouseleave', () => {
+    // Mouse enter - clear the timeout
+    notification.addEventListener('mouseenter', () => {
+        clearTimeout(fadeOutTimeout);
+    });
+
+    // Mouse leave - restart the timeout
+    notification.addEventListener('mouseleave', () => {
+        startFadeOutTimer();
+    });
+
+    // Close button handler
+    closeButton.addEventListener('click', () => {
+        clearTimeout(fadeOutTimeout);
+        notification.remove();
+    });
+
+    notification.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideOut') {
+            notification.remove();
+        }
+    });
+
+    document.querySelector(activeScreen).appendChild(notification);
+
+    // Start initial fadeout timer
     startFadeOutTimer();
-});
 }
+
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
 // Opretter et nyt item med en counter og hover-effekt
 function createItem(itemType, count = 1) {
     const item = document.createElement('div');
+    // Adds styling from CSS .item
     item.classList.add('item');
-    item.style.backgroundColor = itemType.color;
+    // Set background color from itemsTypes
+    item.style.backgroundColor = itemType.color
+    // Saves name as attribute for identification
     item.dataset.itemName = itemType.name;
     item.dataset.count = count.toString();
 
@@ -203,7 +228,6 @@ function removeItemFromInventory(itemType){
     showNotification(`Ingen ${itemType.name} i inventory!`);
 }
 
-
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
 
 const volumeButton = document.querySelector('#volumeToggle');
@@ -216,6 +240,7 @@ function volumeToggle () {
         volumeOn.style.display = 'none';
         volumeOff.style.display = 'block';
         showNotification("Sound Notification🔇", "Volume is turned off");
+
     } else {
         uiSettings.volume = true
         volumeOn.style.display = 'block';
