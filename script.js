@@ -30,10 +30,6 @@ const itemTypes = [
 
 ]
 
-
-function showNotification(message) {
-   // const existingNotification = document.querySelector('.notification');
-
 function showNotification(header, message) {
 
     const notification = document.createElement('div');
@@ -278,6 +274,7 @@ const valg2 = document.querySelector("#valg2");
 const valg3 = document.querySelector("#valg3");
 const actionText = document.querySelector("#text");
 
+
 function update(action) {
     valg1.innerText = action["button text"][0];
     valg2.innerText = action["button text"][1];
@@ -331,63 +328,99 @@ valg2.onclick = goStore;
 valg3.onclick = fightMonster;
 
 function townSquare(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[0]);
     valg3.style.display = 'none';
 }
 function goStore(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[1]);
 }
 function goCave(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[2]);
 }
 
 function collectItems() {
+    document.querySelector('.action-buttons-container').classList.add('column-mode');
     const actionButtonsContainer = document.querySelector('.action-buttons-container');
-    actionButtonsContainer.innerHTML = ''; // Ryd container først
+    actionButtonsContainer.innerHTML = ''; // Ryd eksisterende knapper først
 
-    const collectContainer = document.createElement('div');
-    collectContainer.classList.add('collect-items-container');
+    // Container med to kolonner
+    const itemsSplitContainer = document.createElement('div');
+    itemsSplitContainer.classList.add('items-container-split');
 
-    itemTypes.forEach(itemType => {
+    // Opdel itemTypes i to grupper (venstre og højre)
+    const leftItems = itemTypes.slice(0, 2);   // Ruby, Sapphire
+    const rightItems = itemTypes.slice(2);     // Emerald, Amethyst
+
+    // Funktion til at oprette item-div med knapper og tekst
+    function createItemDiv(itemType) {
         const itemDiv = document.createElement('div');
         itemDiv.classList.add('collect-item');
 
-        // minusknap
+        // Minus-knap
         const minusKnap = document.createElement('div');
         minusKnap.classList.add('minusKnap');
         minusKnap.textContent = '-';
         minusKnap.onclick = () => removeItemFromInventory(itemType);
 
-        // Item navn (almindelig div i stedet for button)
+        // Item-navn label
         const itemLabel = document.createElement('div');
         itemLabel.classList.add('item-label');
         itemLabel.textContent = itemType.name;
 
-        // plusknap
+        // Plus-knap
         const plusKnap = document.createElement('div');
         plusKnap.classList.add('plusKnap');
         plusKnap.textContent = '+';
         plusKnap.onclick = () => addItemToInventory(itemType);
 
+        // Samler elementerne
         itemDiv.appendChild(minusKnap);
         itemDiv.appendChild(itemLabel);
         itemDiv.appendChild(plusKnap);
 
-        collectContainer.appendChild(itemDiv);
+        return itemDiv;
+    }
+
+    // Venstre kolonne
+    const leftContainer = document.createElement('div');
+    leftContainer.classList.add('item-column', 'left-column');
+
+    leftItems.forEach(itemType => {
+        leftContainer.appendChild(createItemDiv(itemType));
     });
 
-    // Tilføj enkelt "Return to Town"-knap nedenfor
+    // Højre kolonne
+    const rightContainer = document.createElement('div');
+    rightContainer.classList.add('item-column', 'right-column');
+
+    rightItems.forEach(itemType => {
+        rightContainer.appendChild(createItemDiv(itemType));
+    });
+
+    // Container for begge kolonner
+    const itemsContainerSplit = document.createElement('div');
+    itemsContainerSplit.classList.add('items-container-split');
+    itemsContainerSplit.appendChild(leftContainer);
+    itemsContainerSplit.appendChild(rightContainer);
+
+    // Return to Town-knap
     const returnBtn = document.createElement('button');
     returnBtn.classList.add('return-button');
-    returnBtn.textContent = 'Return to cave entrance';
-    returnBtn.onclick = goCave;
+    returnBtn.textContent = 'Return to Town';
+    returnBtn.onclick = townSquare;
 
-    collectContainer.appendChild(returnBtn);
-
-    actionButtonsContainer.appendChild(collectContainer);
+    // Indsæt alt i actionButtonsContainer
+    actionButtonsContainer.appendChild(itemsContainerSplit);
+    actionButtonsContainer.appendChild(returnBtn);
 
     actionText.innerText = "You see colorful crystals and stones around. Which one will you take?";
 }
+
+
+
 
 
 function buyLife(){
