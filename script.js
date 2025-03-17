@@ -56,10 +56,6 @@ const itemTypes = [
 
 function showNotification(header, message) {
 
-
-
-
-
     const notification = document.createElement('div');
     notification.classList.add('notification');
     notification.style.display = 'block';
@@ -109,76 +105,10 @@ function showNotification(header, message) {
     };
 notification.style.display = 'block';
 
-const headerText = document.createElement('h1');
-headerText.classList.add('notificationHeader');
-headerText.textContent = header;
-
-// Create message span
-const messageSpan = document.createElement('span');
-messageSpan.classList.add('notificationMessage');
-messageSpan.textContent = message;
-
-// Create close button
-const closeButton = document.createElement('button');
-closeButton.classList.add('closeNotification');
-closeButton.innerHTML = '&times;';
-
-    const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
-        ? '.gameScreen .notificationSystem'
-        : '.startMenuScreen .notificationSystem';
-
-
-
-
 // Mouse leave - restart the timeout
 notification.addEventListener('mouseleave', () => {
     startFadeOutTimer();
 });
-
-    // Add elements to notification
-    notification.appendChild(closeButton);
-    notification.appendChild(headerText);
-    notification.appendChild(messageSpan);
-
-
-    let fadeOutTimeout;
-
-    // Function to start/reset the fadeout timer
-    const startFadeOutTimer = () => {
-        clearTimeout(fadeOutTimeout); // Clear any existing timeout
-        fadeOutTimeout = setTimeout(() => {
-            if (notification.isConnected) {
-                notification.style.animation = 'slideOut 0.5s ease forwards';
-            }
-        }, 4000);
-    };
-
-    // Mouse enter - clear the timeout
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(fadeOutTimeout);
-    });
-
-    // Mouse leave - restart the timeout
-    notification.addEventListener('mouseleave', () => {
-        startFadeOutTimer();
-    });
-
-    // Close button handler
-    closeButton.addEventListener('click', () => {
-        clearTimeout(fadeOutTimeout);
-        notification.remove();
-    });
-
-    notification.addEventListener('animationend', (e) => {
-        if (e.animationName === 'slideOut') {
-            notification.remove();
-        }
-    });
-
-    document.querySelector(activeScreen).appendChild(notification);
-
-    // Start initial fadeout timer
-    startFadeOutTimer();
 }
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
