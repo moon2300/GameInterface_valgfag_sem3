@@ -31,75 +31,68 @@ const itemTypes = [
 ]
 
 function showNotification(header, message) {
-
     const notification = document.createElement('div');
     notification.classList.add('notification');
-    notification.style.display = 'block';
+notification.style.display = 'block';
 
-    const headerText = document.createElement('h1');
-    headerText.classList.add('notificationHeader');
-    headerText.textContent = header;
+const headerText = document.createElement('h1');
+headerText.classList.add('notificationHeader');
+headerText.textContent = header;
 
-    // Create message span
-    const messageSpan = document.createElement('span');
-    messageSpan.classList.add('notificationMessage');
-    messageSpan.textContent = message;
+// Create message span
+const messageSpan = document.createElement('span');
+messageSpan.classList.add('notificationMessage');
+messageSpan.textContent = message;
 
-    // Create close button
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('closeNotification');
-    closeButton.innerHTML = '&times;';
+// Create close button
+const closeButton = document.createElement('button');
+closeButton.classList.add('closeNotification');
+closeButton.innerHTML = '&times;';
 
-    const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
-        ? '.gameScreen .notificationSystem'
-        : '.startMenuScreen .notificationSystem';
+// Add elements to notification
+notification.appendChild(closeButton);
+notification.appendChild(headerText);
+notification.appendChild(messageSpan);
 
+let fadeOutTimeout;
 
-    // Add elements to notification
-    notification.appendChild(closeButton);
-    notification.appendChild(headerText);
-    notification.appendChild(messageSpan);
-
-    let fadeOutTimeout;
-
-    // Function to start/reset the fadeout timer
-    const startFadeOutTimer = () => {
-        clearTimeout(fadeOutTimeout); // Clear any existing timeout
-        fadeOutTimeout = setTimeout(() => {
-            if (notification.isConnected) {
-                notification.style.animation = 'slideOut 0.5s ease forwards';
-            }
-        }, 4000);
-    };
-
-    // Mouse enter - clear the timeout
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(fadeOutTimeout);
-    });
-
-    // Mouse leave - restart the timeout
-    notification.addEventListener('mouseleave', () => {
-        startFadeOutTimer();
-    });
-
-    // Close button handler
-    closeButton.addEventListener('click', () => {
-        clearTimeout(fadeOutTimeout);
-        notification.remove();
-    });
-
-    notification.addEventListener('animationend', (e) => {
-        if (e.animationName === 'slideOut') {
-            notification.remove();
+// Function to start/reset the fadeout timer
+const startFadeOutTimer = () => {
+    clearTimeout(fadeOutTimeout); // Clear any existing timeout
+    fadeOutTimeout = setTimeout(() => {
+        if (notification.isConnected) {
+            notification.style.animation = 'slideOut 0.5s ease forwards';
         }
-    });
+    }, 4000);
+};
 
-    document.querySelector(activeScreen).appendChild(notification);
+// Mouse enter - clear the timeout
+notification.addEventListener('mouseenter', () => {
+    clearTimeout(fadeOutTimeout);
+});
 
-    // Start initial fadeout timer
+// Mouse leave - restart the timeout
+notification.addEventListener('mouseleave', () => {
     startFadeOutTimer();
-}
+});
 
+// Close button handler
+closeButton.addEventListener('click', () => {
+    clearTimeout(fadeOutTimeout);
+    notification.remove();
+});
+
+notification.addEventListener('animationend', (e) => {
+    if (e.animationName === 'slideOut') {
+        notification.remove();
+    }
+});
+
+document.querySelector('.notificationSystem').appendChild(notification);
+
+// Start initial fadeout timer
+startFadeOutTimer();
+}
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
@@ -200,7 +193,6 @@ function volumeToggle () {
         volumeOn.style.display = 'none';
         volumeOff.style.display = 'block';
         showNotification("Sound Notification🔇", "Volume is turned off");
-
     } else {
         uiSettings.volume = true
         volumeOn.style.display = 'block';
@@ -208,6 +200,7 @@ function volumeToggle () {
         showNotification("Sound Notification🔊", "Volume is turned on");
     }
 }
+
 
 function shownScreen() {
     const startScreen = document.querySelector('.startMenuScreen');

@@ -389,13 +389,3 @@ button:hover{
     height: 100%;
 }
 
-.notifikation-container{
-    right: 0;
-    bottom: 0;
-    position: absolute;
-}
-
-
-.notifikation{
-    background-color: white;
-}
