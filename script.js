@@ -1,3 +1,4 @@
+
 //---------------------------------------- Items array with name and color --------------------------------------------//
 uiSettings = {
     volume: true,
@@ -31,7 +32,7 @@ const itemTypes = [
 
 
 function showNotification(message) {
-    // const existingNotification = document.querySelector('.notification');
+   // const existingNotification = document.querySelector('.notification');
 
 function showNotification(header, message) {
 
@@ -138,7 +139,7 @@ function addItemToInventory(itemType){
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
                 updateCounter(item);
-                showNotification(${name} blev lagt til stakken! (antal: ${count + 1}));
+                showNotification(`${name} blev lagt til stakken! (antal: ${count + 1})`);
                 return true;
             }
         }
@@ -149,7 +150,7 @@ function addItemToInventory(itemType){
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
             slot.appendChild(item);
-            showNotification(${itemType.name} blev tilføjet til dit inventory!);
+            showNotification(`${itemType.name} blev tilføjet til dit inventory!`);
             return true;
         }
     }
@@ -173,16 +174,16 @@ function removeItemFromInventory(itemType){
                 count--;
                 item.dataset.count = count.toString();
                 updateCounter(item);
-                showNotification(Én ${itemType.name} fjernet. (antal tilbage: ${count}));
+                showNotification(`Én ${itemType.name} fjernet. (antal tilbage: ${count})`);
             } else {
                 slot.removeChild(item);
-                showNotification(${itemType.name} helt fjernet.);
+                showNotification(`${itemType.name} helt fjernet.`);
             }
             return;
         }
     }
 
-    showNotification(Ingen ${itemType.name} i inventory!);
+    showNotification(`Ingen ${itemType.name} i inventory!`);
 }
 
 
@@ -277,6 +278,7 @@ const valg2 = document.querySelector("#valg2");
 const valg3 = document.querySelector("#valg3");
 const actionText = document.querySelector("#text");
 
+
 function update(action) {
     valg1.innerText = action["button text"][0];
     valg2.innerText = action["button text"][1];
@@ -330,52 +332,100 @@ valg2.onclick = goStore;
 valg3.onclick = fightMonster;
 
 function townSquare(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[0]);
     valg3.style.display = 'none';
 }
 function goStore(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[1]);
 }
 function goCave(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[2]);
 }
 
 function collectItems() {
-    const valgButtons = [valg1, valg2, valg3];
-    const plusButtons = document.querySelectorAll(".plusKnap");
-    const minusButtons = document.querySelectorAll(".minusKnap");
+    document.querySelector('.action-buttons-container').classList.add('column-mode');
+    const actionButtonsContainer = document.querySelector('.action-buttons-container');
+    actionButtonsContainer.innerHTML = ''; // Ryd eksisterende knapper først
 
-    valgButtons.forEach((button, index) => {
-        const itemType = itemTypes[index];
+    // Container med to kolonner
+    const itemsSplitContainer = document.createElement('div');
+    itemsSplitContainer.classList.add('items-container-split');
 
-        if (itemType) {
-            // setup item name on valg buttons
-            button.style.display = 'inline-block';
-            button.innerText = itemType.name;
-            button.onclick = null; // <-- explicitly remove onclick from valg buttons
+    // Opdel itemTypes i to grupper (venstre og højre)
+    const leftItems = itemTypes.slice(0, 2);   // Ruby, Sapphire
+    const rightItems = itemTypes.slice(2);     // Emerald, Amethyst
 
-            // setup plus button correctly
-            plusButtons[index].style.display = 'inline-block';
-            //plus knappen
-            plusButtons[index].onclick = () => {
-                addItemToInventory(itemType);
-            };
+    // Funktion til at oprette item-div med knapper og tekst
+    function createItemDiv(itemType) {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('collect-item');
 
-            // setup minus button correctly
-            minusButtons[index].style.display = 'inline-block';
-            //minusknappen
-            minusButtons[index].onclick = () => {
-                removeItemFromInventory(itemType);
-            };
-        } else {
-            button.style.display = 'none';
-            plusButtons[index].style.display = 'none';
-            minusButtons[index].style.display = 'none';
-        }
+        // Minus-knap
+        const minusKnap = document.createElement('div');
+        minusKnap.classList.add('minusKnap');
+        minusKnap.textContent = '-';
+        minusKnap.onclick = () => removeItemFromInventory(itemType);
+
+        // Item-navn label
+        const itemLabel = document.createElement('div');
+        itemLabel.classList.add('item-label');
+        itemLabel.textContent = itemType.name;
+
+        // Plus-knap
+        const plusKnap = document.createElement('div');
+        plusKnap.classList.add('plusKnap');
+        plusKnap.textContent = '+';
+        plusKnap.onclick = () => addItemToInventory(itemType);
+
+        // Samler elementerne
+        itemDiv.appendChild(minusKnap);
+        itemDiv.appendChild(itemLabel);
+        itemDiv.appendChild(plusKnap);
+
+        return itemDiv;
+    }
+
+    // Venstre kolonne
+    const leftContainer = document.createElement('div');
+    leftContainer.classList.add('item-column', 'left-column');
+
+    leftItems.forEach(itemType => {
+        leftContainer.appendChild(createItemDiv(itemType));
     });
+
+    // Højre kolonne
+    const rightContainer = document.createElement('div');
+    rightContainer.classList.add('item-column', 'right-column');
+
+    rightItems.forEach(itemType => {
+        rightContainer.appendChild(createItemDiv(itemType));
+    });
+
+    // Container for begge kolonner
+    const itemsContainerSplit = document.createElement('div');
+    itemsContainerSplit.classList.add('items-container-split');
+    itemsContainerSplit.appendChild(leftContainer);
+    itemsContainerSplit.appendChild(rightContainer);
+
+    // Return to Town-knap
+    const returnBtn = document.createElement('button');
+    returnBtn.classList.add('return-button');
+    returnBtn.textContent = 'Return to Town';
+    returnBtn.onclick = townSquare;
+
+    // Indsæt alt i actionButtonsContainer
+    actionButtonsContainer.appendChild(itemsContainerSplit);
+    actionButtonsContainer.appendChild(returnBtn);
 
     actionText.innerText = "You see colorful crystals and stones around. Which one will you take?";
 }
+
+
+
+
 
 function buyLife(){
     actionText.innerText = "You bought more life!";
