@@ -45,7 +45,10 @@
     <div class="top">
         <div class="lif-penge">
             <div class="life">life/energi</div>
-            <div class="penge">Currency</div>
+
+            <span class="stat">Gold:
+                <span id="goldText">50</span>
+            </span>
 
         </div>
         <div class="gameInformation">
@@ -66,25 +69,50 @@
 
     <div class="mid">
         <div class="action-box">
-            <div id="text">"You have arrived at your town! You see a poster with a quest and a sign that says "store". What would you like to do first?"</div>
+            <div id="text">UI action box</div>
 
             <div class="action-buttons-container">
+
+                <div class="life-gold-container">
+
                 <div class="action-buttons">
-                <div class="plusKnap">+</div>
-                <button id="valg1">Explore cave</button>
-                <div class="minusKnap">-</div>
+                <button class="minusKnap">-</button>
+                <div> life </div>
+                <button class="plusKnap">+</button>
                 </div>
 
                 <div class="action-buttons">
-                <div class="plusKnap">+</div>
-                <button id="valg2">Go to store</button>
-                <div class="minusKnap">-</div>
+                    <button class="minusKnap">-</button>
+                    <div> Gold </div>
+                    <button class="plusKnapGold">+</button>
+                </div>
+
+                </div>
+
+
+                <div class="items">
+
+                 <div class="action-box-items">
+                <div class="action-buttons">
+                <div class="item-in-action-box"> ruby </div>
+                    <div></div>
+                </div>
+                <div class="action-buttons">
+                    <div class="item-in-action-box"> Sapphire </div>
+                </div>
+                 </div>
+
+                    <div class="action-box-items">
+                <div class="action-buttons">
+                    <div class="item-in-action-box"> Emerald </div>
                 </div>
 
                 <div class="action-buttons">
-                <div class="plusKnap">+</div>
-                <button id="valg3">Fight monster</button>
-                <div class="minusKnap">-</div>
+                    <div class="item-in-action-box"> Amethyst </div>
+                </div>
+
+                </div>
+
                 </div>
 
             </div>
