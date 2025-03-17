@@ -29,11 +29,10 @@ uiSettings = {
     showScreen: true,
 }
 
-
 // Add more if needed to create more items
 const itemTypes = [
     {
-        capacity: 5,
+        capacity: 10,
         name: 'Ruby',
         color: 'red'
     },
@@ -43,7 +42,7 @@ const itemTypes = [
         color: 'blue'
     },
     {
-        capacity: 5,
+        capacity: 2,
         name: 'Emerald',
         color: 'green'
     },
@@ -108,129 +107,155 @@ function showNotification(header, message) {
             }
         }, 4000);
     };
+notification.style.display = 'block';
 
-    // Mouse enter - clear the timeout
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(fadeOutTimeout);
-    });
+const headerText = document.createElement('h1');
+headerText.classList.add('notificationHeader');
+headerText.textContent = header;
 
-    // Mouse leave - restart the timeout
-    notification.addEventListener('mouseleave', () => {
-        startFadeOutTimer();
-    });
+// Create message span
+const messageSpan = document.createElement('span');
+messageSpan.classList.add('notificationMessage');
+messageSpan.textContent = message;
 
-    // Close button handler
-    closeButton.addEventListener('click', () => {
-        clearTimeout(fadeOutTimeout);
-        notification.remove();
-    });
+// Create close button
+const closeButton = document.createElement('button');
+closeButton.classList.add('closeNotification');
+closeButton.innerHTML = '&times;';
 
-    notification.addEventListener('animationend', (e) => {
-        if (e.animationName === 'slideOut') {
-            notification.remove();
+// Add elements to notification
+notification.appendChild(closeButton);
+notification.appendChild(headerText);
+notification.appendChild(messageSpan);
+
+let fadeOutTimeout;
+
+// Function to start/reset the fadeout timer
+const startFadeOutTimer = () => {
+    clearTimeout(fadeOutTimeout); // Clear any existing timeout
+    fadeOutTimeout = setTimeout(() => {
+        if (notification.isConnected) {
+            notification.style.animation = 'slideOut 0.5s ease forwards';
         }
-    });
+    }, 4000);
+};
 
-    document.querySelector(activeScreen).appendChild(notification);
+// Mouse enter - clear the timeout
+notification.addEventListener('mouseenter', () => {
+    clearTimeout(fadeOutTimeout);
+});
 
-    // Start initial fadeout timer
+
+// Mouse leave - restart the timeout
+notification.addEventListener('mouseleave', () => {
     startFadeOutTimer();
-}
+});
 
+// Close button handler
+closeButton.addEventListener('click', () => {
+    clearTimeout(fadeOutTimeout);
+    notification.remove();
+});
+
+notification.addEventListener('animationend', (e) => {
+    if (e.animationName === 'slideOut') {
+        notification.remove();
+    }
+});
+
+document.querySelector('.notificationSystem').appendChild(notification);
+
+// Start initial fadeout timer
+startFadeOutTimer();
+}
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
-function createItem(itemType) {
-    // Creates new div element
+// Opretter et nyt item med en counter og hover-effekt
+function createItem(itemType, count = 1) {
     const item = document.createElement('div');
-    // Adds styling from CSS .item
     item.classList.add('item');
-    // Set background color from itemsTypes
-    item.style.backgroundColor = itemType.color
-    // Saves name as attribute for identification
+    item.style.backgroundColor = itemType.color;
     item.dataset.itemName = itemType.name;
+    item.dataset.count = count.toString();
+
+    // Tilføj item counter element
+    const counter = document.createElement('div');
+    counter.classList.add('item-counter');
+    item.appendChild(counter);
+
+    updateCounter(item); // Opdaterer tælleren synligt
+    addHoverEvents(item); // Hover-effekt til itemnavn
+
     return item;
 }
 
 
-//--------------------------------------- Creates the Items outside inventory ----------------------------------------//
-
-function createClickableItem() {
-    // Finds items-container div
-    const container = document.querySelector('.item-container')
-
-    // For each ItemsType in the array
-    itemTypes.forEach(itemType => {
-
-        // Makes new clickable dic element
-        const clickableItem = document.createElement('div');
-        // Adds styling from CSS .clickable-item
-        clickableItem.classList.add('clickable-item');
-        // Sets color from itemsTypes array
-        clickableItem.style.backgroundColor = itemType.color;
-        //Store the item name on the clickable element
-        clickableItem.dataset.itemName = itemType.name;
-
-        // Adds click function that calls addItem with specific itemType
-        clickableItem.onclick =() => {
-            addItem (itemType);
-            //fjerner items fra screen når de bliver klikket på
-            clickableItem.style.display = 'none';
-        }
-        // Adds clickableItem to container
-        container.appendChild(clickableItem);
-    });
-}
-
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
-// Adds Item to first empty slot
-function addItem(itemType) {
-    // Finds all inventory slot
+// Tilføjer items til inventory med tæller
+function addItemToInventory(itemType){
     const slots = document.querySelectorAll('.slot');
 
-    // Looks at all slots
+    // Hvis item findes i inventory allerede
     for (let slot of slots) {
-        // If slots has no item
-        if (!slot.hasChildNodes()) {
-            // Makes new item
-            const item = createItem(itemType);
-            // Adds item to empty slot
-            slot.appendChild(item);
-            // Stops when first empty slot is found
-            break;
+        if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
+            const item = slot.firstElementChild;
+            const count = parseInt(item.dataset.count || '1');
+            const { capacity, name } = itemType;
+
+            if (count < capacity) {
+                item.dataset.count = (count + 1).toString();
+                updateCounter(item);
+                showNotification(`${name} blev lagt til stakken! (antal: ${count + 1})`);
+                return true;
+            }
         }
     }
-}
 
-
-// Removes items when clicked
-function removeItem(event) {
-    if (event.target.classList.contains('item')) {
-        const itemName = event.target.dataset.itemName;
-        event.target.parentElement.removeChild(event.target);
-
-        // Find the corresponding clickable item and show it again
-        const clickableItems = document.querySelectorAll('.clickable-item');
-        clickableItems.forEach(clickable => {
-            if (clickable.dataset.itemName === itemName) {
-                clickable.style.display = 'block';
-            }
-        });
+    // Hvis item ikke findes, oprettes ny stack
+    for (let slot of slots) {
+        if (!slot.hasChildNodes()) {
+            const item = createItem(itemType);
+            slot.appendChild(item);
+            showNotification(`${itemType.name} blev tilføjet til dit inventory!`);
+            return true;
+        }
     }
+
+    showNotification("Inventory er fuldt!");
+    return false;
 }
+
+
+//items bliver fjernet fra inventory
+function removeItemFromInventory(itemType){
+    const slots = document.querySelectorAll('.slot');
+
+    for (let i = slots.length - 1; i >= 0; i--) {
+        const slot = slots[i];
+        if (slot.hasChildNodes() && slot.firstChild.dataset.itemName === itemType.name) {
+            const item = slot.firstChild;
+            let count = parseInt(item.dataset.count || '1');
+
+            if (count > 1) {
+                count--;
+                item.dataset.count = count.toString();
+                updateCounter(item);
+                showNotification(`Én ${itemType.name} fjernet. (antal tilbage: ${count})`);
+            } else {
+                slot.removeChild(item);
+                showNotification(`${itemType.name} helt fjernet.`);
+            }
+            return;
+        }
+    }
+
+    showNotification(`Ingen ${itemType.name} i inventory!`);
+}
+
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
-
-// Generate the clickable items
-createClickableItem();
-
-
-// Adds click event to all slots to items can be removed
-const slots = document.querySelectorAll('.slot');
-slots.forEach(slot => {
-    slot.addEventListener('click', removeItem);
-});
 
 const volumeButton = document.querySelector('#volumeToggle');
 volumeButton.addEventListener('click', volumeToggle);
@@ -242,7 +267,6 @@ function volumeToggle () {
         volumeOn.style.display = 'none';
         volumeOff.style.display = 'block';
         showNotification("Sound Notification🔇", "Volume is turned off");
-
     } else {
         uiSettings.volume = true
         volumeOn.style.display = 'block';
@@ -250,6 +274,7 @@ function volumeToggle () {
         showNotification("Sound Notification🔊", "Volume is turned on");
     }
 }
+
 
 function shownScreen() {
     const startScreen = document.querySelector('.startMenuScreen');
@@ -280,10 +305,39 @@ function openSettings() {
     showNotification("Settings Notification⚙", "Settings menu is open");
 }
 
+//-------------------------------------------------------andre events-------------------------------------------------//
+
+// Opdaterer tælleren på item-elementet
+function updateCounter(itemElement) {
+    const counter = itemElement.querySelector('.item-counter');
+    const count = parseInt(itemElement.dataset.count || '0');
+
+    counter.textContent = count.toString();
+    counter.style.display = count > 1 ? 'block' : 'none';
+}
+
+// Tilføjer hover-effekt til items med item-navn
+function addHoverEvents(item) {
+    const showItemTip = () => {
+        const itemTip = document.createElement('div');
+        itemTip.classList.add('itemNameTip');
+        itemTip.textContent = item.dataset.itemName;
+        item.appendChild(itemTip);
+    };
+
+    const hideItemTip = () => {
+        const itemTip = item.querySelector('.itemNameTip');
+        if (itemTip) itemTip.remove();
+    };
+
+    item.addEventListener('mouseenter', showItemTip);
+    item.addEventListener('mouseleave', hideItemTip);
+}
+
 //-------------------------------------------------- action box-------------------------------------------------------//
 
-let energy = 100;
-let gold = 50;
+//let energy = 100;
+//let gold = 50;
 
 const valg1 = document.querySelector("#valg1");
 const valg2 = document.querySelector("#valg2");
@@ -344,19 +398,113 @@ valg2.onclick = goStore;
 valg3.onclick = fightMonster;
 
 function townSquare(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[0]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
     valg3.style.display = 'none';
+
 }
 function goStore(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[1]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
 }
 function goCave(){
+    document.querySelector('.action-buttons-container').classList.remove('column-mode');
     update(gameActions[2]);
+    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+
 }
 
 function collectItems() {
-    update(gameActions[3]);
+    document.querySelector('.action-buttons-container').classList.add('column-mode');
+    const actionButtonsContainer = document.querySelector('.action-buttons-container');
+    actionButtonsContainer.innerHTML = ''; // Ryd eksisterende knapper først
+
+    // Container med to kolonner
+    const itemsSplitContainer = document.createElement('div');
+    itemsSplitContainer.classList.add('items-container-split');
+
+    // Opdel itemTypes i to grupper (venstre og højre)
+    const leftItems = itemTypes.slice(0, 2);   // Ruby, Sapphire
+    const rightItems = itemTypes.slice(2);     // Emerald, Amethyst
+
+    // Funktion til at oprette item-div med knapper og tekst
+    function createItemDiv(itemType) {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('collect-item');
+
+        // Minus-knap
+        const minusKnap = document.createElement('div');
+        minusKnap.style.display ='flex';
+        minusKnap.classList.add('minusKnap');
+        minusKnap.textContent = '-';
+        minusKnap.onclick = () => removeItemFromInventory(itemType);
+
+        // Item-navn label
+        const itemLabel = document.createElement('div');
+        itemLabel.classList.add('item-label');
+        itemLabel.textContent = itemType.name;
+
+        // Plus-knap
+        const plusKnap = document.createElement('div');
+        plusKnap.style.display ='flex';
+        plusKnap.classList.add('plusKnap');
+        plusKnap.textContent = '+';
+        plusKnap.onclick = () => addItemToInventory(itemType);
+
+        // Samler elementerne
+        itemDiv.appendChild(minusKnap);
+        itemDiv.appendChild(itemLabel);
+        itemDiv.appendChild(plusKnap);
+
+        return itemDiv;
+    }
+
+    // Venstre kolonne
+    const leftContainer = document.createElement('div');
+    leftContainer.classList.add('item-column', 'left-column');
+
+    leftItems.forEach(itemType => {
+        leftContainer.appendChild(createItemDiv(itemType));
+    });
+
+    // Højre kolonne
+    const rightContainer = document.createElement('div');
+    rightContainer.classList.add('item-column', 'right-column');
+
+    rightItems.forEach(itemType => {
+        rightContainer.appendChild(createItemDiv(itemType));
+    });
+
+    // Container for begge kolonner
+    const itemsContainerSplit = document.createElement('div');
+    itemsContainerSplit.classList.add('items-container-split');
+    itemsContainerSplit.appendChild(leftContainer);
+    itemsContainerSplit.appendChild(rightContainer);
+
+    // Return to Town-knap
+    const returnBtn = document.createElement('button');
+    returnBtn.classList.add('return-button');
+    returnBtn.textContent = 'Return to Town';
+    returnBtn.onclick = townSquare;
+
+    // Indsæt alt i actionButtonsContainer
+    actionButtonsContainer.appendChild(itemsContainerSplit);
+    actionButtonsContainer.appendChild(returnBtn);
+
+    actionText.innerText = "You see colorful crystals and stones around. Take as many as you can fit in your inventory, who knows? they might come in handy through out your journey...";
 }
+
+
+
+
+
 function buyLife(){
     actionText.innerText = "You bought more life!";
 }

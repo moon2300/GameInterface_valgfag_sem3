@@ -259,10 +259,18 @@ button:hover{
     height: 300px;
     background-color: white;
 }
-.action-buttons-container{
-    padding-top: 50px;
+/* Normal tilstand: row */
+.action-buttons-container {
     display: flex;
     justify-content: space-evenly;
+}
+
+/* column-mode aktiveres dynamisk */
+.action-buttons-container.column-mode {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
 }
 
 .action-buttons{
@@ -280,6 +288,7 @@ button:hover{
     border-radius: 25px;
     border-style: none;
     font-size: 14px;
+
 }
 
 .action-buttons button:hover{
@@ -288,20 +297,21 @@ button:hover{
 .plusKnap, .minusKnap {
     width: 20px;
     height: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
     background-color: #4CAF50;
     color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    text-align: center;
+
 }
 
 .plusKnap:hover, .minusKnap:hover {
     background-color: #45a049;
 }
 #text{
-    padding: 50px;
+    padding: 40px;
 }
 
 .bottom{
@@ -340,6 +350,52 @@ button:hover{
     cursor: pointer;
 }
 
+.collect-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.return-button {
+    width: 180px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+}
+
+.items-container-split {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px;
+    gap: 40px;
+}
+
+.item-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.collect-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-label {
+    font-size: 16px;
+    width: 80px;
+    text-align: center;
+}
+
 .inventory {
     width: 500px;
     display: flex;
@@ -354,6 +410,7 @@ button:hover{
     background: #ccc;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .item {
@@ -361,18 +418,33 @@ button:hover{
     height: 40px;
     cursor: pointer;
 }
+
+.itemNameTip {
+    position: absolute;
+    top: -10px;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.item-counter {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
 .dato{
     width: 100%;
     height: 100%;
 }
 
-.notifikation-container{
-    right: 0;
-    bottom: 0;
-    position: absolute;
-}
-
-
-.notifikation{
-    background-color: white;
-}
