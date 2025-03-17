@@ -49,49 +49,54 @@ const closeButton = document.createElement('button');
 closeButton.classList.add('closeNotification');
 closeButton.innerHTML = '&times;';
 
-// Add elements to notification
-notification.appendChild(closeButton);
-notification.appendChild(headerText);
-notification.appendChild(messageSpan);
+    const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
+        ? '.gameScreen .notificationSystem'
+        : '.startMenuScreen .notificationSystem';
 
-let fadeOutTimeout;
 
-// Function to start/reset the fadeout timer
-const startFadeOutTimer = () => {
-    clearTimeout(fadeOutTimeout); // Clear any existing timeout
-    fadeOutTimeout = setTimeout(() => {
-        if (notification.isConnected) {
-            notification.style.animation = 'slideOut 0.5s ease forwards';
-        }
-    }, 4000);
-};
+    // Add elements to notification
+    notification.appendChild(closeButton);
+    notification.appendChild(headerText);
+    notification.appendChild(messageSpan);
 
-// Mouse enter - clear the timeout
-notification.addEventListener('mouseenter', () => {
-    clearTimeout(fadeOutTimeout);
-});
+    let fadeOutTimeout;
 
-// Mouse leave - restart the timeout
-notification.addEventListener('mouseleave', () => {
-    startFadeOutTimer();
-});
+    // Function to start/reset the fadeout timer
+    const startFadeOutTimer = () => {
+        clearTimeout(fadeOutTimeout); // Clear any existing timeout
+        fadeOutTimeout = setTimeout(() => {
+            if (notification.isConnected) {
+                notification.style.animation = 'slideOut 0.5s ease forwards';
+            }
+        }, 4000);
+    };
 
-// Close button handler
-closeButton.addEventListener('click', () => {
-    clearTimeout(fadeOutTimeout);
-    notification.remove();
-});
+    // Mouse enter - clear the timeout
+    notification.addEventListener('mouseenter', () => {
+        clearTimeout(fadeOutTimeout);
+    });
 
-notification.addEventListener('animationend', (e) => {
-    if (e.animationName === 'slideOut') {
+    // Mouse leave - restart the timeout
+    notification.addEventListener('mouseleave', () => {
+        startFadeOutTimer();
+    });
+
+    // Close button handler
+    closeButton.addEventListener('click', () => {
+        clearTimeout(fadeOutTimeout);
         notification.remove();
-    }
-});
+    });
 
-document.querySelector('.notificationSystem').appendChild(notification);
+    notification.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideOut') {
+            notification.remove();
+        }
+    });
 
-// Start initial fadeout timer
-startFadeOutTimer();
+    document.querySelector(activeScreen).appendChild(notification);
+
+    // Start initial fadeout timer
+    startFadeOutTimer();
 }
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
@@ -103,6 +108,13 @@ function createItem(itemType, count = 1) {
     item.style.backgroundColor = itemType.color;
     item.dataset.itemName = itemType.name;
     item.dataset.count = count.toString();
+
+
+//addEventListener for højreclick i inventory
+    item.addEventListener('contextmenu', (event) => {
+        event.preventDefault(); // Prevent the default context menu
+        removeItemFromInventory(itemType);
+    });
 
     // Tilføj item counter element
     const counter = document.createElement('div');
@@ -229,7 +241,7 @@ function openSettings() {
     showNotification("Settings Notification⚙", "Settings menu is open");
 }
 
-//-------------------------------------------------------andre events-------------------------------------------------//
+//----------------------------------------------Andre inventory events------------------------------------------------//
 
 // Opdaterer tælleren på item-elementet
 function updateCounter(itemElement) {
@@ -258,185 +270,46 @@ function addHoverEvents(item) {
     item.addEventListener('mouseleave', hideItemTip);
 }
 
-//-------------------------------------------------- action box-------------------------------------------------------//
+//-------------------------------------------------- Action box-------------------------------------------------------//
 
 //let energy = 100;
-//let gold = 50;
+let gold = 50;
 
-const valg1 = document.querySelector("#valg1");
-const valg2 = document.querySelector("#valg2");
-const valg3 = document.querySelector("#valg3");
-const actionText = document.querySelector("#text");
+const plusKnapGold = document.querySelector(".plusKnapGold");
+const goldText = document.querySelector("#goldText ");
+function gainGold(){
+       gold ++
+       goldText.innerText = gold;
 
-
-function update(action) {
-    valg1.innerText = action["button text"][0];
-    valg2.innerText = action["button text"][1];
-
-    valg1.onclick = action["button function"][0];
-    valg2.onclick = action["button function"][1];
-
-    if (action["button text"][2]) {
-        valg3.style.display = 'inline-block';
-        valg3.innerText = action["button text"][2];
-        valg3.onclick = action["button function"][2];
-    } else {
-        valg3.style.display = 'none';
-    }
-
-    actionText.innerText = action.text;
-}
-
-
-const gameActions = [
-    {
-        name: "Town",
-        "button text": ["Explore cave", "Go to store"],
-        "button function": [goCave, goStore],
-        text: "You are back in the town square!. "
-    },
-    {
-        name: "Store",
-        "button text": ["Buy life", "Buy weapon", "Return to Town"],
-        "button function": [buyLife, buyWeapon, townSquare],
-        text: "You are in the store! what would you like to buy?"
-    },
-    {
-        name: "Cave",
-        "button text": ["Return to Town", "Fight Dragon", "Explore deeper"],
-        "button function": [townSquare, fightMonster, collectItems],
-        text: "You are in the cave."
-    },
-    {
-        name: "deep cave",
-        "button text": ["Ruby", "Emerald", "Sapphire"],
-        "button function": [townSquare, fightMonster, townSquare],
-        text: "You see colorful crystals and stones laying around, would you like to take some with you?."
-    }
-];
-
-
-
-valg1.onclick = goCave;
-valg2.onclick = goStore;
-valg3.onclick = fightMonster;
-
-function townSquare(){
-    document.querySelector('.action-buttons-container').classList.remove('column-mode');
-    update(gameActions[0]);
-    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
-
-    valg3.style.display = 'none';
-
-}
-function goStore(){
-    document.querySelector('.action-buttons-container').classList.remove('column-mode');
-    update(gameActions[1]);
-    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
-
-}
-function goCave(){
-    document.querySelector('.action-buttons-container').classList.remove('column-mode');
-    update(gameActions[2]);
-    document.querySelectorAll('.plusKnap').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.minusKnap').forEach(el => el.style.display = 'none');
+       showNotification("You are getting richer!", "you've added one Gold");
 
 }
 
-function collectItems() {
-    document.querySelector('.action-buttons-container').classList.add('column-mode');
-    const actionButtonsContainer = document.querySelector('.action-buttons-container');
-    actionButtonsContainer.innerHTML = ''; // Ryd eksisterende knapper først
+/*function loseGold{
+    if (gold)
+} */
 
-    // Container med to kolonner
-    const itemsSplitContainer = document.createElement('div');
-    itemsSplitContainer.classList.add('items-container-split');
+plusKnapGold.onclick = gainGold;
 
-    // Opdel itemTypes i to grupper (venstre og højre)
-    const leftItems = itemTypes.slice(0, 2);   // Ruby, Sapphire
-    const rightItems = itemTypes.slice(2);     // Emerald, Amethyst
+    document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
-    // Funktion til at oprette item-div med knapper og tekst
-    function createItemDiv(itemType) {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('collect-item');
-
-        // Minus-knap
-        const minusKnap = document.createElement('div');
-        minusKnap.style.display ='flex';
-        minusKnap.classList.add('minusKnap');
-        minusKnap.textContent = '-';
-        minusKnap.onclick = () => removeItemFromInventory(itemType);
-
-        // Item-navn label
-        const itemLabel = document.createElement('div');
-        itemLabel.classList.add('item-label');
-        itemLabel.textContent = itemType.name;
-
-        // Plus-knap
-        const plusKnap = document.createElement('div');
-        plusKnap.style.display ='flex';
-        plusKnap.classList.add('plusKnap');
-        plusKnap.textContent = '+';
-        plusKnap.onclick = () => addItemToInventory(itemType);
-
-        // Samler elementerne
-        itemDiv.appendChild(minusKnap);
-        itemDiv.appendChild(itemLabel);
-        itemDiv.appendChild(plusKnap);
-
-        return itemDiv;
-    }
-
-    // Venstre kolonne
-    const leftContainer = document.createElement('div');
-    leftContainer.classList.add('item-column', 'left-column');
-
-    leftItems.forEach(itemType => {
-        leftContainer.appendChild(createItemDiv(itemType));
+    // Left click to add an item
+    itemButton.addEventListener('click', (event) => {
+        const itemName = itemButton.textContent.trim();
+        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+        if (itemType) {
+            addItemToInventory(itemType);
+        }
     });
 
-    // Højre kolonne
-    const rightContainer = document.createElement('div');
-    rightContainer.classList.add('item-column', 'right-column');
-
-    rightItems.forEach(itemType => {
-        rightContainer.appendChild(createItemDiv(itemType));
+    // Right click to remove an item
+    itemButton.addEventListener('contextmenu', (event) => {
+        event.preventDefault(); // Prevent the default context menu
+        const itemName = itemButton.textContent.trim();
+        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+        if (itemType) {
+            removeItemFromInventory(itemType);
+        }
     });
+});
 
-    // Container for begge kolonner
-    const itemsContainerSplit = document.createElement('div');
-    itemsContainerSplit.classList.add('items-container-split');
-    itemsContainerSplit.appendChild(leftContainer);
-    itemsContainerSplit.appendChild(rightContainer);
-
-    // Return to Town-knap
-    const returnBtn = document.createElement('button');
-    returnBtn.classList.add('return-button');
-    returnBtn.textContent = 'Return to Town';
-    returnBtn.onclick = townSquare;
-
-    // Indsæt alt i actionButtonsContainer
-    actionButtonsContainer.appendChild(itemsContainerSplit);
-    actionButtonsContainer.appendChild(returnBtn);
-
-    actionText.innerText = "You see colorful crystals and stones around. Take as many as you can fit in your inventory, who knows? they might come in handy through out your journey...";
-}
-
-
-
-
-
-function buyLife(){
-    actionText.innerText = "You bought more life!";
-}
-
-function buyWeapon(){
-    actionText.innerText = "You bought a new weapon!";
-}
-
-function fightMonster(){
-    actionText.innerText = "You are fighting the monster!";
-}
