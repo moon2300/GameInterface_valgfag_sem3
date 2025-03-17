@@ -422,7 +422,7 @@ function collectItems() {
     actionButtonsContainer.appendChild(itemsContainerSplit);
     actionButtonsContainer.appendChild(returnBtn);
 
-    actionText.innerText = "You see colorful crystals and stones around. Which one will you take?";
+    actionText.innerText = "You see colorful crystals and stones around. Take as many as you can fit in your inventory, who knows? they might come in handy through out your journey...";
 }
 
 
