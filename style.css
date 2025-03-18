@@ -350,6 +350,7 @@ button:hover{
     flex-direction: column;
 }
 
+
 .item-container {
     margin-top: 20px;
     gap: 10px;
@@ -374,6 +375,9 @@ button:hover{
     display: flex;
     gap: 20px;
 }
+
+
+
 .life-gold-container{
     display: flex;
     flex-direction: column;
@@ -450,6 +454,11 @@ button:hover{
     font-size: 12px;
     padding: 2px 5px;
     border-radius: 5px;
+    pointer-events: none;
+}
+
+.item.dragging {
+    opacity: 0.5;
 }
 
 .dato{

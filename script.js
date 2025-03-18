@@ -65,9 +65,9 @@ function showNotification(header, message) {
     headerText.textContent = header;
 
     // Create message span
-    const messageSpan = document.createElement('span');
-    messageSpan.classList.add('notificationMessage');
-    messageSpan.textContent = message;
+    const messageText = document.createElement('div');
+    messageText.classList.add('notificationMessage');
+    messageText.textContent = message;
 
     // Create close button
     const closeButton = document.createElement('button');
@@ -90,7 +90,7 @@ function showNotification(header, message) {
     // Add elements to notification
     notification.appendChild(closeButton);
     notification.appendChild(headerText);
-    notification.appendChild(messageSpan);
+    notification.appendChild(messageText);
 
     let fadeOutTimeout;
 
@@ -138,31 +138,32 @@ function showNotification(header, message) {
 // Opretter et nyt item med en counter og hover-effekt
 function createItem(itemType, count = 1) {
     const item = document.createElement('div');
-    // Adds styling from CSS .item
     item.classList.add('item');
-    // Set background color from itemsTypes
-    item.style.backgroundColor = itemType.color
-    // Saves name as attribute for identification
+    item.style.backgroundColor = itemType.color;
     item.dataset.itemName = itemType.name;
     item.dataset.count = count.toString();
 
+    // Make item draggable
+    item.draggable = true;
+    item.addEventListener('dragstart', dragStart);
+    item.addEventListener('dragend', dragEnd);
 
-//addEventListener for højreclick i inventory
-    item.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Prevent the default context menu
+    // Re-add click event to remove item
+    item.addEventListener('click', (event) => {
         removeItemFromInventory(itemType);
     });
 
-    // Tilføj item counter element
     const counter = document.createElement('div');
     counter.classList.add('item-counter');
     item.appendChild(counter);
 
-    updateCounter(item); // Opdaterer tælleren synligt
-    addHoverEvents(item); // Hover-effekt til itemnavn
+    updateCounter(item);
+    addHoverEvents(item);
 
     return item;
 }
+
+
 
 
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
@@ -229,6 +230,7 @@ function removeItemFromInventory(itemType){
 
     showNotification(`Ingen ${itemType.name} i inventory!`);
 }
+
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
 
@@ -310,6 +312,70 @@ function addHoverEvents(item) {
     item.addEventListener('mouseleave', hideItemTip);
 }
 
+let draggedItem = null;
+
+function dragStart(e) {
+    draggedItem = e.target;
+    draggedItem.classList.add('dragging');
+    setTimeout(() => {
+        draggedItem.style.visibility = 'hidden';
+    }, 0);
+}
+
+function dragEnd() {
+    if (draggedItem) {
+        draggedItem.style.visibility = 'visible';
+        draggedItem.classList.remove('dragging');
+        draggedItem = null;
+    }
+}
+
+
+// Setup drag-and-drop events on slots
+function initializeInventoryDragAndDrop() {
+    const slots = document.querySelectorAll('.slot');
+
+    slots.forEach(slot => {
+        slot.addEventListener('dragover', dragOver);
+        slot.addEventListener('dragenter', dragEnter);
+        slot.addEventListener('dragleave', dragLeave);
+        slot.addEventListener('drop', dropItem);
+    });
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function dragEnter(e) {
+    e.preventDefault();
+    this.classList.add('drag-over');
+}
+
+function dragLeave() {
+    this.classList.remove('drag-over');
+}
+
+function dropItem() {
+    this.classList.remove('drag-over');
+
+    if (!draggedItem) return;
+
+    if (this.children.length === 0) {
+        this.appendChild(draggedItem);
+    } else {
+        swapItems(this, draggedItem.parentElement);
+    }
+}
+
+// Swap items between two slots
+function swapItems(slot1, slot2) {
+    const item1 = slot1.firstElementChild;
+    const item2 = slot2.firstElementChild;
+
+    slot1.appendChild(item2);
+    slot2.appendChild(item1);
+}
 //-------------------------------------------------- Action box-------------------------------------------------------//
 
 //let energy = 100;
@@ -409,3 +475,8 @@ plusKnap.onclick = gainLife;
 minusKnap.onclick = loseLife;
 
 updateLifeBar();
+
+// Initialize drag-and-drop when DOM is fully loaded
+window.addEventListener('DOMContentLoaded', () => {
+    initializeInventoryDragAndDrop();
+});
