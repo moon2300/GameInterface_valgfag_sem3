@@ -321,7 +321,7 @@ const goldText = document.querySelector("#goldText ");
 
 
 function gainGold(){
-       gold ++;
+       gold +=5;
        goldText.innerText = gold;
 
 }
@@ -329,7 +329,7 @@ function gainGold(){
 function loseGold(){
     goldText.innerText = gold;
     if (gold > 0){
-        gold --;
+        gold -=5;
     } else if (gold === 0){
         showNotification("You are broke!", "you've lost all your Gold");
     }
