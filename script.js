@@ -130,6 +130,7 @@ function showNotification(header, message) {
 
     // Start initial fadeout timer
     startFadeOutTimer();
+
 }
 
 
@@ -161,9 +162,6 @@ function createItem(itemType, count = 1) {
 
     return item;
 }
-
-
-
 
 
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
@@ -318,6 +316,10 @@ let draggedItem = null;
 function dragStart(e) {
     draggedItem = e.target;
     draggedItem.classList.add('dragging');
+
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
+
     setTimeout(() => {
         draggedItem.style.visibility = 'hidden';
     }, 0);
@@ -346,11 +348,13 @@ function initializeInventoryDragAndDrop() {
 
 function dragOver(e) {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
 }
 
 function dragEnter(e) {
     e.preventDefault();
     this.classList.add('drag-over');
+    e.dataTransfer.dropEffect = 'move';
 }
 
 function dragLeave() {
@@ -373,6 +377,7 @@ function dropItem() {
         swapItems(this, draggedItem.parentElement);
     }
 }
+
 
 // Function to clearly handle dropping cursor-held items
 function handleCursorDrop(slot) {
