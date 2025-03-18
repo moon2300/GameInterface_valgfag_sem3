@@ -318,22 +318,25 @@ let gold = 50;
 const plusKnapGold = document.querySelector(".plusKnapGold");
 const minusKnapGold = document.querySelector(".minusKnapGold");
 const goldText = document.querySelector("#goldText ");
-function gainGold(){
-       gold ++
-       goldText.innerText = gold;
 
-       showNotification("You are getting richer!", "you've added one Gold");
+
+function gainGold(){
+       gold ++;
+       goldText.innerText = gold;
 
 }
 
 function loseGold(){
-    gold --
     goldText.innerText = gold;
-
-    showNotification("Make sure you dont go broke!", "you've lost one Gold");
+    if (gold > 0){
+        gold --;
+    } else if (gold === 0){
+        showNotification("You are broke!", "you've lost all your Gold");
+    }
 }
 
 plusKnapGold.onclick = gainGold;
+
 minusKnapGold.onclick = loseGold;
     document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
@@ -346,16 +349,17 @@ minusKnapGold.onclick = loseGold;
         }
     });
 
-    // Right click to remove an item
-    itemButton.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Prevent the default context menu
-        const itemName = itemButton.textContent.trim();
-        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
-        if (itemType) {
-            removeItemFromInventory(itemType);
-        }
-    });
+        itemButton.addEventListener('contextmenu', (event) => {
+            event.preventDefault(); // Prevent the default context menu
+            const itemName = itemButton.textContent.trim();
+            const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+            if (itemType) {
+                removeItemFromInventory(itemType);
+            }
+        });
+
 });
+
 
 
 // Initial health value (0 to 100)
@@ -369,22 +373,37 @@ const minusKnap = document.querySelector(".minusKnap");
 function updateLifeBar() {
     lifeBar.style.width = health + "%";
     lifePercent.textContent = health + "%";
+    if (health <= 0) {
+        lifeBar.style.backgroundColor = "red";
+        showNotification("You're dead!", "You just lost all your health");
+    } else if (health === 20){
+        if (health === 20)
+            lifeBar.style.backgroundColor = "red";
+    } else if (health === 50){
+        lifeBar.style.backgroundColor = "orange";
+
+    } else {
+        lifeBar.style.backgroundColor = "green";
+    }
+
 }
 
 function gainLife() {
-    // Increase health by 10 points, capped at 100
+    // If already at max health, do nothing
+    if (health === 100) return;
+    // Increase health by 10, but cap at 100
     health = Math.min(health + 10, 100);
     updateLifeBar();
-    showNotification("You're saved!", "You just gained 10% health");
 }
 
 function loseLife() {
-    // Decrease health by 10 points, minimum 0
+    // If already at 0, do nothing
+    if (health === 0) return;
+    // Decrease health by 10, but not below 0
     health = Math.max(health - 10, 0);
     updateLifeBar();
-    showNotification("You're dyeing!!", "You just lost 10% health");
-}
 
+}
 
 plusKnap.onclick = gainLife;
 minusKnap.onclick = loseLife;

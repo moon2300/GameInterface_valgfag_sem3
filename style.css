@@ -282,10 +282,19 @@ button:hover{
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+
+}
+.action-buttons-bars{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     gap: 10px;
 }
 
-.action-buttons button {
+
+.action-buttons-bars button {
     width: 20px;
     height: 20px;
     background-color: #4CAF50;
@@ -299,7 +308,7 @@ button:hover{
 
 }
 
-.action-buttons button:hover{
+.action-buttons-bars button:hover{
     background-color: #45a049;
 }
 .item-in-action-box{
@@ -375,6 +384,8 @@ button:hover{
 .action-box-items {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     gap: 40px;
 }
