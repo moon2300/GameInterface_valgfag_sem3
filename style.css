@@ -423,6 +423,7 @@ button:hover{
     align-items: center;
     justify-content: center;
     position: relative;
+
 }
 
 .item {
@@ -430,6 +431,9 @@ button:hover{
     height: 40px;
     cursor: pointer;
 }
+
+
+
 
 
 .itemNameTip {
@@ -466,3 +470,23 @@ button:hover{
     height: 100%;
 }
 
+#cursor-item{
+   pointer-events:none;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    opacity: 0.9;
+    border-radius: 4px;
+    z-index: 9999;
+}
+.cursor-counter {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: black;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    pointer-events: none;
+}
