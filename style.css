@@ -235,11 +235,24 @@ button:hover{
     flex-direction: column;
     gap: 10px;
 }
-.mini-map{
+.mini-map {
     width: 300px;
     height: 200px;
-    background-color: white;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-size: 0;
 }
+
+#mini-map {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 
 .settings{
     width: 50px;
