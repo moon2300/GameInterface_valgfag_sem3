@@ -376,10 +376,10 @@ function updateLifeBar() {
     if (health <= 0) {
         lifeBar.style.backgroundColor = "red";
         showNotification("You're dead!", "You just lost all your health");
-    } else if (health === 20){
-        if (health === 20)
+    } else if (health <= 20){
+        if (health <= 20)
             lifeBar.style.backgroundColor = "red";
-    } else if (health === 50){
+    } else if (health <= 50){
         lifeBar.style.backgroundColor = "orange";
 
     } else {
