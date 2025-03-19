@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Game Interface</title>
@@ -180,21 +180,48 @@
 
 </div>
 
-<div class="overlay">
+<div class="startMenuScreenOverlay">
     <div class="setting-modal">
         <div class="x-button">&times;</div>
 
         <div class="toggles">
         <div class="volume-toggle">
             <h2>Volume</h2>
+            <label for="volume-start-screen">Adjust Volume:</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="volume-start-screen">
+        </div>
+        <div class="brightness-toggle">
+            <h2>Brightness</h2>
+            <label for="brightness-start-screen">Adjust Brightness:</label>
+            <input type="range" min="1" max="100" value="50" class="slider" id="brightness-start-screen">
+        </div>
+    </div>
+    </div>
+
+</div>
+
+<div class="overlayGameScreen">
+<div class="setting-modal">
+    <div class="x-button">&times;</div>
+
+    <div class="toggles">
+        <div class="volume-toggle">
+            <h2>Volume</h2>
+            <label for="volume">Adjust Volume:</label>
             <input type="range" min="1" max="100" value="50" class="slider" id="volume">
         </div>
         <div class="brightness-toggle">
             <h2>Brightness</h2>
+            <label for="brightness">Adjust Brightness:</label>
             <input type="range" min="1" max="100" value="50" class="slider" id="brightness">
         </div>
+
+        <br>
+
+        <button class="setting-start-menu-knap"> Back to start menu </button>
+
     </div>
-    </div>
+</div>
 
 </div>
 

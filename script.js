@@ -1,3 +1,4 @@
+
 let intro = document.querySelector('.intro');
 let logoSpan = document.querySelectorAll('.logo');
 
@@ -227,6 +228,7 @@ function volumeToggle () {
 }
 
 
+
 function shownScreen() {
     const startScreen = document.querySelector('.startMenuScreen');
     const gameScreen = document.querySelector('.gameScreen');
@@ -241,35 +243,60 @@ function shownScreen() {
     }
 }
 
+const startMenuScreen = document.querySelector(".startMenuScreen");
+const gameScreen = document.querySelector(".gameScreen");
+const backToStartMenuButton = document.querySelector(".setting-start-menu-knap");
+
+
+function returnToStartMenu() {
+    gameScreen.style.display = "none";
+    startMenuScreen.style.display = "grid";
+    closeOverlay();
+}
+
+// Attach event listener to the button
+backToStartMenuButton.addEventListener("click", returnToStartMenu);
+
 document.querySelector('.gameScreen').style.display = 'none';
 
 document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 
-const settingsButtonStart = document.querySelector('#settings');
-const settingsButton = document.querySelector('.settings');
-const overlay = document.querySelector(".overlay");
-const closeButton = document.querySelector(".x-button");
+const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
+const settingsButtonStart = document.querySelector("#settings");
+const settingsButton = document.querySelector(".settings");
+const gameOverlay = document.querySelector(".overlayGameScreen");
+const closeButtons = document.querySelectorAll(".x-button");
 
-// Attach event listeners
-settingsButtonStart.addEventListener('click', handleSettingsClick);
-settingsButton.addEventListener('click', handleSettingsClick);
-closeButton.addEventListener('click', closeOverlay);
 
-// Function to handle settings button click
-function handleSettingsClick() {
-    showOverlay();
+settingsButtonStart.addEventListener('click', () => showOverlay('start'));
+settingsButton.addEventListener('click', () => showOverlay('game'));
+
+closeButtons.forEach(button => button.addEventListener('click', closeOverlay));
+
+function showOverlay(type) {
+    if (type === 'start') {
+        startScreenOverlay.style.display = "flex";
+    } else if (type === 'game') {
+        gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
+        showNotification("The game is now paused.");
+    }
 }
-// Function to open the overlay
-function showOverlay() {
-    overlay.style.display = "flex";
-}
+
 // Function to close the overlay
 function closeOverlay() {
-    overlay.style.display = "none";
+    startScreenOverlay.style.display = "none";
+    gameOverlay.style.display = "none";
 }
 
 
+const miniMap = document.querySelector('.mini-map');
+
+miniMap.addEventListener('click',openMinimap)
+
+function openMinimap (){
+    showNotification("Map is shown in full size")
+}
 //----------------------------------------------Andre inventory events------------------------------------------------//
 
 // Opdaterer tælleren på item-elementet
@@ -573,6 +600,7 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 // Initial health value (0 to 100)
 let health = 100;
+let wasHealthFullBefore = true; // Tracks if health was previously at 100
 
 const lifeBar = document.querySelector("#lifeBar");
 const lifePercent = document.querySelector("#lifePercent");
@@ -582,39 +610,45 @@ const minusKnap = document.querySelector(".minusKnap");
 function updateLifeBar() {
     lifeBar.style.width = health + "%";
     lifePercent.textContent = health + "%";
+
     if (health <= 0) {
         lifeBar.style.backgroundColor = "red";
         showNotification("You're dead!", "You just lost all your health");
-    } else if (health <= 20){
-        if (health <= 20)
-            lifeBar.style.backgroundColor = "red";
-    } else if (health <= 50){
+    } else if (health <= 20) {
+        lifeBar.style.backgroundColor = "red";
+    } else if (health <= 50) {
         lifeBar.style.backgroundColor = "orange";
-
     } else {
         lifeBar.style.backgroundColor = "green";
     }
 
+    // Only show "Health is Full" if health was previously lower than 100
+    if (health === 100 && !wasHealthFullBefore) {
+        showNotification("Health Restored", "Your health is full!");
+        wasHealthFullBefore = true;
+    }
+
+    if (health < 100) {
+        wasHealthFullBefore = false;
+    }
 }
 
 function gainLife() {
-    // If already at max health, do nothing
-    if (health === 100) return;
-    // Increase health by 10, but cap at 100
-    health = Math.min(health + 10, 100);
-    updateLifeBar();
+    if (health < 100) {
+        health = Math.min(health + 10, 100);
+        updateLifeBar();
+    }
 }
 
 function loseLife() {
-    // If already at 0, do nothing
-    if (health === 0) return;
-    // Decrease health by 10, but not below 0
-    health = Math.max(health - 10, 0);
-    updateLifeBar();
-
+    if (health > 0) {
+        health = Math.max(health - 10, 0);
+        updateLifeBar();
+    }
 }
 
 plusKnap.onclick = gainLife;
 minusKnap.onclick = loseLife;
+
 
 updateLifeBar();
