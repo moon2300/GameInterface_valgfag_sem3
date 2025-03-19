@@ -1,28 +1,3 @@
-
-let intro = document.querySelector('.intro');
-let logoSpan = document.querySelectorAll('.logo');
-
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        logoSpan.forEach((span, idx)=>{
-            setTimeout(() => {
-                span.classList.add('active');
-            },(idx + 1) * 400)
-        });
-        setTimeout(() => {
-            logoSpan.forEach((span, idx) =>{
-                setTimeout(() => {
-                    span.classList.remove('active');
-                    span.classList.add('fade');
-                }, (idx + 1) * 50)
-            })
-        }, 2000);
-        setTimeout(() => {
-            intro.style.top = '-100vh';
-        }, 2300)
-    })
-});
-
 //---------------------------------------- Items array with name and color --------------------------------------------//
 uiSettings = {
     volume: true,
@@ -54,6 +29,125 @@ const itemTypes = [
     }
 
 ]
+//------------------------------------------------ Splash Screen -----------------------------------------------------//
+
+let intro = document.querySelector('.intro');
+let logoSpan = document.querySelectorAll('.logo');
+
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        logoSpan.forEach((span, idx)=>{
+            setTimeout(() => {
+                span.classList.add('active');
+            },(idx + 1) * 400)
+        });
+        setTimeout(() => {
+            logoSpan.forEach((span, idx) =>{
+                setTimeout(() => {
+                    span.classList.remove('active');
+                    span.classList.add('fade');
+                }, (idx + 1) * 50)
+            })
+        }, 2000);
+        setTimeout(() => {
+            intro.style.top = '-100vh';
+        }, 2300)
+    })
+});
+
+//----------------------------------------------- Show Screen --------------------------------------------------------//
+
+function shownScreen() {
+    const startScreen = document.querySelector('.startMenuScreen');
+    const gameScreen = document.querySelector('.gameScreen');
+    if (uiSettings.showScreen === true) {
+        uiSettings.showScreen = false
+        startScreen.style.display = 'none';
+        gameScreen.style.display = 'grid';
+    } else {
+        uiSettings.showScreen = true
+        startScreen.style.display = 'grid';
+        gameScreen.style.display = 'none';
+    }
+}
+
+const startMenuScreen = document.querySelector(".startMenuScreen");
+const gameScreen = document.querySelector(".gameScreen");
+const backToStartMenuButton = document.querySelector(".setting-start-menu-knap");
+
+
+function returnToStartMenu() {
+    gameScreen.style.display = "none";
+    startMenuScreen.style.display = "grid";
+    closeOverlay();
+}
+
+// Attach event listener to the button
+backToStartMenuButton.addEventListener("click", returnToStartMenu);
+
+document.querySelector('.gameScreen').style.display = 'none';
+
+document.querySelector('.newGame').addEventListener('click', shownScreen);
+
+
+const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
+const settingsButtonStart = document.querySelector("#settings");
+const settingsButton = document.querySelector(".settings");
+const gameOverlay = document.querySelector(".overlayGameScreen");
+const closeButtons = document.querySelectorAll(".x-button");
+
+
+settingsButtonStart.addEventListener('click', () => showOverlay('start'));
+settingsButton.addEventListener('click', () => showOverlay('game'));
+
+closeButtons.forEach(button => button.addEventListener('click', closeOverlay));
+
+function showOverlay(type) {
+    if (type === 'start') {
+        startScreenOverlay.style.display = "flex";
+    } else if (type === 'game') {
+        gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
+        showNotification("The game is now paused.");
+    }
+}
+
+// Function to close the overlay
+function closeOverlay() {
+    startScreenOverlay.style.display = "none";
+    gameOverlay.style.display = "none";
+}
+
+
+const miniMap = document.querySelector('.mini-map');
+
+miniMap.addEventListener('click',openMinimap)
+
+function openMinimap (){
+    showNotification("Map is shown in full size")
+}
+
+//------------------------------------- Settings and volume on StartMenuScreen ---------------------------------------//
+
+const volumeButton = document.querySelector('#volumeToggle');
+volumeButton.addEventListener('click', volumeToggle);
+function volumeToggle () {
+    const volumeOn = volumeButton.querySelector('#volumeOn');
+    const volumeOff = volumeButton.querySelector('#volumeOff');
+    if (uiSettings.volume === true) {
+        uiSettings.volume = false
+        volumeOn.style.display = 'none';
+        volumeOff.style.display = 'block';
+        showNotification("Sound Notification🔇", "Volume is turned off");
+
+    } else {
+        uiSettings.volume = true
+        volumeOn.style.display = 'block';
+        volumeOff.style.display = 'none';
+        showNotification("Sound Notification🔊", "Volume is turned on");
+    }
+}
+
+//------------------------------------------------ Notifications -----------------------------------------------------//
 
 function showNotification(header, message) {
 
@@ -204,99 +298,6 @@ function addItemToInventory(itemType){
     return false;
 }
 
-
-
-//---------------------------------------------- Event Listeners -----------------------------------------------------//
-
-const volumeButton = document.querySelector('#volumeToggle');
-volumeButton.addEventListener('click', volumeToggle);
-function volumeToggle () {
-    const volumeOn = volumeButton.querySelector('#volumeOn');
-    const volumeOff = volumeButton.querySelector('#volumeOff');
-    if (uiSettings.volume === true) {
-        uiSettings.volume = false
-        volumeOn.style.display = 'none';
-        volumeOff.style.display = 'block';
-        showNotification("Sound Notification🔇", "Volume is turned off");
-
-    } else {
-        uiSettings.volume = true
-        volumeOn.style.display = 'block';
-        volumeOff.style.display = 'none';
-        showNotification("Sound Notification🔊", "Volume is turned on");
-    }
-}
-
-
-
-function shownScreen() {
-    const startScreen = document.querySelector('.startMenuScreen');
-    const gameScreen = document.querySelector('.gameScreen');
-    if (uiSettings.showScreen === true) {
-        uiSettings.showScreen = false
-        startScreen.style.display = 'none';
-        gameScreen.style.display = 'grid';
-    } else {
-        uiSettings.showScreen = true
-        startScreen.style.display = 'grid';
-        gameScreen.style.display = 'none';
-    }
-}
-
-const startMenuScreen = document.querySelector(".startMenuScreen");
-const gameScreen = document.querySelector(".gameScreen");
-const backToStartMenuButton = document.querySelector(".setting-start-menu-knap");
-
-
-function returnToStartMenu() {
-    gameScreen.style.display = "none";
-    startMenuScreen.style.display = "grid";
-    closeOverlay();
-}
-
-// Attach event listener to the button
-backToStartMenuButton.addEventListener("click", returnToStartMenu);
-
-document.querySelector('.gameScreen').style.display = 'none';
-
-document.querySelector('.newGame').addEventListener('click', shownScreen);
-
-
-const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
-const settingsButtonStart = document.querySelector("#settings");
-const settingsButton = document.querySelector(".settings");
-const gameOverlay = document.querySelector(".overlayGameScreen");
-const closeButtons = document.querySelectorAll(".x-button");
-
-
-settingsButtonStart.addEventListener('click', () => showOverlay('start'));
-settingsButton.addEventListener('click', () => showOverlay('game'));
-
-closeButtons.forEach(button => button.addEventListener('click', closeOverlay));
-
-function showOverlay(type) {
-    if (type === 'start') {
-        startScreenOverlay.style.display = "flex";
-    } else if (type === 'game') {
-        gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
-        showNotification("The game is now paused.");
-    }
-}
-
-// Function to close the overlay
-function closeOverlay() {
-    startScreenOverlay.style.display = "none";
-    gameOverlay.style.display = "none";
-}
-
-
-const miniMap = document.querySelector('.mini-map');
-
-miniMap.addEventListener('click',openMinimap)
-
-function openMinimap (){
-    showNotification("Map is shown in full size")
-}
 //----------------------------------------------Andre inventory events------------------------------------------------//
 
 // Opdaterer tælleren på item-elementet
@@ -441,7 +442,7 @@ function swapItems(slot1, slot2) {
     slot2.appendChild(item1);
 }
 
-//--------------------------------------------------cursor events-----------------------------------------------------//
+//-----------------------------------------cursor events for inventory -----------------------------------------------//
 // Cursor State
 const cursorItem = {
     itemType: null,
@@ -554,49 +555,7 @@ window.addEventListener('DOMContentLoaded', () => {
     initializeInventoryDragAndDrop();
 });
 
-//-------------------------------------------------- Action box-------------------------------------------------------//
-
-//let energy = 100;
-let gold = 50;
-
-const plusKnapGold = document.querySelector(".plusKnapGold");
-const minusKnapGold = document.querySelector(".minusKnapGold");
-const goldText = document.querySelector("#goldText ");
-
-
-function gainGold(){
-    gold +=5;
-    goldText.innerText = gold;
-
-}
-
-function loseGold(){
-    goldText.innerText = gold;
-    if (gold > 0){
-        gold -=5;
-    } else if (gold === 0){
-        showNotification("You are broke!", "you've lost all your Gold");
-    }
-}
-
-plusKnapGold.onclick = gainGold;
-
-minusKnapGold.onclick = loseGold;
-document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
-
-    // Left click to add an item
-    itemButton.addEventListener('click', () => {
-        const itemName = itemButton.textContent.trim();
-        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
-        if (itemType) {
-            addItemToInventory(itemType);
-        }
-    });
-
-
-});
-
-
+//-------------------------------------------------- Health bar -------------------------------------------------------//
 
 // Initial health value (0 to 100)
 let health = 100;
@@ -650,5 +609,145 @@ function loseLife() {
 plusKnap.onclick = gainLife;
 minusKnap.onclick = loseLife;
 
+//----------------------------------------------------- Gold ---------------------------------------------------------//
 
 updateLifeBar();
+//let energy = 100;
+let gold = 50;
+
+const plusKnapGold = document.querySelector(".plusKnapGold");
+const minusKnapGold = document.querySelector(".minusKnapGold");
+const goldText = document.querySelector("#goldText ");
+
+
+function gainGold(){
+    gold +=5;
+    goldText.innerText = gold;
+
+}
+
+function loseGold(){
+    goldText.innerText = gold;
+    if (gold > 0){
+        gold -=5;
+    } else if (gold === 0){
+        showNotification("You are broke!", "you've lost all your Gold");
+    }
+}
+
+plusKnapGold.onclick = gainGold;
+
+minusKnapGold.onclick = loseGold;
+document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
+
+    // Left click to add an item
+    itemButton.addEventListener('click', () => {
+        const itemName = itemButton.textContent.trim();
+        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+        if (itemType) {
+            addItemToInventory(itemType);
+        }
+    });
+
+
+});
+
+
+//------------------------------------------------------ Chat --------------------------------------------------------//
+
+// Chat functionality
+const chatMessages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize chat with saved messages
+    document.getElementById('chatMessages')?.append(
+        ...chatMessages.map(msg => createMessageElement(msg.message, msg.timestamp))
+    );
+
+    // Event listeners
+    document.getElementById("msg")?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault(); // Prevent new line
+            sendMessage();
+        }
+    });
+
+    document.querySelector(".chat-send")?.addEventListener("click", sendMessage);
+
+    // Add clear chat button listener
+    document.querySelector(".chat-clear")?.addEventListener("click", clearChat);
+});
+
+// Add the clear chat function
+function clearChat() {
+    // Clear the messages array
+    chatMessages.length = 0;
+
+    // Clear localStorage
+    localStorage.setItem('chatMessages', '[]');
+
+    // Clear the chat messages from DOM
+    const chatMessagesDiv = document.getElementById("chatMessages");
+    if (chatMessagesDiv) {
+        chatMessagesDiv.innerHTML = '';
+    }
+
+    // Optional: Show a notification that chat was cleared
+    showNotification("Chat Cleared", "All messages have been removed");
+}
+
+
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    document.querySelector(".chat-toggle").style.display = "none";
+}
+
+function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+    document.querySelector(".chat-toggle").style.display = "block";
+}
+
+
+function formatTimestamp(date) {
+    return date.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function createMessageElement(message, timestamp) {
+    const messageElement = document.createElement("div");
+    messageElement.className = "chat-message";
+    messageElement.innerHTML = `
+        <div class="message-content">
+            <span class="message-text">${message}</span>
+            <span class="message-timestamp">${timestamp}</span>
+        </div>
+    `;
+    return messageElement;
+}
+
+function sendMessage() {
+    const messageInput = document.getElementById("msg");
+    const message = messageInput.value.trim();
+
+    if (message) {
+        const timestamp = formatTimestamp(new Date());
+        const messageData = { message, timestamp };
+
+        // Save to array and localStorage
+        chatMessages.push(messageData);
+        localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+
+        // Add message to chat
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        chatMessagesDiv.appendChild(createMessageElement(message, timestamp));
+
+        // Clear input and scroll to bottom
+        messageInput.value = "";
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }
+}
+
+

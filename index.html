@@ -149,8 +149,39 @@
     <div class="bottom">
 
         <div class="chat-box">
-            <div class="chat"> chat </div>
+            <button type="button" class="chat-toggle" onclick="openForm()">Chat</button>
+
+            <div class="chat-popup" id="myForm">
+                <form class="chat-form">
+                    <button type="button" class="chat-close" onclick="closeForm()">&times;</button>
+
+                    <div class="chat-content">
+                        <div class="chat-messages" id="chatMessages"></div>
+
+                        <div class="chat-input">
+                            <label for="msg" class="visually-hidden">Type your message</label>
+                            <textarea
+                                placeholder="Type message.."
+                                name="msg"
+                                id="msg"
+                                required
+                            ></textarea>
+                            <div class="chat-buttons">
+                                <button type="button" class="chat-send">Send</button>
+                                <button type="button" class="chat-clear">Clear chat</button>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
         </div>
+
+
+
+
 
         <div class="inventory-slots">
             <div class="item-container"></div>
