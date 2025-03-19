@@ -180,7 +180,7 @@ function addItemToInventory(itemType){
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
             const item = slot.firstElementChild;
             const count = parseInt(item.dataset.count || '1');
-            const { capacity, name } = itemType;
+            const { capacity} = itemType;
 
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
@@ -203,31 +203,6 @@ function addItemToInventory(itemType){
     return false;
 }
 
-
-//items bliver fjernet fra inventory
-function removeItemFromInventory(itemType){
-    const slots = document.querySelectorAll('.slot');
-
-    for (let i = slots.length - 1; i >= 0; i--) {
-        const slot = slots[i];
-        if (slot.hasChildNodes() && slot.firstChild.dataset.itemName === itemType.name) {
-            const item = slot.firstChild;
-            let count = parseInt(item.dataset.count || '1');
-
-            if (count > 1) {
-                count--;
-                item.dataset.count = count.toString();
-                updateCounter(item);
-            } else {
-                slot.removeChild(item);
-                showNotification(`${itemType.name} helt fjernet.`);
-            }
-            return;
-        }
-    }
-
-    showNotification(`Ingen ${itemType.name} i inventory!`);
-}
 
 
 //---------------------------------------------- Event Listeners -----------------------------------------------------//
@@ -583,7 +558,7 @@ minusKnapGold.onclick = loseGold;
 document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
     // Left click to add an item
-    itemButton.addEventListener('click', (event) => {
+    itemButton.addEventListener('click', () => {
         const itemName = itemButton.textContent.trim();
         const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
         if (itemType) {
@@ -591,14 +566,6 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
         }
     });
 
-    itemButton.addEventListener('contextmenu', (event) => {
-        event.preventDefault(); // Prevent the default context menu
-        const itemName = itemButton.textContent.trim();
-        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
-        if (itemType) {
-            removeItemFromInventory(itemType);
-        }
-    });
 
 });
 
