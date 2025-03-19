@@ -277,14 +277,9 @@ button:hover{
     height: 300px;
     background-color: white;
 }
-/* Normal tilstand: row */
+
 .action-buttons-container {
     display: flex;
-    justify-content: space-evenly;
-}
-
-/* column-mode aktiveres dynamisk */
-.action-buttons-container.column-mode {
     flex-direction: column;
     gap: 15px;
     align-items: center;
@@ -336,9 +331,18 @@ button:hover{
 
 
 #text{
-    padding: 40px;
+    width: 100%;
 }
 
+.tekst-box{
+    padding: 30px;
+    width: 100%;
+    display: flex;
+}
+
+#text-guide{
+    padding-left: 50px;
+}
 .bottom{
     display: flex;
     padding-top: 50px;
@@ -407,7 +411,10 @@ button:hover{
     gap: 40px;
 }
 
-
+.action-box-container{
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .collect-item {
     display: flex;
@@ -484,7 +491,7 @@ button:hover{
 }
 
 #cursor-item{
-   pointer-events:none;
+    pointer-events:none;
     width: 40px;
     height: 40px;
     position: fixed;

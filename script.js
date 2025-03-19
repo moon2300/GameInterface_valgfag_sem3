@@ -549,8 +549,8 @@ const goldText = document.querySelector("#goldText ");
 
 
 function gainGold(){
-       gold +=5;
-       goldText.innerText = gold;
+    gold +=5;
+    goldText.innerText = gold;
 
 }
 
@@ -566,7 +566,7 @@ function loseGold(){
 plusKnapGold.onclick = gainGold;
 
 minusKnapGold.onclick = loseGold;
-    document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
+document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
     // Left click to add an item
     itemButton.addEventListener('click', (event) => {
@@ -577,14 +577,14 @@ minusKnapGold.onclick = loseGold;
         }
     });
 
-        itemButton.addEventListener('contextmenu', (event) => {
-            event.preventDefault(); // Prevent the default context menu
-            const itemName = itemButton.textContent.trim();
-            const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
-            if (itemType) {
-                removeItemFromInventory(itemType);
-            }
-        });
+    itemButton.addEventListener('contextmenu', (event) => {
+        event.preventDefault(); // Prevent the default context menu
+        const itemName = itemButton.textContent.trim();
+        const itemType = itemTypes.find(item => item.name.toLowerCase() === itemName.toLowerCase());
+        if (itemType) {
+            removeItemFromInventory(itemType);
+        }
+    });
 
 });
 
@@ -637,5 +637,3 @@ plusKnap.onclick = gainLife;
 minusKnap.onclick = loseLife;
 
 updateLifeBar();
-
-
