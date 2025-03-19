@@ -294,15 +294,6 @@ function closeOverlay() {
     overlay.style.display = "none";
 }
 
-const sliderBrightness = document.querySelector("#volume");
-const slider = document.querySelector("#brightness");
-const output = document.querySelector("demo");
-output.innerHTML = slider.value; // Display the default slider value
-output.innerHTML = sliderBrightness.value
-// Update the current slider value (each time you drag the slider handle)
-slider.oninput = function() {
-    output.innerHTML = this.value;
-}
 
 //----------------------------------------------Andre inventory events------------------------------------------------//
 
