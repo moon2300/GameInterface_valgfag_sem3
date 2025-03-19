@@ -272,13 +272,36 @@ document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 
 const settingsButtonStart = document.querySelector('#settings');
-settingsButtonStart.addEventListener('click',openSettings)
 const settingsButton = document.querySelector('.settings');
-settingsButton.addEventListener('click',openSettings)
+const overlay = document.querySelector(".overlay");
+const closeButton = document.querySelector(".x-button");
 
+// Attach event listeners
+settingsButtonStart.addEventListener('click', handleSettingsClick);
+settingsButton.addEventListener('click', handleSettingsClick);
+closeButton.addEventListener('click', closeOverlay);
 
-function openSettings() {
-    showNotification("Settings Notification⚙", "Settings menu is open");
+// Function to handle settings button click
+function handleSettingsClick() {
+    showOverlay();
+}
+// Function to open the overlay
+function showOverlay() {
+    overlay.style.display = "flex";
+}
+// Function to close the overlay
+function closeOverlay() {
+    overlay.style.display = "none";
+}
+
+const sliderBrightness = document.querySelector("#volume");
+const slider = document.querySelector("#brightness");
+const output = document.querySelector("demo");
+output.innerHTML = slider.value; // Display the default slider value
+output.innerHTML = sliderBrightness.value
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+    output.innerHTML = this.value;
 }
 
 //----------------------------------------------Andre inventory events------------------------------------------------//
