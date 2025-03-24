@@ -162,14 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.classList.add('notification-progress');
         progressBar.style.backgroundColor = progressColor;
 
-        // Create header container for header text.
-        const headerContainer = document.createElement('div');
-        headerContainer.classList.add('notification-header-container');
-
         const headerText = document.createElement('h1');
         headerText.classList.add('notificationHeader');
         headerText.textContent = header;
-        headerContainer.appendChild(headerText);
 
         // Create message container.
         const messageText = document.createElement('div');
@@ -212,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         notification.appendChild(progressBackground);
         notification.appendChild(progressBar);
         notification.appendChild(closeButton);
-        notification.appendChild(headerContainer);
         notification.appendChild(messageText);
         // Append tip element if provided.
         if (tipText) {

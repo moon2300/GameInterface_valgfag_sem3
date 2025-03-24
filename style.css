@@ -103,7 +103,7 @@
     cursor: pointer;
 }
 
-.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .item-in-action-box:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
+.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .item-in-action-box:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
 
     background-color: #989898;
 }
@@ -281,7 +281,6 @@
 
 .map-box{
     display: flex;
-    justify-content: end;
     flex-direction: column;
     gap: 10px;
 }
