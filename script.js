@@ -150,7 +150,7 @@ function volumeToggle () {
 //------------------------------------------------ Notifications -----------------------------------------------------//
 
 document.addEventListener('DOMContentLoaded', () => {
-    function showNotification(header, message, progressColor = '#4CAF50') {
+    function showNotification(header, message, progressColor = '#4CAF50', imageUrl = null, tip = null) {
         const notification = document.createElement('div');
         notification.classList.add('notification');
         notification.style.display = 'block';
@@ -162,21 +162,42 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.classList.add('notification-progress');
         progressBar.style.backgroundColor = progressColor;
 
+        // Create header container for header text.
+        const headerContainer = document.createElement('div');
+        headerContainer.classList.add('notification-header-container');
 
         const headerText = document.createElement('h1');
         headerText.classList.add('notificationHeader');
         headerText.textContent = header;
+        headerContainer.appendChild(headerText);
 
+        // Create message container.
         const messageText = document.createElement('div');
         messageText.classList.add('notificationMessage');
         messageText.textContent = message;
+
+        // If an image URL is provided, append the image inside the message container.
+        if (imageUrl) {
+            const inlineImage = document.createElement('img');
+            inlineImage.src = imageUrl;
+            inlineImage.alt = header;
+            inlineImage.classList.add('notification-image');
+            messageText.appendChild(inlineImage);
+        }
+
+        // Create a tip element if tip text is provided.
+        let tipText = null;
+        if (tip) {
+            tipText = document.createElement('div');
+            tipText.classList.add('notificationTip');
+            tipText.textContent = tip;
+        }
 
         const closeButton = document.createElement('button');
         closeButton.classList.add('closeNotification');
         closeButton.innerHTML = '&times;';
 
         const maxNotifications = 4;
-
         const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
             ? '.gameScreen .notificationSystem'
             : '.startMenuScreen .notificationSystem';
@@ -187,14 +208,18 @@ document.addEventListener('DOMContentLoaded', () => {
             existingNotifications[0].remove();
         }
 
+        // Append elements to the notification in the desired order.
         notification.appendChild(progressBackground);
         notification.appendChild(progressBar);
         notification.appendChild(closeButton);
-        notification.appendChild(headerText);
+        notification.appendChild(headerContainer);
         notification.appendChild(messageText);
+        // Append tip element if provided.
+        if (tipText) {
+            notification.appendChild(tipText);
+        }
 
         let fadeOutTimeout;
-
         const startFadeOutTimer = () => {
             clearTimeout(fadeOutTimeout);
             progressBar.style.animation = 'progress-bar-shrink 4s linear forwards';
@@ -227,11 +252,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(activeScreen).appendChild(notification);
         startFadeOutTimer();
     }
-
     // Make showNotification available globally
     window.showNotification = showNotification;
 });
-
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
@@ -289,7 +312,7 @@ function addItemToInventory(itemType){
 
     if (!discoveredItems.has(itemType.name)) {
         discoveredItems.add(itemType.name);
-        showNotification('New item found', `Nice! you found ${itemType.name}!`);
+        showNotification('New discovery!✨', `You found a ${itemType.name}! `, '#4CAF50', itemType.image, 'Tip: Check your achievements for... .');
     }
 
     // Hvis item findes i inventory allerede

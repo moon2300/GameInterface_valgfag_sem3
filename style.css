@@ -168,12 +168,24 @@
             padding: 10px;
         }
 
-        .notificationMessage {
-            display: flex;
-            color: black;
+
+        .notificationMessage,.notificationTip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
             font-size: 16px;
             padding: 0 10px 15px 10px;
         }
+
+
+        .notification-image {
+            display: flex;
+            width: 20px;  /* Adjust size as needed */
+            height: 20px;
+            object-fit: cover;
+        }
+
 
     }
 }
@@ -371,8 +383,8 @@
 }
 
 
-#text{
-    width: 100%;
+#text, #text-bottom{
+    width: 50%;
 }
 
 .tekst-box{
@@ -381,8 +393,8 @@
     display: flex;
 }
 
-#text-guide{
-    padding-left: 50px;
+#text-guide, #text-guide-bottom{
+
 }
 .bottom{
     display: flex;
