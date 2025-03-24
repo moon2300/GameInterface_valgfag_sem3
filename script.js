@@ -162,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.classList.add('notification-progress');
         progressBar.style.backgroundColor = progressColor;
 
+
         const headerText = document.createElement('h1');
         headerText.classList.add('notificationHeader');
         headerText.textContent = header;
@@ -207,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         notification.appendChild(progressBackground);
         notification.appendChild(progressBar);
         notification.appendChild(closeButton);
+        notification.appendChild(headerText);
         notification.appendChild(messageText);
         // Append tip element if provided.
         if (tipText) {
@@ -249,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make showNotification available globally
     window.showNotification = showNotification;
 });
+
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
