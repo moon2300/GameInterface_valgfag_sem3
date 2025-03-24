@@ -10,22 +10,22 @@ const itemTypes = [
     {
         capacity: 10,
         name: 'Ruby',
-        color: 'red'
+        image: 'picz/ruby-gem.png'
     },
     {
         capacity: 5,
         name: 'Sapphire',
-        color: 'blue'
+        image: 'picz/sapphire.png'
     },
     {
         capacity: 2,
         name: 'Emerald',
-        color: 'green'
+        image: 'picz/emerald.png'
     },
     {
         capacity: 5,
         name: 'Amethyst',
-        color: 'purple'
+        image: 'picz/amethyst.png'
     }
 
 ]
@@ -233,30 +233,48 @@ function showNotification(header, message) {
 
 // Opretter et nyt item med en counter og hover-effekt
 function createItem(itemType, count = 1) {
-    const item = document.createElement('div');
-    item.classList.add('item');
-    item.style.backgroundColor = itemType.color;
-    item.dataset.itemName = itemType.name;
-    item.dataset.count = count.toString();
+    // Create a container that is draggable
+    const itemContainer = document.createElement('div');
+    itemContainer.classList.add('item');
+    itemContainer.dataset.itemName = itemType.name;
+    itemContainer.dataset.count = count.toString();
+    itemContainer.draggable = true;
 
-    item.draggable = true;
-    item.addEventListener('dragstart', dragStart);
-    item.addEventListener('dragend', dragEnd);
+    // Create the image element and disable its draggable behavior
+    const img = document.createElement('img');
+    img.src = itemType.image;
+    img.alt = itemType.name;
+    img.style.width = '50px';
+    img.style.height = '50px';
+    img.style.objectFit = 'cover';
+    img.draggable = false; // Disable dragging on the image itself
+    itemContainer.appendChild(img);
 
-    // Use the corrected handler clearly isolating the clicked slot
-    item.addEventListener('click', (event) => {
-        removeSingleItemFromClickedSlot(event.currentTarget.parentElement, itemType);
-    });
-
+    // Create and append the counter element
     const counter = document.createElement('div');
     counter.classList.add('item-counter');
-    item.appendChild(counter);
+    counter.textContent = count.toString();
+    itemContainer.appendChild(counter);
 
-    updateCounter(item);
-    addHoverEvents(item);
+    // Attach drag event listeners to the container only
+    itemContainer.addEventListener('dragstart', dragStart);
+    itemContainer.addEventListener('dragend', dragEnd);
 
-    return item;
+    // Add hover events for showing the label
+    addHoverEvents(itemContainer);
+
+    // Optionally, add a click event for removal
+    itemContainer.addEventListener('click', () => {
+        removeSingleItemFromClickedSlot(itemContainer.parentElement, itemType);
+    });
+
+    updateCounter(itemContainer);
+    return itemContainer;
 }
+
+
+
+
 
 
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
@@ -459,8 +477,11 @@ document.addEventListener('mousemove', (e) => {
 function updateCursor() {
     if (cursorItem.itemType && cursorItem.count > 0) {
         cursorElement.style.display = 'block';
-        cursorElement.style.backgroundColor = cursorItem.itemType.color;
-        cursorElement.innerHTML = `<div class="cursor-counter">${cursorItem.count}</div>`;
+        // Set the innerHTML of the cursor element to an image tag and a counter
+        cursorElement.innerHTML = `
+      <img src="${cursorItem.itemType.image}" alt="${cursorItem.itemType.name}" style="width:100%; height:100%; object-fit:cover;" />
+      <div class="cursor-counter">${cursorItem.count}</div>
+    `;
     } else {
         cursorElement.style.display = 'none';
         cursorElement.innerHTML = '';
@@ -468,6 +489,7 @@ function updateCursor() {
         cursorItem.count = 0;
     }
 }
+
 
 
 // This single handler clearly distinguishes between normal click and shift-click
