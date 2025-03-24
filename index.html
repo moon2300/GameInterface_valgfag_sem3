@@ -7,6 +7,7 @@
 </head>
 <body>
 
+
 <div class="intro">
     <h1 class="logoHeader">
         <span class="logo">Game</span> <span class="logo">Interface</span>
@@ -87,17 +88,17 @@
 
             <div class="tekst-box">
 
-            <div id="text">UI action box  </div>
-            <div id="text-guide">Click here to add items intro your inventory!  Once they're in place, try to shift click. Or try to discover what else is posibble!</div>
+                <div id="text">UI action box  </div>
+                <div id="text-guide">Click here to add items intro your inventory!  Once they're in place, try to shift click. Or try to discover what else is posibble!</div>
 
 
             </div>
 
             <div class="action-box-container">
 
-            <div class="action-buttons-container">
+                <div class="action-buttons-container">
 
-               <div class="life-gold-container"></div>
+                    <div class="life-gold-container"></div>
 
                     <div class="action-buttons-bars">
                         <button class="minusKnap">-</button>
@@ -140,7 +141,7 @@
                 </div>
             </div>
 
-            </div>
+        </div>
 
 
     </div>
@@ -161,10 +162,10 @@
                         <div class="chat-input">
                             <label for="msg" class="visually-hidden">Type your message</label>
                             <textarea
-                                placeholder="Type message.."
-                                name="msg"
-                                id="msg"
-                                required
+                                    placeholder="Type message.."
+                                    name="msg"
+                                    id="msg"
+                                    required
                             ></textarea>
                             <div class="chat-buttons">
                                 <button type="button" class="chat-send">Send</button>
@@ -184,10 +185,17 @@
 
 
         <div class="inventory-slots">
+
+
+
+
             <div class="item-container"></div>
 
             <br/>
 
+            <div id="trash-container">
+                <img alt=" trash bin for items" id="trash-bin" src="picz/trash-can-with-no-lid.png">
+            </div>
             <div class="inventory" id="inventory">
                 <div class="slot"></div>
                 <div class="slot"></div>
@@ -197,7 +205,12 @@
                 <div class="slot"></div>
             </div>
 
+            <div>
+                <img  alt=" backpack for bigger inventory" id="backpack" src="picz/backpack.png">
+            </div>
+
         </div>
+
 
         <div class="dato">
         </div>
@@ -216,43 +229,43 @@
         <div class="x-button">&times;</div>
 
         <div class="toggles">
-        <div class="volume-toggle">
-            <h2>Volume</h2>
-            <label for="volume-start-screen">Adjust Volume:</label>
-            <input type="range" min="1" max="100" value="50" class="slider" id="volume-start-screen">
+            <div class="volume-toggle">
+                <h2>Volume</h2>
+                <label for="volume-start-screen">Adjust Volume:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="volume-start-screen">
+            </div>
+            <div class="brightness-toggle">
+                <h2>Brightness</h2>
+                <label for="brightness-start-screen">Adjust Brightness:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="brightness-start-screen">
+            </div>
         </div>
-        <div class="brightness-toggle">
-            <h2>Brightness</h2>
-            <label for="brightness-start-screen">Adjust Brightness:</label>
-            <input type="range" min="1" max="100" value="50" class="slider" id="brightness-start-screen">
-        </div>
-    </div>
     </div>
 
 </div>
 
 <div class="overlayGameScreen">
-<div class="setting-modal">
-    <div class="x-button">&times;</div>
+    <div class="setting-modal">
+        <div class="x-button">&times;</div>
 
-    <div class="toggles">
-        <div class="volume-toggle">
-            <h2>Volume</h2>
-            <label for="volume">Adjust Volume:</label>
-            <input type="range" min="1" max="100" value="50" class="slider" id="volume">
+        <div class="toggles">
+            <div class="volume-toggle">
+                <h2>Volume</h2>
+                <label for="volume">Adjust Volume:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="volume">
+            </div>
+            <div class="brightness-toggle">
+                <h2>Brightness</h2>
+                <label for="brightness">Adjust Brightness:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="brightness">
+            </div>
+
+            <br>
+
+            <button class="setting-start-menu-knap"> Back to start menu </button>
+
         </div>
-        <div class="brightness-toggle">
-            <h2>Brightness</h2>
-            <label for="brightness">Adjust Brightness:</label>
-            <input type="range" min="1" max="100" value="50" class="slider" id="brightness">
-        </div>
-
-        <br>
-
-        <button class="setting-start-menu-knap"> Back to start menu </button>
-
     </div>
-</div>
 
 </div>
 

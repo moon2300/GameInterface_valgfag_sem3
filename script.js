@@ -750,4 +750,37 @@ function sendMessage() {
     }
 }
 
+//------------------------------------------------- trash can --------------------------------------------------------//
 
+// Hent skraldespand-containeren
+const trashContainer = document.getElementById('trash-container');
+
+// Tillad drop ved at forhindre standarden
+trashContainer.addEventListener('dragover', (e) => {
+    e.preventDefault();
+});
+
+// Vis visuel feedback når et item trækkes over skraldespanden
+trashContainer.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    trashContainer.classList.add('drag-over');
+});
+
+trashContainer.addEventListener('dragleave', () => {
+    trashContainer.classList.remove('drag-over');
+});
+
+// Håndter drop eventet
+trashContainer.addEventListener('drop', (e) => {
+    e.preventDefault();
+    trashContainer.classList.remove('drag-over');
+
+    // Tjek om der findes et draggedItem (globalt variabel, som bruges i dit nuværende drag-drop setup)
+    if (draggedItem) {
+        // Fjern item'et fra dets forælder (altså fra inventory)
+        draggedItem.parentElement.removeChild(draggedItem);
+        showNotification(`${draggedItem.dataset.itemName} thrown out`, "Item is removed from inventory");
+        draggedItem = null;
+        updateCursor();
+    }
+});
