@@ -65,7 +65,7 @@
 
     #settings{
         padding-top: 10px;
-       cursor: pointer;
+        cursor: pointer;
     }
 }
 #volumeToggle{
@@ -107,6 +107,8 @@
 
     background-color: #989898;
 }
+
+
 .notificationSystem {
     position: fixed;
     right: 20px;
@@ -119,6 +121,7 @@
 
     .notification {
         position: relative;
+        overflow: hidden;
         animation: slideIn 0.5s ease forwards;
         width: 300px;
         min-height: 75px;
@@ -127,6 +130,24 @@
         border-radius: 2px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
+        .notification-progress-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+
+        .notification-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            z-index: 1;
+            animation: progress-bar-shrink 4s linear forwards;
+        }
 
         .closeNotification {
             position: absolute;
@@ -155,6 +176,16 @@
         }
 
     }
+}
+
+@keyframes progress-bar-shrink {
+    from{
+        width: 0;
+    }
+    to{
+        width: 100%;
+    }
+
 }
 @keyframes slideIn {
     from {

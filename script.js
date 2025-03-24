@@ -107,7 +107,7 @@ function showOverlay(type) {
         startScreenOverlay.style.display = "flex";
     } else if (type === 'game') {
         gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
-        showNotification("The game is now paused.");
+        showNotification("Game Notification 🎮", "The game is now paused.");
     }
 }
 
@@ -123,7 +123,7 @@ const miniMap = document.querySelector('.mini-map');
 miniMap.addEventListener('click',openMinimap)
 
 function openMinimap (){
-    showNotification("Map is shown in full size")
+    showNotification("Map Size 🗺️", "Map is shown in full size")
 }
 
 //------------------------------------- Settings and volume on StartMenuScreen ---------------------------------------//
@@ -149,84 +149,88 @@ function volumeToggle () {
 
 //------------------------------------------------ Notifications -----------------------------------------------------//
 
-function showNotification(header, message) {
+document.addEventListener('DOMContentLoaded', () => {
+    function showNotification(header, message, progressColor = '#4CAF50') {
+        const notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.style.display = 'block';
 
-    const notification = document.createElement('div');
-    notification.classList.add('notification');
-    notification.style.display = 'block';
+        const progressBackground = document.createElement('div');
+        progressBackground.className = 'notification-progress-background';
 
-    const headerText = document.createElement('h1');
-    headerText.classList.add('notificationHeader');
-    headerText.textContent = header;
+        const progressBar = document.createElement('div');
+        progressBar.classList.add('notification-progress');
+        progressBar.style.backgroundColor = progressColor;
 
-    // Create message span
-    const messageText = document.createElement('div');
-    messageText.classList.add('notificationMessage');
-    messageText.textContent = message;
 
-    // Create close button
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('closeNotification');
-    closeButton.innerHTML = '&times;';
+        const headerText = document.createElement('h1');
+        headerText.classList.add('notificationHeader');
+        headerText.textContent = header;
 
-    const maxNotifications = 4; // Set your desired maximum number here
+        const messageText = document.createElement('div');
+        messageText.classList.add('notificationMessage');
+        messageText.textContent = message;
 
-    const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
-        ? '.gameScreen .notificationSystem'
-        : '.startMenuScreen .notificationSystem';
-    const notificationSystem = document.querySelector(activeScreen);
-    const existingNotifications = notificationSystem.querySelectorAll('.notification');
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('closeNotification');
+        closeButton.innerHTML = '&times;';
 
-    // Remove old notifications if we exceed the maximum
-    if (existingNotifications.length >= maxNotifications) {
-        existingNotifications[0].remove();
+        const maxNotifications = 4;
+
+        const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
+            ? '.gameScreen .notificationSystem'
+            : '.startMenuScreen .notificationSystem';
+        const notificationSystem = document.querySelector(activeScreen);
+        const existingNotifications = notificationSystem.querySelectorAll('.notification');
+
+        if (existingNotifications.length >= maxNotifications) {
+            existingNotifications[0].remove();
+        }
+
+        notification.appendChild(progressBackground);
+        notification.appendChild(progressBar);
+        notification.appendChild(closeButton);
+        notification.appendChild(headerText);
+        notification.appendChild(messageText);
+
+        let fadeOutTimeout;
+
+        const startFadeOutTimer = () => {
+            clearTimeout(fadeOutTimeout);
+            progressBar.style.animation = 'progress-bar-shrink 4s linear forwards';
+            fadeOutTimeout = setTimeout(() => {
+                if (notification.isConnected) {
+                    notification.style.animation = 'slideOut 0.5s ease forwards';
+                }
+            }, 4000);
+        };
+
+        notification.addEventListener('mouseenter', () => {
+            clearTimeout(fadeOutTimeout);
+        });
+
+        notification.addEventListener('mouseleave', () => {
+            startFadeOutTimer();
+        });
+
+        closeButton.addEventListener('click', () => {
+            clearTimeout(fadeOutTimeout);
+            notification.remove();
+        });
+
+        notification.addEventListener('animationend', (e) => {
+            if (e.animationName === 'slideOut') {
+                notification.remove();
+            }
+        });
+
+        document.querySelector(activeScreen).appendChild(notification);
+        startFadeOutTimer();
     }
 
-    // Add elements to notification
-    notification.appendChild(closeButton);
-    notification.appendChild(headerText);
-    notification.appendChild(messageText);
-
-    let fadeOutTimeout;
-
-    // Function to start/reset the fadeout timer
-    const startFadeOutTimer = () => {
-        clearTimeout(fadeOutTimeout); // Clear any existing timeout
-        fadeOutTimeout = setTimeout(() => {
-            if (notification.isConnected) {
-                notification.style.animation = 'slideOut 0.5s ease forwards';
-            }
-        }, 4000);
-    };
-
-    // Mouse enter - clear the timeout
-    notification.addEventListener('mouseenter', () => {
-        clearTimeout(fadeOutTimeout);
-    });
-
-    // Mouse leave - restart the timeout
-    notification.addEventListener('mouseleave', () => {
-        startFadeOutTimer();
-    });
-
-    // Close button handler
-    closeButton.addEventListener('click', () => {
-        clearTimeout(fadeOutTimeout);
-        notification.remove();
-    });
-
-    notification.addEventListener('animationend', (e) => {
-        if (e.animationName === 'slideOut') {
-            notification.remove();
-        }
-    });
-
-    document.querySelector(activeScreen).appendChild(notification);
-
-    // Start initial fadeout timer
-    startFadeOutTimer();
-
-}
+    // Make showNotification available globally
+    window.showNotification = showNotification;
+});
 
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
@@ -294,7 +298,7 @@ function addItemToInventory(itemType){
         }
     }
 
-    showNotification("Inventory er fuldt!");
+    showNotification("Inventory Notification 🎒", "Inventory er fuldt!");
     return false;
 }
 
@@ -504,7 +508,7 @@ function removeSingleItemFromClickedSlot(slot, slotItem, itemType) {
         updateCounter(slotItem);
     } else {
         slot.removeChild(slotItem);
-        showNotification(`${itemType.name} completely removed.`);
+        showNotification("Element Notification", `${itemType.name} completely removed.`);
     }
 }
 
