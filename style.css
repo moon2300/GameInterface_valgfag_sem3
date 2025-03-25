@@ -324,8 +324,15 @@
     align-items: center;
     justify-content: center;
 }
+
 .box-wrapper{
 position: absolute;
+}
+
+.tap-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 .tablink {
     background-color: #D9D9D9;
@@ -336,15 +343,31 @@ position: absolute;
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
-    width:46px;
-    height: 43px;
+    width:60px;
+    height: 55px;
     border-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
 }
 .tablink:hover {
     background-color: #777;
 }
 
+#chest-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+
+}
+
 .tabcontent {
+    margin-top: 0;
+    border-top: none;
+
     width: 600px;
     height: 410px;
     color: white;
@@ -361,7 +384,7 @@ position: absolute;
     justify-content: center;
 }
 
-.tabcontent h3{
+.tap-overskrift{
     font-size: 16px;
     padding: 0 0 15px 10px;
 }
@@ -472,9 +495,46 @@ padding: 25px;
     background-color: #535353;
 }
 
+.chest-item-box{
+    width: 512px;
+    height: 305px;
+    background-color: #9D9D9D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.achievement-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+    gap: 25px;
+}
+
+.found-items, .weapons{
+   width: 482px;
+   height: 119px;
+   background-color: #9D9D9D;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+.found-items img{
+    width: 57px;
+    height: 57px;
+}
+.achievement-text{
+    padding-bottom: 5px;
+}
+
+
 .bottom{
     display: flex;
     padding-top: 50px;
+
 }
 
 
@@ -664,6 +724,7 @@ padding: 25px;
 
 #trash-bin {
   height: 50px;
+    padding-left: 20px;
 
 }
 
@@ -673,15 +734,46 @@ padding: 25px;
     height: 100%
 }
 
-.item-container {
-    margin-top: 20px;
-    gap: 10px;
-    display: flex;
+.item-box {
+    width: 430px;
+    height: 81px;
+    background-color: #737373;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+
 }
 
+.inventory-container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.inventory-tab{
+    width:50px;
+    height: 45px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-style: none;
+    background-color: #737373;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory {
+    width: 500px;                 
+    display: flex;                
+    gap: 10px;                    
+    justify-content: center;
+}                                 
+
 #backpack{
-    height: 50px;
-    cursor: pointer;
+    height: 35px;
+
 }
 
 
@@ -727,12 +819,6 @@ padding: 25px;
     text-align: center;
 }
 
-.inventory {
-    width: 500px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
 
 .slot {
     display: flex;

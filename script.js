@@ -90,6 +90,7 @@ document.querySelector('.gameScreen').style.display = 'none';
 document.querySelector('.newGame').addEventListener('click', shownScreen);
 
 
+
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
 const settingsButtonStart = document.querySelector("#settings");
 const settingsButton = document.querySelector(".settings");
@@ -304,20 +305,35 @@ function createItem(itemType, count = 1) {
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Tilføjer items til inventory med tæller
-function addItemToInventory(itemType){
-    const slots = document.querySelectorAll('.slot');
+function addItemToInventory(itemType) {
+    // Select only the inventory slots in the bottom div (if needed)
+    const slots = document.querySelectorAll('#inventory .slot');
 
+    // If the item hasn't been discovered yet, mark it as discovered and update found-items.
     if (!discoveredItems.has(itemType.name)) {
         discoveredItems.add(itemType.name);
-        showNotification('New discovery!✨', `You found a ${itemType.name}! `, '#4CAF50', itemType.image, 'Tip: Check your achievements for... .');
+        showNotification(
+            'New discovery!✨',
+            `You found a ${itemType.name}! `,
+            '#4CAF50',
+            itemType.image,
+            'Tip: Check your achievements for...'
+        );
+
+        // Update the found-items container
+        const foundItemsContainer = document.querySelector('.found-items');
+        const itemImg = foundItemsContainer.querySelector(`img[data-item="${itemType.name}"]`);
+        if (itemImg) {
+            itemImg.src = itemType.image; // Replace the placeholder with the actual item image
+        }
     }
 
-    // Hvis item findes i inventory allerede
+    // Check if the item exists in inventory already
     for (let slot of slots) {
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
             const item = slot.firstElementChild;
             const count = parseInt(item.dataset.count || '1');
-            const { capacity} = itemType;
+            const { capacity } = itemType;
 
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
@@ -327,7 +343,7 @@ function addItemToInventory(itemType){
         }
     }
 
-    // Hvis item ikke findes, oprettes ny stack
+    // If the item doesn't exist, create a new stack in an empty slot
     for (let slot of slots) {
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
@@ -339,6 +355,9 @@ function addItemToInventory(itemType){
     showNotification("Inventory Notification 🎒", "Inventory er fuldt!");
     return false;
 }
+
+
+
 
 //----------------------------------------------Andre inventory events------------------------------------------------//
 
@@ -723,6 +742,7 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 });
 
+//---------------------------------------------------Achievements-----------------------------------------------------//
 
 //------------------------------------------------------ Chat --------------------------------------------------------//
 

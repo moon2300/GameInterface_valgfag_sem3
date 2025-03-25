@@ -86,13 +86,13 @@
         <div class="box-wrapper">
         <div class="tap-container">
         <button class="tablink" onclick="openPage('Actions', this, '#737373')" id="defaultOpen" >👆🏼</button>
-        <button class="tablink" onclick="openPage('Chest', this, '#737373')">🏆</button>
+        <button class="tablink" onclick="openPage('Chest', this, '#737373')"><img id="chest-icon" src="picz/chest-2.png" alt="chest"></button>
          <button class="tablink" onclick="openPage('Achievements', this, '#737373')">🏆</button>
         </div>
 
         <div id="Actions" class="tabcontent">
 
-            <h3>UI Action box</h3>
+            <h3 class="tap-overskrift">UI Action box</h3>
 
             <div class="tabcontent-box">
             <div class="left-action-box">
@@ -174,17 +174,80 @@
 
 
         <div id="Chest" class="tabcontent">
-            <h3>UI Action box</h3>
-            <p>Home is where the heart is..</p>
+
+            <h3 class="tap-overskrift">Chest</h3>
+
+            <div class="tabcontent-box">
+
+            <div class="chest-item-box">
+
+                <div class="inventory" id="top-row-inventory">
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                </div>
+
+                <div class="inventory" id="middle-row-inventory">
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                </div>
+
+                <div class="inventory" id="bottom-row-inventory">
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                    <div class="slot"></div>
+                </div>
+
+
+
+            </div>
+            </div>
         </div>
+
 
         <div id="Achievements" class="tabcontent">
-            <h3>UI Action box</h3>
-            <p>Home is where the heart is..</p>
+
+            <h3 class="tap-overskrift" >Achievements</h3>
+
+            <div class="achievement-box">
+
+                <div>
+
+                <p class="achievement-text">Found items</p>
+                    <div class="found-items">
+
+                        <img data-item="Amethyst" src="picz/amethyst.svg" alt="">
+                        <img data-item="Emerald" src="picz/emerald.svg" alt="">
+                        <img data-item="Ruby" src="picz/ruby-gem.svg" alt="">
+                        <img data-item="Sapphire" src="picz/sapphire.svg" alt="">
+
+                    </div>
+
+                </div>
+
+                <div>
+                <p class="achievement-text">Weapons found </p>
+            <div class="weapons">
+
+
+            </div>
+            </div>
+
         </div>
+
+        </div>
+
     </div>
-
-
     </div>
 
 
@@ -228,15 +291,18 @@
         <div class="inventory-slots">
 
 
+            <div class="inventory-container">
 
+            <div class="inventory-tab">
 
-            <div class="item-container"></div>
-
-            <br/>
-
-            <div id="trash-container">
-                <img alt=" trash bin for items" id="trash-bin" draggable="false" src="picz/trash-can-with-no-lid.png">
+                <img  alt=" backpack for bigger inventory" id="backpack" draggable="false" src="picz/backpack.png">
             </div>
+
+
+
+
+            <div class="item-box">
+
             <div class="inventory" id="inventory">
                 <div class="slot"></div>
                 <div class="slot"></div>
@@ -246,9 +312,14 @@
                 <div class="slot"></div>
             </div>
 
-            <div>
-                <img  alt=" backpack for bigger inventory" id="backpack" draggable="false" src="picz/backpack.png">
-            </div>
+
+        </div>
+
+        </div>
+
+            <div id="trash-container">
+            <img alt=" trash bin for items" id="trash-bin" draggable="false" src="picz/trash-can-with-no-lid.png">
+        </div>
 
         </div>
 
