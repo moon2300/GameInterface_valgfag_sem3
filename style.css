@@ -63,15 +63,15 @@
     align-items: start;
     justify-content: right;
 
-    #settings{
+    .settings{
         padding-top: 10px;
         cursor: pointer;
     }
 }
-#volumeToggle{
+.volumeToggle{
     cursor: pointer;
 }
-#volumeOff{
+.volumeOff{
     display: none;
     cursor: pointer;
 }
@@ -106,6 +106,89 @@
 .newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .item-in-action-box:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
 
     background-color: #989898;
+}
+
+.newGameScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 60px;
+    color: white;
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 1fr;
+    padding: 25px;
+    background-color: black;
+
+    .volumeToggle{
+        height: 70px;
+    }
+
+    .newWorld{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .nameWorld{
+
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        height: 115px;
+        font-size: 30px;
+    }
+    .newWorldInput{
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        height: 100px;
+        gap: 10px;
+        border-style: none;
+
+
+        #worldName{
+            width: 350px;
+            height: 35px;
+            font-size: 25px;
+            border-radius: 25px;
+            padding: 10px;
+        }
+    }
+    .newGameScreenButtons{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: baseline;
+        height: 100%;
+
+        .newWorldButton, .cancelNewWorld{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 350px;
+            height:40px;
+            font-size: 35px;
+            font-weight: 550;
+            border-radius: 25px;
+            border-style: none;
+            cursor: pointer;
+        }
+        .newWorldButton{
+            background-image: url("pics/night.jpg") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            text-shadow: 2px 2px 4px gray;
+        }
+        .newWorldButton:hover{
+            background-image: url("pics/day.png") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+
+
+
 }
 
 
@@ -185,10 +268,10 @@
             height: 20px;
             object-fit: cover;
         }
-
-
     }
 }
+
+
 
 @keyframes progress-bar-shrink {
     from{
@@ -304,14 +387,7 @@
 }
 
 
-.settings{
-    width: 50px;
-    height: 50px;
-    font-size: 10px;
-    border-radius: 25px;
-    border-style: none;
-    cursor: pointer;
-}
+
 .setting-box{
     display: flex;
     justify-content: end;

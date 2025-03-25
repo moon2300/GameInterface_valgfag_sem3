@@ -10,22 +10,22 @@ const itemTypes = [
     {
         capacity: 10,
         name: 'Ruby',
-        image: 'picz/ruby-gem.png'
+        image: 'pics/ruby-gem.png'
     },
     {
         capacity: 5,
         name: 'Sapphire',
-        image: 'picz/sapphire.png'
+        image: 'pics/sapphire.png'
     },
     {
         capacity: 2,
         name: 'Emerald',
-        image: 'picz/emerald.png'
+        image: 'pics/emerald.png'
     },
     {
         capacity: 5,
         name: 'Amethyst',
-        image: 'picz/amethyst.png'
+        image: 'pics/amethyst.png'
     }
 
 ]
@@ -128,11 +128,11 @@ function openMinimap (){
 
 //------------------------------------- Settings and volume on StartMenuScreen ---------------------------------------//
 
-const volumeButton = document.querySelector('#volumeToggle');
+const volumeButton = document.querySelector('.volumeToggle');
 volumeButton.addEventListener('click', volumeToggle);
 function volumeToggle () {
-    const volumeOn = volumeButton.querySelector('#volumeOn');
-    const volumeOff = volumeButton.querySelector('#volumeOff');
+    const volumeOn = volumeButton.querySelector('.volumeOn');
+    const volumeOff = volumeButton.querySelector('.volumeOff');
     if (uiSettings.volume === true) {
         uiSettings.volume = false
         volumeOn.style.display = 'none';
