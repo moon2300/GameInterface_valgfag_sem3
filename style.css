@@ -103,7 +103,7 @@
     cursor: pointer;
 }
 
-.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .item-in-action-box:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
+.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
 
     background-color: #989898;
 }
@@ -320,30 +320,83 @@
 
 .mid{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.action-box{
-    position: absolute;
-    width: 700px;
-    height: 300px;
-    background-color: white;
+.box-wrapper{
+position: absolute;
+}
+.tablink {
+    background-color: #D9D9D9;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width:46px;
+    height: 43px;
+    border-style: none;
+}
+.tablink:hover {
+    background-color: #777;
 }
 
-.action-buttons-container {
+.tabcontent {
+    width: 600px;
+    height: 410px;
+    color: white;
+    display: none;
+    padding: 20px;
+}
+
+
+#Actions, #Chest, #Achievements {background-color: #737373 ;}
+
+.tabcontent-box{
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.tabcontent h3{
+    font-size: 16px;
+    padding: 0 0 15px 10px;
+}
+
+.left-action-box{
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+    gap: 25px;
 }
 
-.action-buttons{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+.bar-box{
+height: 80px;
+width: 180px;
+background-color: #9D9D9D;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+    gap: 5px;
+}
 
+.weapon-box{
+    width: 180px;
+    height: 220px;
+    background-color: #9D9D9D;
+   display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.weapon-box-buttons{
+    display: flex;
+    flex-direction: column;
+  gap: 10px;
+    padding: 0 25px 25px 25px ;
 }
 .action-buttons-bars{
     display: flex;
@@ -352,7 +405,6 @@
     width: 100%;
     gap: 10px;
 }
-
 
 .action-buttons-bars button {
     width: 20px;
@@ -364,13 +416,48 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-
-
 }
 
 .action-buttons-bars button:hover{
     background-color: #45a049;
 }
+
+.right-action-box{
+    width: 333px;
+    height: 325px;
+    background-color: #9D9D9D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.right-action-box-text{
+padding: 25px;
+    font-size: 14px;
+}
+.action-box-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 40px;
+}
+
+.action-box-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.action-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
 .item-in-action-box{
     background-color: grey;
     padding: 5px;
@@ -381,20 +468,10 @@
 
 }
 
-
-#text, #text-bottom{
-    width: 50%;
+.item-in-action-box:hover{
+    background-color: #535353;
 }
 
-.tekst-box{
-    padding: 30px;
-    width: 100%;
-    display: flex;
-}
-
-#text-guide, #text-guide-bottom{
-
-}
 .bottom{
     display: flex;
     padding-top: 50px;
@@ -625,6 +702,7 @@
 .items{
     display: flex;
     gap: 20px;
+    padding: 24px;
 }
 
 
@@ -636,19 +714,6 @@
 
 }
 
-.action-box-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap: 40px;
-}
-
-.action-box-container{
-    display: flex;
-    justify-content: space-evenly;
-}
 
 .collect-item {
     display: flex;
