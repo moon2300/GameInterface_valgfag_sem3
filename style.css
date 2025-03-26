@@ -332,6 +332,9 @@
     grid-template-rows: 0.1fr 0.5fr 1fr 1fr ;
     padding: 10px 25px;
     background-color: black;
+    .volumeToggle{
+        height: 70px;
+    }
 }
 
 .load-game-titel{
@@ -357,8 +360,8 @@
     display: none;
 }
 .game-slots-box{
-    width:610px;
-    height: 420px;
+    width:580px;
+    height: 370px;
     background-color: #232323;
     border-radius: 20px;
     display: flex;
@@ -415,7 +418,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    height: 100px;
+    height: 100%;
 
 }
 

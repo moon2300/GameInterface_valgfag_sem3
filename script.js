@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const existingWorlds = getSavedWorlds();
             if (existingWorlds.some(world => world.name === worldName)) {
                 showNotification(
-                    'Missing World Name⚠️!',
+                    'World Name⚠️!',
                     'A world with this name already exists',
                     '#FF5252'
                 );
@@ -336,7 +336,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 const backToStartMenuButton = document.querySelector(".setting-start-menu-knap");
 
-
 function returnToStartMenu() {
     showScreen('startMenuScreen');
     closeOverlay();
@@ -345,12 +344,13 @@ function returnToStartMenu() {
 // Attach event listener to the button
 backToStartMenuButton.addEventListener("click", returnToStartMenu);
 
+
 document.querySelector('.newGame').addEventListener('click', () => showScreen('newGameScreen'));
 
 document.querySelector('.loadGame').addEventListener('click', () => showScreen('loadGameScreen'));
 
 document.querySelector('.cancelNewWorld').addEventListener('click', () => showScreen('startMenuScreen'));
-
+document.querySelector('.back-to-startmenu').addEventListener('click', () => showScreen('startMenuScreen'));
 
 
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
