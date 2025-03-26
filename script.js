@@ -64,7 +64,17 @@ function showScreen(screenName) {
 }
 
 
-document.addEventListener('DOMContentLoaded', initializeScreens);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeScreens();
+
+    // Add event listener for the load game button
+    const loadGameButton = document.querySelector('.startMenuScreen .loadGame');
+    if (loadGameButton) {
+        loadGameButton.addEventListener('click', () => {
+            showScreen('loadGameScreen');
+        });
+    }
+});
 
 
 //------------------------------------------------ Notifications -----------------------------------------------------//
@@ -408,22 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Function to display saved worlds (for your future loadGameScreen)
-function displaySavedWorlds() {
-    const savedWorlds = getSavedWorlds();
-    const worldList = document.querySelector('.saved-worlds-list');
 
-    if (worldList) {
-        worldList.innerHTML = '';
-        savedWorlds.forEach(world => {
-            const worldElement = document.createElement('div');
-            worldElement.classList.add('saved-world-item');
-            worldElement.textContent = world.name;
-            worldElement.addEventListener('click', () => loadWorld(world));
-            worldList.appendChild(worldElement);
-        });
-    }
-}
 
 
 
