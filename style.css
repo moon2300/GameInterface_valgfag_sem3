@@ -157,6 +157,7 @@
         opacity: 0;
     }
 }
+
 .startMenuScreen{
     width: 100vw;
     height: 100vh;
@@ -216,11 +217,12 @@
     cursor: pointer;
 }
 
-.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .item-in-action-box:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
+.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
 
     background-color: #989898;
 }
 
+/*---------------------------------------------------- New game screen -----------------------------------------------*/
 .newGameScreen{
     width: 100vw;
     height: 100vh;
@@ -242,12 +244,11 @@
         gap: 10px;
     }
     .nameWorld{
-
         display: flex;
         justify-content: center;
         align-items: end;
-        height: 115px;
-        font-size: 30px;
+        height: 160px;
+        font-size: 25px;
     }
 
     #worldName {
@@ -319,11 +320,198 @@
             background-repeat: no-repeat;
         }
     }
+}
+
+/*-----------------------------------------------------load game screen-----------------------------------------------*/
+.loadGameScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 50px;
+    color: white;
+    display: grid;
+    grid-template-rows: 0.1fr 0.5fr 1fr 1fr ;
+    padding: 10px 25px;
+    background-color: black;
+}
+
+.load-game-titel{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    height: 100%;
+}
+
+.game-slots-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.empty-slot-1, .empty-slot-2, .empty-slot-3{
+    padding-left: 30px;
+}
+
+.empty-slot-1{
+    display: none;
+}
+.game-slots-box{
+    width:610px;
+    height: 420px;
+    background-color: #232323;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.game-slot{
+    width: 550px;
+    height: 100px;
+    background-color: #676767;
+    border-radius: 25px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.trashContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100%;
+    justify-content: flex-start;
+    padding: 10px;
+}
 
 
+#game-slot-one{
+    width: 550px;
+    height: 100px;
+    background-color: white;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+#game-slot-two{
+    width: 550px;
+    height: 100px;
+    background-color: white;
+    border-radius: 25px;
+    display: none;
+}
+
+#game-slot-tre{
+    width: 550px;
+    height: 100px;
+    background-color: white;
+    border-radius: 25px;
+    display: none;
+}
+
+.load-game-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
 
 }
 
+.back-to-startmenu, .open-world-button {
+    background-color: white;
+    width: 400px;
+    height: 50px;
+    border-style: none;
+    border-radius: 25px;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.back-to-startmenu:hover, .open-world-button:hover{
+    background-color: #989898;
+}
+
+#game-slot-one{
+    display: flex;
+    align-items: center;
+}
+.slot-map{
+    height:80px;
+    padding-left: 10px;
+}
+
+.slot-titel{
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-size: 11px;
+    width: 100px;
+    padding-left: 10px;
+}
+
+.slot-titel h2{
+    font-size: 16px;
+
+}
+
+.slot-grey-box{
+    background-color: #D9D9D9;
+    width: 250px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    border-radius: 20px;
+    color: black;
+}
+
+.game-stats-container{
+    display: flex;
+}
+
+.gameStats h3{
+    font-size: 12px;
+    padding: 7px 0 2px 10px;
+}
+.slot-backpack{
+    height: 12px;
+}
+
+.load-game-inventory{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-left: 10px;
+}
+.load-game-inventory p{
+    font-size:12px ;
+}
+.slot-items{
+    padding-left: 10px;
+}
+.slot-items img{
+    height: 10px;
+}
+
+.slot-health{
+    padding-left: 20px;
+}
+
+.slot-health p{
+    font-size: 12px;
+}
+
+.trash{
+    height: 15px;
+    cursor:pointer;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------- Game screen --------------------------------------------------*/
 .gameScreen{
     width: 100vw;
     height: 100vh;
@@ -407,7 +595,6 @@
 }
 
 
-
 .setting-box{
     display: flex;
     justify-content: end;
@@ -416,30 +603,107 @@
 
 .mid{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.action-box{
+
+.box-wrapper{
     position: absolute;
-    width: 700px;
-    height: 300px;
-    background-color: white;
+    padding-bottom: 80px;
 }
 
-.action-buttons-container {
+.tap-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.tabLink {
+    background-color: #D9D9D9;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 30px;
+    width:60px;
+    height: 55px;
+    border-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.tabLink:hover {
+    background-color: #777;
+}
+
+#chest-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+
+}
+
+.tabContent {
+    margin-top: 0;
+    border-top: none;
+
+    width: 600px;
+    height: 410px;
+    color: white;
+    display: none;
+    padding: 20px;
+}
+
+
+#Actions, #Chest, #Achievements {background-color: #737373 ;}
+
+.tabContent-box{
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+}
+
+.tap-overskrift{
+    font-size: 16px;
+    padding: 0 0 15px 10px;
+}
+
+.left-action-box{
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
+    gap: 25px;
 }
 
-.action-buttons{
+.bar-box{
+    height: 80px;
+    width: 180px;
+    background-color: #9D9D9D;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    gap: 5px;
+}
 
+.weapon-box{
+    width: 180px;
+    height: 220px;
+    background-color: #9D9D9D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.weapon-box-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 25px 25px 25px ;
 }
 .action-buttons-bars{
     display: flex;
@@ -448,7 +712,6 @@
     width: 100%;
     gap: 10px;
 }
-
 
 .action-buttons-bars button {
     width: 20px;
@@ -460,13 +723,48 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-
-
 }
 
 .action-buttons-bars button:hover{
     background-color: #45a049;
 }
+
+.right-action-box{
+    width: 333px;
+    height: 325px;
+    background-color: #9D9D9D;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.right-action-box-text{
+    padding: 25px;
+    font-size: 14px;
+}
+.action-box-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 40px;
+}
+
+.action-box-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.action-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
 .item-in-action-box{
     background-color: grey;
     padding: 5px;
@@ -477,23 +775,50 @@
 
 }
 
-
-#text, #text-bottom{
-    width: 50%;
+.item-in-action-box:hover{
+    background-color: #535353;
 }
 
-.tekst-box{
-    padding: 30px;
-    width: 100%;
+.chest-item-box{
+    width: 512px;
+    height: 305px;
+    background-color: #9D9D9D;
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
-#text-guide, #text-guide-bottom{
+.achievement-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+    gap: 25px;
+}
+
+.found-items, .weapons{
+    width: 482px;
+    height: 119px;
+    background-color: #9D9D9D;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 
 }
+.found-items img{
+    width: 57px;
+    height: 57px;
+}
+.achievement-text{
+    padding-bottom: 5px;
+}
+
+
 .bottom{
     display: flex;
     padding-top: 50px;
+
 }
 
 
@@ -683,6 +1008,7 @@
 
 #trash-bin {
     height: 50px;
+    padding-left: 20px;
 
 }
 
@@ -692,15 +1018,43 @@
     height: 100%
 }
 
-.item-container {
-    margin-top: 20px;
-    gap: 10px;
+.item-box {
+    width: 430px;
+    height: 81px;
+    background-color: #737373;
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory-container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.inventory-tab{
+    width:50px;
+    height: 45px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-style: none;
+    background-color: #737373;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inventory {
+    width: 500px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }
 
 #backpack{
-    height: 50px;
-    cursor: pointer;
+    height: 35px;
+
 }
 
 
@@ -721,6 +1075,7 @@
 .items{
     display: flex;
     gap: 20px;
+    padding: 24px;
 }
 
 
@@ -732,19 +1087,6 @@
 
 }
 
-.action-box-items {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    gap: 40px;
-}
-
-.action-box-container{
-    display: flex;
-    justify-content: space-evenly;
-}
 
 .collect-item {
     display: flex;
@@ -758,12 +1100,6 @@
     text-align: center;
 }
 
-.inventory {
-    width: 500px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
 
 .slot {
     display: flex;
@@ -842,7 +1178,7 @@
 }
 
 
-.overlayGameScreen, .startMenuScreenOverlay, .newGameScreenOverlay {
+.overlayGameScreen, .startMenuScreenOverlay, .newGameScreenOverlay, .loadGameScreenOverlay {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.69);
