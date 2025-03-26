@@ -12,7 +12,8 @@ function initializeScreens() {
     const screens = {
         startMenuScreen: document.querySelector('.startMenuScreen'),
         gameScreen: document.querySelector('.gameScreen'),
-        newGameScreen: document.querySelector('.newGameScreen')
+        newGameScreen: document.querySelector('.newGameScreen'),
+        loadGameScreen: document.querySelector('.loadGameScreen')
     };
 
     // Hide all screens first
@@ -32,7 +33,8 @@ function showScreen(screenName) {
     const screens = {
         startMenuScreen: document.querySelector('.startMenuScreen'),
         gameScreen: document.querySelector('.gameScreen'),
-        newGameScreen: document.querySelector('.newGameScreen')
+        newGameScreen: document.querySelector('.newGameScreen'),
+        loadGameScreen: document.querySelector('.loadGameScreen')
     };
 
     // Update current screen in settings
@@ -345,12 +347,15 @@ backToStartMenuButton.addEventListener("click", returnToStartMenu);
 
 document.querySelector('.newGame').addEventListener('click', () => showScreen('newGameScreen'));
 
+document.querySelector('.loadGame').addEventListener('click', () => showScreen('loadGameScreen'));
+
 document.querySelector('.cancelNewWorld').addEventListener('click', () => showScreen('startMenuScreen'));
 
 
 
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
 const newGameScreenOverlay = document.querySelector(".newGameScreenOverlay");
+const loadGameScreenOverlay = document.querySelector(".loadGameScreenOverlay");
 const settingsButtons = document.querySelectorAll(".settings");
 const gameOverlay = document.querySelector(".overlayGameScreen");
 const closeButtons = document.querySelectorAll(".x-button");
@@ -370,6 +375,7 @@ function showOverlay(screenType) {
     const overlayActions = {
         startMenuScreen: () => startScreenOverlay.style.display = "flex",
         newGameScreen: () => newGameScreenOverlay.style.display = "flex",
+        loadGameScreen: () =>loadGameScreenOverlay.style.display = "flex",
         gameScreen: () => {
             gameOverlay.style.display = "flex";
             showNotification("Game Notification 🎮", "The game is now paused.");
@@ -390,6 +396,7 @@ function closeOverlay() {
     startScreenOverlay.style.display = "none";
     newGameScreenOverlay.style.display = "none";
     gameOverlay.style.display = "none";
+    loadGameScreenOverlay.style.display = "none";
 
 }
 

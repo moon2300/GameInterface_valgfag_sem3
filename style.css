@@ -43,6 +43,120 @@
     transition: ease-in-out 0.5s;
 }
 
+.notificationSystem {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+
+
+    .notification {
+        position: relative;
+        overflow: hidden;
+        animation: slideIn 0.5s ease forwards;
+        width: 300px;
+        min-height: 75px;
+        height: auto;
+        background-color: white;
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+        .notification-progress-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 100%;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+
+        .notification-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 5px;
+            z-index: 1;
+            animation: progress-bar-shrink 4s linear forwards;
+        }
+
+        .closeNotification {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 25px;
+            height: 25px;
+            font-size: 25px;
+            font-weight: bold;
+            border: none;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .notificationHeader {
+            color: black;
+            font-size: 20px;
+            padding: 10px;
+        }
+
+
+        .notificationMessage,.notificationTip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            padding: 0 10px 15px 10px;
+            color: black;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+
+        .notification-image {
+            display: flex;
+            width: 20px;  /* Adjust size as needed */
+            height: 20px;
+            object-fit: cover;
+        }
+    }
+}
+
+
+
+@keyframes progress-bar-shrink {
+    from{
+        width: 0;
+    }
+    to{
+        width: 100%;
+    }
+
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
 
 .startMenuScreen{
     width: 100vw;
@@ -108,117 +222,103 @@
     background-color: #989898;
 }
 
+/*---------------------------------------------------- New game screen -----------------------------------------------*/
+.newGameScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 60px;
+    color: white;
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 1fr;
+    padding: 25px;
+    background-color: black;
 
-.notificationSystem {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
+    .volumeToggle{
+        height: 70px;
+    }
+
+    .newWorld{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .nameWorld{
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        height: 160px;
+        font-size: 25px;
+    }
+
+    #worldName {
+        transition: outline 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+
+    }
+    #worldName.error {
+        outline: 2px solid #FF5252;
+        box-shadow: 0 0 8px rgba(255, 82, 82, 0.5);
+        border-color: #FF5252;
+        opacity: 1;
+    }
+
+    #worldName.error-fade {
+        outline: 2px solid transparent;
+        box-shadow: 0 0 8px rgba(255, 82, 82, 0);
+        border-color: transparent;
+        transition: outline 1s ease, box-shadow 1s ease, border-color 1s ease;
+    }
 
 
-    .notification {
-        position: relative;
-        overflow: hidden;
-        animation: slideIn 0.5s ease forwards;
-        width: 300px;
-        min-height: 75px;
-        height: auto;
-        background-color: white;
-        border-radius: 2px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    .newWorldInput{
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        height: 100px;
+        gap: 10px;
+        border-style: none;
 
-        .notification-progress-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 5px;
-            width: 100%;
-            background-color: #e0e0e0;
-            z-index: 1;
-        }
 
-        .notification-progress {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 5px;
-            z-index: 1;
-            animation: progress-bar-shrink 4s linear forwards;
-        }
-
-        .closeNotification {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 25px;
-            height: 25px;
+        #worldName{
+            width: 350px;
+            height: 35px;
             font-size: 25px;
-            font-weight: bold;
-            border: none;
-            background-color: white;
-            cursor: pointer;
-        }
-
-        .notificationHeader {
-            color: black;
-            font-size: 20px;
+            border-radius: 25px;
             padding: 10px;
         }
+    }
+    .newGameScreenButtons{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: baseline;
+        height: 100%;
 
-
-        .notificationMessage,.notificationTip {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-            font-size: 16px;
-            padding: 0 10px 15px 10px;
-            color: black;
-        }
-
-
-        .notification-image {
+        .newWorldButton, .cancelNewWorld{
             display: flex;
-            width: 20px;  /* Adjust size as needed */
-            height: 20px;
-            object-fit: cover;
+            justify-content: center;
+            align-items: center;
+            width: 350px;
+            height:40px;
+            font-size: 35px;
+            font-weight: 550;
+            border-radius: 25px;
+            border-style: none;
+            cursor: pointer;
         }
-
-
-    }
-}
-
-@keyframes progress-bar-shrink {
-    from{
-        width: 0;
-    }
-    to{
-        width: 100%;
-    }
-
-}
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
+        .newWorldButton{
+            background-image: url("pics/night.jpg") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            text-shadow: 2px 2px 4px gray;
+        }
+        .newWorldButton:hover{
+            background-image: url("pics/day.png") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     }
 }
 
@@ -229,27 +329,24 @@
     font-size: 50px;
     color: white;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 0.2fr ;
-    gap: 20px;
-    padding: 25px;
-     background-color: black;
+    grid-template-rows: 0.1fr 0.5fr 1fr 1fr ;
+    padding: 10px 25px;
+    background-color: black;
 }
-
 
 .load-game-titel{
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 150px;
-    padding-bottom: 80px;
+    align-items: baseline;
+    height: 100%;
 }
 
 .game-slots-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -30px;
+    padding-top: 10px;
 }
 
 .empty-slot-1, .empty-slot-2, .empty-slot-3{
@@ -318,13 +415,14 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    height: 130px;
+    height: 100px;
+
 }
 
 .back-to-startmenu, .open-world-button {
     background-color: white;
     width: 400px;
-    height: 65px;
+    height: 50px;
     border-style: none;
     border-radius: 25px;
     font-size: 25px;
@@ -347,9 +445,9 @@
 }
 
 .slot-titel{
-display: flex;
-flex-direction: column;
-color: black;
+    display: flex;
+    flex-direction: column;
+    color: black;
     font-size: 11px;
     width: 100px;
     padding-left: 10px;
@@ -386,7 +484,7 @@ color: black;
 .load-game-inventory{
     display: flex;
     align-items: center;
-  gap: 5px;
+    gap: 5px;
     padding-left: 10px;
 }
 .load-game-inventory p{
@@ -400,11 +498,11 @@ color: black;
 }
 
 .slot-health{
-padding-left: 20px;
+    padding-left: 20px;
 }
 
 .slot-health p{
-font-size: 12px;
+    font-size: 12px;
 }
 
 .trash{
@@ -413,7 +511,7 @@ font-size: 12px;
 }
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-
+/*----------------------------------------------------- Game screen --------------------------------------------------*/
 .gameScreen{
     width: 100vw;
     height: 100vh;
@@ -1080,7 +1178,7 @@ padding: 25px;
 }
 
 
-.overlayGameScreen, .startMenuScreenOverlay,.loadGameScreenOverlay {
+.overlayGameScreen, .startMenuScreenOverlay, .newGameScreenOverlay, .loadGameScreenOverlay {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.69);
