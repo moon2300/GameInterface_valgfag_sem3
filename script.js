@@ -29,6 +29,7 @@ const itemTypes = [
     }
 
 ]
+
 //------------------------------------------------ Splash Screen -----------------------------------------------------//
 
 let intro = document.querySelector('.intro');
@@ -94,13 +95,16 @@ document.querySelector('.newGame').addEventListener('click', shownScreen);
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
 const settingsButtonStart = document.querySelector("#settings");
 const settingsButton = document.querySelector(".settings");
+const settingsButtonLoad = document.querySelector("#loadGameSettings")
 const gameOverlay = document.querySelector(".overlayGameScreen");
+const loadGameOverlay= document.querySelector(".loadGameScreenOverlay")
 const closeButtons = document.querySelectorAll(".x-button");
 
 
 settingsButtonStart.addEventListener('click', () => showOverlay('start'));
 settingsButton.addEventListener('click', () => showOverlay('game'));
 
+settingsButtonLoad.addEventListener('click', () => showOverlay('load'));
 closeButtons.forEach(button => button.addEventListener('click', closeOverlay));
 
 function showOverlay(type) {
@@ -109,6 +113,9 @@ function showOverlay(type) {
     } else if (type === 'game') {
         gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
         showNotification("Game Notification 🎮", "The game is now paused.");
+    } else if (type === 'load') {
+        loadGameOverlay.style.display = "flex";
+        console.log("det virker")
     }
 }
 
@@ -116,6 +123,7 @@ function showOverlay(type) {
 function closeOverlay() {
     startScreenOverlay.style.display = "none";
     gameOverlay.style.display = "none";
+    loadGameOverlay.style.display = "none";
 }
 
 
@@ -130,20 +138,26 @@ function openMinimap (){
 //------------------------------------- Settings and volume on StartMenuScreen ---------------------------------------//
 
 const volumeButton = document.querySelector('#volumeToggle');
-volumeButton.addEventListener('click', volumeToggle);
+const loadGameVolumeButton = document.querySelector('#loadGameVolumeToggle');
+volumeButton.addEventListener('click', volumeToggle,);
+loadGameVolumeButton.addEventListener('click', volumeToggle,);
 function volumeToggle () {
     const volumeOn = volumeButton.querySelector('#volumeOn');
     const volumeOff = volumeButton.querySelector('#volumeOff');
+
+
     if (uiSettings.volume === true) {
         uiSettings.volume = false
         volumeOn.style.display = 'none';
         volumeOff.style.display = 'block';
+
         showNotification("Sound Notification🔇", "Volume is turned off");
 
     } else {
         uiSettings.volume = true
         volumeOn.style.display = 'block';
         volumeOff.style.display = 'none';
+
         showNotification("Sound Notification🔊", "Volume is turned on");
     }
 }
@@ -741,8 +755,6 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 
 });
-
-//---------------------------------------------------Achievements-----------------------------------------------------//
 
 //------------------------------------------------------ Chat --------------------------------------------------------//
 
