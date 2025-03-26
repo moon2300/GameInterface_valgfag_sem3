@@ -121,6 +121,7 @@
 
     <div class="mid">
 
+
         <div class="box-wrapper">
             <div class="tap-container">
                 <button class="tabLink" onclick="openPage('Actions', this, '#737373')" id="defaultOpen">👆🏼</button>
@@ -132,82 +133,40 @@
 
             <div id="Actions" class="tabContent">
 
-                <h3 class="tap-overskrift">UI Action box</h3>
+
+        <div class="action-box">
+
 
                 <div class="tabContent-box">
                     <div class="left-action-box">
                         <div class="bar-box">
+            <div class="tekst-box">
 
-                            <div class="action-buttons-bars">
-                                <button class="minusKnap">-</button>
-                                <div> life</div>
-                                <button class="plusKnap">+</button>
-                            </div>
 
-                            <div class="action-buttons-bars">
-                                <button class="minusKnapGold">-</button>
-                                <div> Gold</div>
-                                <button class="plusKnapGold">+</button>
-                            </div>
+                <div id="text">UI action box  </div>
+                <div id="text-guide">Click here to add items intro your inventory!</div>
 
-                        </div>
 
-                        <div class="weapon-box">
-                            <h2 class="right-action-box-text">Weapons </h2>
-                            <div class="weapon-box-buttons">
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Sword</div>
-                                    <div></div>
-                                </div>
+            </div>
 
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Axe</div>
-                                    <div></div>
-                                </div>
+            <div class="action-box-container">
 
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Bombs</div>
-                                    <div></div>
-                                </div>
+                <div class="action-buttons-container">
 
-                            </div>
+                    <div class="life-gold-container"></div>
 
-                        </div>
-
+                    <div class="action-buttons-bars">
+                        <button class="minusKnap">-</button>
+                        <div> life </div>
+                        <button class="plusKnap">+</button>
                     </div>
 
-                    <div class="right-action-box">
-
-                        <h2 class="right-action-box-text">Try dragging items in the trash <br> <br> 0r split items by
-                            shift-clicking! <br> <br> Play around, see what else is possible!</h2>
-
-                        <div class="items">
-
-                            <div class="action-box-items">
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Ruby</div>
-                                    <div></div>
-                                </div>
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Sapphire</div>
-                                </div>
-                            </div>
-
-                            <div class="action-box-items">
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Emerald</div>
-                                </div>
-
-                                <div class="action-buttons">
-                                    <div class="item-in-action-box"> Amethyst</div>
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
+                    <div class="action-buttons-bars">
+                        <button class="minusKnapGold">-</button>
+                        <div> Gold </div>
+                        <button class="plusKnapGold">+</button>
                     </div>
+
                 </div>
 
             </div>
@@ -215,41 +174,26 @@
 
             <div id="Chest" class="tabContent">
 
-                <h3 class="tap-overskrift">Chest</h3>
+
+                </div>
+
 
                 <div class="tabContent-box">
 
-                    <div class="chest-item-box">
 
-                        <div class="inventory" id="top-row-inventory">
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
+
+                <div class="items">
+
+                    <div class="action-box-items">
+                        <div class="action-buttons">
+                            <div class="item-in-action-box"> Ruby </div>
+                            <div></div>
                         </div>
-
-                        <div class="inventory" id="middle-row-inventory">
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
+                        <div class="action-buttons">
+                            <div class="item-in-action-box"> Sapphire </div>
                         </div>
-
-                        <div class="inventory" id="bottom-row-inventory">
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                            <div class="slot"></div>
-                        </div>
-
-
                     </div>
+
                 </div>
             </div>
 
@@ -270,23 +214,30 @@
                             <img data-item="Ruby" src="pics/ruby-gem.svg" alt="">
                             <img data-item="Sapphire" src="pics/sapphire.svg" alt="">
 
+                    <div class="action-box-items">
+                        <div class="action-buttons">
+                            <div class="item-in-action-box"> Emerald </div>
                         </div>
 
-                    </div>
-
-                    <div>
-                        <p class="achievement-text">Weapons found </p>
-                        <div class="weapons">
-
-
+                        <div class="action-buttons">
+                            <div class="item-in-action-box"> Amethyst </div>
                         </div>
+
                     </div>
 
                 </div>
-
             </div>
 
+            <div class="tekst-box">
+
+                <div id="text-bottom"> </div>
+                <div id="text-guide-bottom">Try dragging items in the trash <br> or split items by shift-clicking! <br> play around, see what else is possible!</div>
+
+
+            </div>
         </div>
+
+
     </div>
 
 
@@ -324,35 +275,41 @@
         </div>
 
 
-        <div class="inventory-slots">
 
 
-            <div class="inventory-container">
 
-                <div class="inventory-tab">
 
                     <img alt=" backpack for bigger inventory" id="backpack" draggable="false" src="pics/backpack.png">
                 </div>
+        <div class="inventory-slots">
 
 
-                <div class="item-box">
-
-                    <div class="inventory" id="inventory">
-                        <div class="slot"></div>
-                        <div class="slot"></div>
-                        <div class="slot"></div>
-                        <div class="slot"></div>
-                        <div class="slot"></div>
-                        <div class="slot"></div>
-                    </div>
 
 
-                </div>
 
-            </div>
+            <div class="item-container"></div>
+
+            <br/>
 
             <div id="trash-container">
                 <img alt=" trash bin for items" id="trash-bin" draggable="false" src="pics/trash-can-with-no-lid.png">
+            </div>
+            <div class="inventory" id="inventory">
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+                <div class="slot"></div>
+            </div>
+
+
+            <div id="trash-container">
+                <img alt=" trash bin for items" id="trash-bin" draggable="false" src="pics/trash-can-with-no-lid.png">
+
+            <div>
+                <img  alt=" backpack for bigger inventory" id="backpack" draggable="false" src="pics/backpack.png">
+
             </div>
 
         </div>
@@ -369,6 +326,7 @@
 
 
 </div>
+
 
 
 <!--------------------------------------------------Load game screen--------------------------------------------------->
@@ -498,6 +456,26 @@
 
 </div>
 
+<div class="newGameScreenOverlay">
+    <div class="setting-modal">
+        <div class="x-button">&times;</div>
+
+        <div class="toggles">
+            <div class="volume-toggle">
+                <h2>Volume</h2>
+                <label for="newGameVolume">Adjust Volume:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="newGameVolume">
+            </div>
+            <div class="brightness-toggle">
+                <h2>Brightness</h2>
+                <label for="newGameBrightness">Adjust Brightness:</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="newGameBrightness">
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="overlayGameScreen">
     <div class="setting-modal">
         <div class="x-button">&times;</div>
@@ -516,33 +494,9 @@
 
             <br>
 
-            <button class="setting-start-menu-knap"> Back to start menu</button>
+            <button class="setting-start-menu-knap"> Back to start menu </button>
 
         </div>
-    </div>
-
-</div>
-
-<div class="loadGameScreenOverlay">
-    <div class="setting-modal">
-        <div class="x-button">&times;</div>
-
-        <div class="toggles">
-            <div class="volume-toggle">
-
-                <h2>Volume</h2>
-                <label for="volume-load-screen">Adjust Volume:</label>
-                <input type="range" min="1" max="100" value="50" class="slider" id="volume-load-screen">
-            </div>
-
-            <div class="brightness-toggle">
-                <h2>Brightness</h2>
-                <label for="brightness-load-screen">Adjust Brightness:</label>
-                <input type="range" min="1" max="100" value="50" class="slider" id="brightness-load-screen">
-            </div>
-
-        </div>
-
     </div>
 
 </div>

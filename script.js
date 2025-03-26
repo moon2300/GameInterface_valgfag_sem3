@@ -1,4 +1,6 @@
+
 //---------------------------------------- Items array with name and color --------------------------------------------//
+
 //------------------------------------------------- Screen array -----------------------------------------------------//
 uiSettings = {
     volume: true,
@@ -14,8 +16,12 @@ function initializeScreens() {
     const screens = {
         startMenuScreen: document.querySelector('.startMenuScreen'),
         gameScreen: document.querySelector('.gameScreen'),
+
         newGameScreen: document.querySelector('.newGameScreen'),
         loadGameScreen: document.querySelector('.loadGameScreen')
+
+        newGameScreen: document.querySelector('.newGameScreen')
+
     };
 
     // Hide all screens first
@@ -29,6 +35,7 @@ function initializeScreens() {
     if (screens.startMenuScreen) {
         screens.startMenuScreen.style.display = 'grid';
     }
+
 }
 
 function showScreen(screenName) {
@@ -37,6 +44,144 @@ function showScreen(screenName) {
         gameScreen: document.querySelector('.gameScreen'),
         newGameScreen: document.querySelector('.newGameScreen'),
         loadGameScreen: document.querySelector('.loadGameScreen')
+    };
+
+    // Update current screen in settings
+    uiSettings.currentScreen = screenName;
+
+    // Update screen visibility and handle notifications
+    Object.entries(screens).forEach(([name, element]) => {
+        if (element) {
+            element.style.display = name === screenName ? 'grid' : 'none';
+            if (name !== screenName) {
+                const notificationSystem = element.querySelector('.notificationSystem');
+                if (notificationSystem) {
+                    notificationSystem.innerHTML = '';
+                }
+            }
+        }
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', initializeScreens);
+
+
+//------------------------------------------------ Notifications -----------------------------------------------------//
+function showNotification(header, message, progressColor = '#4CAF50', imageUrl = null, tip = null) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.style.display = 'block';
+
+    const progressBackground = document.createElement('div');
+    progressBackground.className = 'notification-progress-background';
+
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('notification-progress');
+    progressBar.style.backgroundColor = progressColor;
+
+    const headerText = document.createElement('h1');
+    headerText.classList.add('notificationHeader');
+    headerText.textContent = header;
+
+    // Create message container.
+    const messageText = document.createElement('div');
+    messageText.classList.add('notificationMessage');
+    messageText.textContent = message;
+
+    // If an image URL is provided, append the image inside the message container.
+    if (imageUrl) {
+        const inlineImage = document.createElement('img');
+        inlineImage.src = imageUrl;
+        inlineImage.alt = header;
+        inlineImage.classList.add('notification-image');
+        messageText.appendChild(inlineImage);
+    }
+
+    // Create a tip element if tip text is provided.
+    let tipText = null;
+    if (tip) {
+        tipText = document.createElement('div');
+        tipText.classList.add('notificationTip');
+        tipText.textContent = tip;
+    }
+
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('closeNotification');
+    closeButton.innerHTML = '&times;';
+
+    const maxNotifications = 4;
+    const activeScreen = `.${uiSettings.currentScreen} .notificationSystem`;
+    const notificationSystem = document.querySelector(activeScreen);
+
+// Check if notification system exists before proceeding
+    if (!notificationSystem) {
+        console.error(`Could not find notification system with selector: ${activeScreen}`);
+        return; // Exit the function if we can't find the notification system
+    }
+
+// Now we can safely get existing notifications
+    const existingNotifications = notificationSystem.querySelectorAll('.notification');
+
+
+    if (existingNotifications.length >= maxNotifications) {
+        existingNotifications[0].remove();
+    }
+
+    // Append elements to the notification in the desired order.
+    notification.appendChild(progressBackground);
+    notification.appendChild(progressBar);
+    notification.appendChild(closeButton);
+    notification.appendChild(headerText);
+    notification.appendChild(messageText);
+    // Append tip element if provided.
+    if (tipText) {
+        notification.appendChild(tipText);
+    }
+
+    let fadeOutTimeout;
+    const startFadeOutTimer = () => {
+        clearTimeout(fadeOutTimeout);
+        progressBar.style.animation = 'progress-bar-shrink 4s linear forwards';
+        fadeOutTimeout = setTimeout(() => {
+            if (notification.isConnected) {
+                notification.style.animation = 'slideOut 0.5s ease forwards';
+            }
+        }, 4000);
+    };
+
+    notification.addEventListener('mouseenter', () => {
+        clearTimeout(fadeOutTimeout);
+        progressBar.style.animationPlayState = 'paused';
+    });
+
+    notification.addEventListener('mouseleave', () => {
+        startFadeOutTimer();
+        progressBar.style.animationPlayState = 'running'
+    });
+
+    closeButton.addEventListener('click', () => {
+        clearTimeout(fadeOutTimeout);
+        notification.remove();
+    });
+
+    notification.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideOut') {
+            notification.remove();
+        }
+    });
+
+    document.querySelector(activeScreen).appendChild(notification);
+    startFadeOutTimer();
+}
+
+}
+
+function showScreen(screenName) {
+    const screens = {
+        startMenuScreen: document.querySelector('.startMenuScreen'),
+        gameScreen: document.querySelector('.gameScreen'),
+        newGameScreen: document.querySelector('.newGameScreen')
     };
 
     // Update current screen in settings
@@ -281,6 +426,9 @@ function displaySavedWorlds() {
 }
 
 
+
+//---------------------------------------- Items array with name and color --------------------------------------------//
+
 const discoveredItems = new Set();
 // Add more if needed to create more items
 const itemTypes = [
@@ -306,7 +454,6 @@ const itemTypes = [
     }
 
 ]
-
 //------------------------------------------------ Splash Screen -----------------------------------------------------//
 
 let intro = document.querySelector('.intro');
@@ -441,6 +588,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
 // Opretter et nyt item med en counter og hover-effekt
@@ -492,35 +640,20 @@ function createItem(itemType, count = 1) {
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Tilføjer items til inventory med tæller
-function addItemToInventory(itemType) {
-    // Select only the inventory slots in the bottom div (if needed)
-    const slots = document.querySelectorAll('#inventory .slot');
+function addItemToInventory(itemType){
+    const slots = document.querySelectorAll('.slot');
 
-    // If the item hasn't been discovered yet, mark it as discovered and update found-items.
     if (!discoveredItems.has(itemType.name)) {
         discoveredItems.add(itemType.name);
-        showNotification(
-            'New discovery!✨',
-            `You found a ${itemType.name}! `,
-            '#4CAF50',
-            itemType.image,
-            'Tip: Check your achievements for...'
-        );
-
-        // Update the found-items container
-        const foundItemsContainer = document.querySelector('.found-items');
-        const itemImg = foundItemsContainer.querySelector(`img[data-item="${itemType.name}"]`);
-        if (itemImg) {
-            itemImg.src = itemType.image; // Replace the placeholder with the actual item image
-        }
+        showNotification('New discovery!✨', `You found a ${itemType.name}! `, '#4CAF50', itemType.image, 'Tip: Check your achievements for... .');
     }
 
-    // Check if the item exists in inventory already
+    // Hvis item findes i inventory allerede
     for (let slot of slots) {
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
             const item = slot.firstElementChild;
             const count = parseInt(item.dataset.count || '1');
-            const { capacity } = itemType;
+            const { capacity} = itemType;
 
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
@@ -530,7 +663,7 @@ function addItemToInventory(itemType) {
         }
     }
 
-    // If the item doesn't exist, create a new stack in an empty slot
+    // Hvis item ikke findes, oprettes ny stack
     for (let slot of slots) {
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
@@ -542,9 +675,6 @@ function addItemToInventory(itemType) {
     showNotification("Inventory Notification 🎒", "Inventory er fuldt!");
     return false;
 }
-
-
-
 
 //----------------------------------------------Andre inventory events------------------------------------------------//
 
@@ -928,6 +1058,7 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 
 });
+
 
 //------------------------------------------------------ Chat --------------------------------------------------------//
 
