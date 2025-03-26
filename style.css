@@ -63,15 +63,15 @@
     align-items: start;
     justify-content: right;
 
-    #settings,#loadGameSettings{
+    .settings{
         padding-top: 10px;
         cursor: pointer;
     }
 }
-#volumeToggle, #loadGameVolumeToggle{
+.volumeToggle{
     cursor: pointer;
 }
-#volumeOff, #loadGameVolumeOff{
+.volumeOff{
     display: none;
     cursor: pointer;
 }
@@ -235,28 +235,6 @@
      background-color: black;
 }
 
-.load-game-icons{
-    width: 100%;
-    height: 50px;
-    gap: 10px;
-    display: flex;
-    align-items: start;
-    justify-content: right;
-}
-#loadGameSettings{
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-#loadGameVolumeToggle {
-    cursor: pointer;
-
-}
-    #loadGameVolumeOff{
-        display: none;
-        cursor: pointer;
-    }
-
 
 .load-game-titel{
     width: 100%;
@@ -265,9 +243,7 @@
     align-items: center;
     height: 150px;
     padding-bottom: 80px;
-
 }
-
 
 .game-slots-container{
     display: flex;
@@ -304,7 +280,7 @@
     align-items: center;
 }
 
-.trashcontainer {
+.trashContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -521,14 +497,6 @@ font-size: 12px;
 }
 
 
-.settings{
-    width: 50px;
-    height: 50px;
-    font-size: 10px;
-    border-radius: 25px;
-    border-style: none;
-    cursor: pointer;
-}
 .setting-box{
     display: flex;
     justify-content: end;
@@ -552,7 +520,7 @@ position: absolute;
     align-items: center;
     gap: 5px;
 }
-.tablink {
+.tabLink {
     background-color: #D9D9D9;
     color: white;
     border-top-left-radius: 10px;
@@ -570,7 +538,7 @@ position: absolute;
 
 
 }
-.tablink:hover {
+.tabLink:hover {
     background-color: #777;
 }
 
@@ -582,7 +550,7 @@ position: absolute;
 
 }
 
-.tabcontent {
+.tabContent {
     margin-top: 0;
     border-top: none;
 
@@ -596,7 +564,7 @@ position: absolute;
 
 #Actions, #Chest, #Achievements {background-color: #737373 ;}
 
-.tabcontent-box{
+.tabContent-box{
     display: flex;
     gap: 25px;
     justify-content: center;
