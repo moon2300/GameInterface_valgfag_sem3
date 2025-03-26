@@ -1,4 +1,3 @@
-//------------------------------------------------- Screen array -----------------------------------------------------//
 uiSettings = {
     volume: true,
 
@@ -13,7 +12,8 @@ function initializeScreens() {
     const screens = {
         startMenuScreen: document.querySelector('.startMenuScreen'),
         gameScreen: document.querySelector('.gameScreen'),
-        newGameScreen: document.querySelector('.newGameScreen')
+        newGameScreen: document.querySelector('.newGameScreen'),
+        loadGameScreen: document.querySelector('.loadGameScreen')
     };
 
     // Hide all screens first
@@ -33,7 +33,8 @@ function showScreen(screenName) {
     const screens = {
         startMenuScreen: document.querySelector('.startMenuScreen'),
         gameScreen: document.querySelector('.gameScreen'),
-        newGameScreen: document.querySelector('.newGameScreen')
+        newGameScreen: document.querySelector('.newGameScreen'),
+        loadGameScreen: document.querySelector('.loadGameScreen')
     };
 
     // Update current screen in settings
@@ -277,7 +278,6 @@ function displaySavedWorlds() {
     }
 }
 
-
 //---------------------------------------- Items array with name and color --------------------------------------------//
 
 const discoveredItems = new Set();
@@ -347,12 +347,15 @@ backToStartMenuButton.addEventListener("click", returnToStartMenu);
 
 document.querySelector('.newGame').addEventListener('click', () => showScreen('newGameScreen'));
 
+document.querySelector('.loadGame').addEventListener('click', () => showScreen('loadGameScreen'));
+
 document.querySelector('.cancelNewWorld').addEventListener('click', () => showScreen('startMenuScreen'));
 
 
 
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
 const newGameScreenOverlay = document.querySelector(".newGameScreenOverlay");
+const loadGameScreenOverlay = document.querySelector(".loadGameScreenOverlay");
 const settingsButtons = document.querySelectorAll(".settings");
 const gameOverlay = document.querySelector(".overlayGameScreen");
 const closeButtons = document.querySelectorAll(".x-button");
@@ -372,6 +375,7 @@ function showOverlay(screenType) {
     const overlayActions = {
         startMenuScreen: () => startScreenOverlay.style.display = "flex",
         newGameScreen: () => newGameScreenOverlay.style.display = "flex",
+        loadGameScreen: () =>loadGameScreenOverlay.style.display = "flex",
         gameScreen: () => {
             gameOverlay.style.display = "flex";
             showNotification("Game Notification 🎮", "The game is now paused.");
@@ -392,6 +396,7 @@ function closeOverlay() {
     startScreenOverlay.style.display = "none";
     newGameScreenOverlay.style.display = "none";
     gameOverlay.style.display = "none";
+    loadGameScreenOverlay.style.display = "none";
 
 }
 
@@ -440,12 +445,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
-
-
-
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
 
 // Opretter et nyt item med en counter og hover-effekt
@@ -490,27 +489,38 @@ function createItem(itemType, count = 1) {
 }
 
 
-
-
-
-
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Tilføjer items til inventory med tæller
-function addItemToInventory(itemType){
-    const slots = document.querySelectorAll('.slot');
+function addItemToInventory(itemType) {
+    // Select only the inventory slots in the bottom div (if needed)
+    const slots = document.querySelectorAll('#inventory .slot');
 
+    // If the item hasn't been discovered yet, mark it as discovered and update found-items.
     if (!discoveredItems.has(itemType.name)) {
         discoveredItems.add(itemType.name);
-        showNotification('New discovery!✨', `You found a ${itemType.name}! `, '#4CAF50', itemType.image, 'Tip: Check your achievements for... .');
+        showNotification(
+            'New discovery!✨',
+            `You found a ${itemType.name}! `,
+            '#4CAF50',
+            itemType.image,
+            'Tip: Check your achievements for...'
+        );
+
+        // Update the found-items container
+        const foundItemsContainer = document.querySelector('.found-items');
+        const itemImg = foundItemsContainer.querySelector(`img[data-item="${itemType.name}"]`);
+        if (itemImg) {
+            itemImg.src = itemType.image; // Replace the placeholder with the actual item image
+        }
     }
 
-    // Hvis item findes i inventory allerede
+    // Check if the item exists in inventory already
     for (let slot of slots) {
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
             const item = slot.firstElementChild;
             const count = parseInt(item.dataset.count || '1');
-            const { capacity} = itemType;
+            const { capacity } = itemType;
 
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
@@ -520,7 +530,7 @@ function addItemToInventory(itemType){
         }
     }
 
-    // Hvis item ikke findes, oprettes ny stack
+    // If the item doesn't exist, create a new stack in an empty slot
     for (let slot of slots) {
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
@@ -533,7 +543,35 @@ function addItemToInventory(itemType){
     return false;
 }
 
+
+
+
 //----------------------------------------------Andre inventory events------------------------------------------------//
+
+function openPage(pageName, element, color) {
+    // Hide all elements with class="tabContent" by default */
+    let i, tabContent, tabLinks;
+    tabContent = document.getElementsByClassName("tabContent");
+    for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].style.display = "none";
+    }
+
+    // Remove the background color of all tabLinks/buttons
+    tabLinks = document.getElementsByClassName("tabLink");
+    for (i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].style.backgroundColor = "";
+    }
+
+    // Show the specific tab content
+    document.getElementById(pageName).style.display = "block";
+
+    // Add the specific color to the button used to open the tab content
+    element.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
 
 // Opdaterer tælleren på item-elementet
 function updateCounter(itemElement) {
@@ -890,7 +928,6 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 
 });
-
 
 //------------------------------------------------------ Chat --------------------------------------------------------//
 
