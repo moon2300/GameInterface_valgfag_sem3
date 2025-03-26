@@ -1,8 +1,284 @@
-//---------------------------------------- Items array with name and color --------------------------------------------//
+//------------------------------------------------- Screen array -----------------------------------------------------//
 uiSettings = {
     volume: true,
-    showScreen: true,
+
+    currentScreen: 'startMenuScreen'
+
 }
+
+//------------------------------------------ Shown Screen function ---------------------------------------------------//
+
+
+function initializeScreens() {
+    const screens = {
+        startMenuScreen: document.querySelector('.startMenuScreen'),
+        gameScreen: document.querySelector('.gameScreen'),
+        newGameScreen: document.querySelector('.newGameScreen')
+    };
+
+    // Hide all screens first
+    Object.values(screens).forEach(screen => {
+        if (screen) {
+            screen.style.display = 'none';
+        }
+    });
+
+    // Show the initial screen (start screen)
+    if (screens.startMenuScreen) {
+        screens.startMenuScreen.style.display = 'grid';
+    }
+}
+
+function showScreen(screenName) {
+    const screens = {
+        startMenuScreen: document.querySelector('.startMenuScreen'),
+        gameScreen: document.querySelector('.gameScreen'),
+        newGameScreen: document.querySelector('.newGameScreen')
+    };
+
+    // Update current screen in settings
+    uiSettings.currentScreen = screenName;
+
+    // Update screen visibility and handle notifications
+    Object.entries(screens).forEach(([name, element]) => {
+        if (element) {
+            element.style.display = name === screenName ? 'grid' : 'none';
+            if (name !== screenName) {
+                const notificationSystem = element.querySelector('.notificationSystem');
+                if (notificationSystem) {
+                    notificationSystem.innerHTML = '';
+                }
+            }
+        }
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', initializeScreens);
+
+
+//------------------------------------------------ Notifications -----------------------------------------------------//
+function showNotification(header, message, progressColor = '#4CAF50', imageUrl = null, tip = null) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.style.display = 'block';
+
+    const progressBackground = document.createElement('div');
+    progressBackground.className = 'notification-progress-background';
+
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('notification-progress');
+    progressBar.style.backgroundColor = progressColor;
+
+    const headerText = document.createElement('h1');
+    headerText.classList.add('notificationHeader');
+    headerText.textContent = header;
+
+    // Create message container.
+    const messageText = document.createElement('div');
+    messageText.classList.add('notificationMessage');
+    messageText.textContent = message;
+
+    // If an image URL is provided, append the image inside the message container.
+    if (imageUrl) {
+        const inlineImage = document.createElement('img');
+        inlineImage.src = imageUrl;
+        inlineImage.alt = header;
+        inlineImage.classList.add('notification-image');
+        messageText.appendChild(inlineImage);
+    }
+
+    // Create a tip element if tip text is provided.
+    let tipText = null;
+    if (tip) {
+        tipText = document.createElement('div');
+        tipText.classList.add('notificationTip');
+        tipText.textContent = tip;
+    }
+
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('closeNotification');
+    closeButton.innerHTML = '&times;';
+
+    const maxNotifications = 4;
+    const activeScreen = `.${uiSettings.currentScreen} .notificationSystem`;
+    const notificationSystem = document.querySelector(activeScreen);
+
+// Check if notification system exists before proceeding
+    if (!notificationSystem) {
+        console.error(`Could not find notification system with selector: ${activeScreen}`);
+        return; // Exit the function if we can't find the notification system
+    }
+
+// Now we can safely get existing notifications
+    const existingNotifications = notificationSystem.querySelectorAll('.notification');
+
+
+    if (existingNotifications.length >= maxNotifications) {
+        existingNotifications[0].remove();
+    }
+
+    // Append elements to the notification in the desired order.
+    notification.appendChild(progressBackground);
+    notification.appendChild(progressBar);
+    notification.appendChild(closeButton);
+    notification.appendChild(headerText);
+    notification.appendChild(messageText);
+    // Append tip element if provided.
+    if (tipText) {
+        notification.appendChild(tipText);
+    }
+
+    let fadeOutTimeout;
+    const startFadeOutTimer = () => {
+        clearTimeout(fadeOutTimeout);
+        progressBar.style.animation = 'progress-bar-shrink 4s linear forwards';
+        fadeOutTimeout = setTimeout(() => {
+            if (notification.isConnected) {
+                notification.style.animation = 'slideOut 0.5s ease forwards';
+            }
+        }, 4000);
+    };
+
+    notification.addEventListener('mouseenter', () => {
+        clearTimeout(fadeOutTimeout);
+        progressBar.style.animationPlayState = 'paused';
+    });
+
+    notification.addEventListener('mouseleave', () => {
+        startFadeOutTimer();
+        progressBar.style.animationPlayState = 'running'
+    });
+
+    closeButton.addEventListener('click', () => {
+        clearTimeout(fadeOutTimeout);
+        notification.remove();
+    });
+
+    notification.addEventListener('animationend', (e) => {
+        if (e.animationName === 'slideOut') {
+            notification.remove();
+        }
+    });
+
+    document.querySelector(activeScreen).appendChild(notification);
+    startFadeOutTimer();
+}
+
+//------------------------------------------------ World Save/Load System -----------------------------------------------------//
+function showInputError(input, duration = 1000) {
+    // Remove any existing classes first
+    input.classList.remove('error', 'error-fade');
+
+    // Add error class and focus
+    input.classList.add('error');
+    input.focus();
+
+    // Start the fade out halfway through the duration
+    const fadeStart = duration / 2;
+
+    setTimeout(() => {
+        input.classList.add('error-fade');
+    }, fadeStart);
+
+    // Remove all classes and blur at the end
+    setTimeout(() => {
+        input.classList.remove('error', 'error-fade');
+        input.blur();
+    }, duration);
+}
+
+// Function to save a new world name
+function saveWorldName(worldName) {
+    let savedWorlds = JSON.parse(localStorage.getItem('savedWorlds')) || [];
+    const worldData = {
+        name: worldName,
+        createdAt: new Date().toISOString(),
+    };
+    savedWorlds.push(worldData);
+    localStorage.setItem('savedWorlds', JSON.stringify(savedWorlds));
+}
+
+// Function to get all saved worlds
+function getSavedWorlds() {
+    return JSON.parse(localStorage.getItem('savedWorlds')) || [];
+}
+
+// Add this to your existing DOMContentLoaded event listener or create a new one
+document.addEventListener('DOMContentLoaded', function() {
+    // Keep your existing initializeScreens() call if it's there
+    initializeScreens();
+
+    // Add world creation handling
+    const createWorldButton = document.querySelector('.newWorldButton');
+    const worldNameInput = document.getElementById('worldName');
+
+    if (createWorldButton && worldNameInput) {
+        createWorldButton.addEventListener('click', function() {
+            const worldName = worldNameInput.value.trim();
+
+            if (worldName === '') {
+                showNotification(
+                    'Missing World Name⚠️!',
+                    'You need to enter a world name, before a world can be created',
+                    '#FF5252'
+                );
+                showInputError(worldNameInput);
+                return;
+            }
+
+            const existingWorlds = getSavedWorlds();
+            if (existingWorlds.some(world => world.name === worldName)) {
+                showNotification(
+                    'Missing World Name⚠️!',
+                    'A world with this name already exists',
+                    '#FF5252'
+                );
+                showInputError(worldNameInput);
+                return;
+            }
+
+            // Reset error class when validation passes
+            worldNameInput.classList.remove('error');
+
+            saveWorldName(worldName);
+
+            showNotification(
+                'Success',
+                `World "${worldName}" created successfully!`,
+                '#4CAF50'
+            );
+
+            worldNameInput.value = '';
+            showScreen('gameScreen');
+        });
+
+        // Reset error class when user starts typing
+        worldNameInput.addEventListener('input', function() {
+            this.classList.remove('error');
+        });
+    }
+});
+
+// Function to display saved worlds (for your future loadGameScreen)
+function displaySavedWorlds() {
+    const savedWorlds = getSavedWorlds();
+    const worldList = document.querySelector('.saved-worlds-list');
+
+    if (worldList) {
+        worldList.innerHTML = '';
+        savedWorlds.forEach(world => {
+            const worldElement = document.createElement('div');
+            worldElement.classList.add('saved-world-item');
+            worldElement.textContent = world.name;
+            worldElement.addEventListener('click', () => loadWorld(world));
+            worldList.appendChild(worldElement);
+        });
+    }
+}
+
+
+//---------------------------------------- Items array with name and color --------------------------------------------//
 
 const discoveredItems = new Set();
 // Add more if needed to create more items
@@ -10,26 +286,25 @@ const itemTypes = [
     {
         capacity: 10,
         name: 'Ruby',
-        image: 'picz/ruby-gem.png'
+        image: 'pics/ruby-gem.png'
     },
     {
         capacity: 5,
         name: 'Sapphire',
-        image: 'picz/sapphire.png'
+        image: 'pics/sapphire.png'
     },
     {
         capacity: 2,
         name: 'Emerald',
-        image: 'picz/emerald.png'
+        image: 'pics/emerald.png'
     },
     {
         capacity: 5,
         name: 'Amethyst',
-        image: 'picz/amethyst.png'
+        image: 'pics/amethyst.png'
     }
 
 ]
-
 //------------------------------------------------ Splash Screen -----------------------------------------------------//
 
 let intro = document.querySelector('.intro');
@@ -56,76 +331,71 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-//----------------------------------------------- Show Screen --------------------------------------------------------//
+//----------------------------------------- Settings Modal function --------------------------------------------------//
 
-function shownScreen() {
-    const startScreen = document.querySelector('.startMenuScreen');
-    const gameScreen = document.querySelector('.gameScreen');
-    if (uiSettings.showScreen === true) {
-        uiSettings.showScreen = false
-        startScreen.style.display = 'none';
-        gameScreen.style.display = 'grid';
-    } else {
-        uiSettings.showScreen = true
-        startScreen.style.display = 'grid';
-        gameScreen.style.display = 'none';
-    }
-}
 
-const startMenuScreen = document.querySelector(".startMenuScreen");
-const gameScreen = document.querySelector(".gameScreen");
 const backToStartMenuButton = document.querySelector(".setting-start-menu-knap");
 
 
 function returnToStartMenu() {
-    gameScreen.style.display = "none";
-    startMenuScreen.style.display = "grid";
+    showScreen('startMenuScreen');
     closeOverlay();
 }
 
 // Attach event listener to the button
 backToStartMenuButton.addEventListener("click", returnToStartMenu);
 
-document.querySelector('.gameScreen').style.display = 'none';
+document.querySelector('.newGame').addEventListener('click', () => showScreen('newGameScreen'));
 
-document.querySelector('.newGame').addEventListener('click', shownScreen);
+document.querySelector('.cancelNewWorld').addEventListener('click', () => showScreen('startMenuScreen'));
 
 
 
 const startScreenOverlay = document.querySelector(".startMenuScreenOverlay");
-const settingsButtonStart = document.querySelector("#settings");
-const settingsButton = document.querySelector(".settings");
-const settingsButtonLoad = document.querySelector("#loadGameSettings")
+const newGameScreenOverlay = document.querySelector(".newGameScreenOverlay");
+const settingsButtons = document.querySelectorAll(".settings");
 const gameOverlay = document.querySelector(".overlayGameScreen");
-const loadGameOverlay= document.querySelector(".loadGameScreenOverlay")
 const closeButtons = document.querySelectorAll(".x-button");
 
 
-settingsButtonStart.addEventListener('click', () => showOverlay('start'));
-settingsButton.addEventListener('click', () => showOverlay('game'));
 
-settingsButtonLoad.addEventListener('click', () => showOverlay('load'));
+settingsButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        showOverlay(uiSettings.currentScreen);
+    });
+});
+
+
 closeButtons.forEach(button => button.addEventListener('click', closeOverlay));
 
-function showOverlay(type) {
-    if (type === 'start') {
-        startScreenOverlay.style.display = "flex";
-    } else if (type === 'game') {
-        gameOverlay.style.display = "flex"; // Ensure this matches the correct overlay
-        showNotification("Game Notification 🎮", "The game is now paused.");
-    } else if (type === 'load') {
-        loadGameOverlay.style.display = "flex";
-        console.log("det virker")
+function showOverlay(screenType) {
+    const overlayActions = {
+        startMenuScreen: () => startScreenOverlay.style.display = "flex",
+        newGameScreen: () => newGameScreenOverlay.style.display = "flex",
+        gameScreen: () => {
+            gameOverlay.style.display = "flex";
+            showNotification("Game Notification 🎮", "The game is now paused.");
+        }
+    };
+
+    const action = overlayActions[screenType];
+    if (action) {
+        action();
+    } else {
+        console.warn('Unknown screen type:', screenType);
     }
 }
+
 
 // Function to close the overlay
 function closeOverlay() {
     startScreenOverlay.style.display = "none";
+    newGameScreenOverlay.style.display = "none";
     gameOverlay.style.display = "none";
-    loadGameOverlay.style.display = "none";
+
 }
 
+//-------------------------------------------------- Mini Map --------------------------------------------------------//
 
 const miniMap = document.querySelector('.mini-map');
 
@@ -137,135 +407,43 @@ function openMinimap (){
 
 //------------------------------------- Settings and volume on StartMenuScreen ---------------------------------------//
 
-const volumeButton = document.querySelector('#volumeToggle');
-const loadGameVolumeButton = document.querySelector('#loadGameVolumeToggle');
-volumeButton.addEventListener('click', volumeToggle,);
-loadGameVolumeButton.addEventListener('click', volumeToggle,);
-function volumeToggle () {
-    const volumeOn = volumeButton.querySelector('#volumeOn');
-    const volumeOff = volumeButton.querySelector('#volumeOff');
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all volume toggle elements (since you have them on multiple screens)
+    const volumeToggles = document.querySelectorAll('.volumeToggle');
 
+    volumeToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const volumeOn = this.querySelector('.volumeOn');
+            const volumeOff = this.querySelector('.volumeOff');
 
-    if (uiSettings.volume === true) {
-        uiSettings.volume = false
-        volumeOn.style.display = 'none';
-        volumeOff.style.display = 'block';
-
-        showNotification("Sound Notification🔇", "Volume is turned off");
-
-    } else {
-        uiSettings.volume = true
-        volumeOn.style.display = 'block';
-        volumeOff.style.display = 'none';
-
-        showNotification("Sound Notification🔊", "Volume is turned on");
-    }
-}
-
-//------------------------------------------------ Notifications -----------------------------------------------------//
-
-document.addEventListener('DOMContentLoaded', () => {
-    function showNotification(header, message, progressColor = '#4CAF50', imageUrl = null, tip = null) {
-        const notification = document.createElement('div');
-        notification.classList.add('notification');
-        notification.style.display = 'block';
-
-        const progressBackground = document.createElement('div');
-        progressBackground.className = 'notification-progress-background';
-
-        const progressBar = document.createElement('div');
-        progressBar.classList.add('notification-progress');
-        progressBar.style.backgroundColor = progressColor;
-
-
-        const headerText = document.createElement('h1');
-        headerText.classList.add('notificationHeader');
-        headerText.textContent = header;
-
-        // Create message container.
-        const messageText = document.createElement('div');
-        messageText.classList.add('notificationMessage');
-        messageText.textContent = message;
-
-        // If an image URL is provided, append the image inside the message container.
-        if (imageUrl) {
-            const inlineImage = document.createElement('img');
-            inlineImage.src = imageUrl;
-            inlineImage.alt = header;
-            inlineImage.classList.add('notification-image');
-            messageText.appendChild(inlineImage);
-        }
-
-        // Create a tip element if tip text is provided.
-        let tipText = null;
-        if (tip) {
-            tipText = document.createElement('div');
-            tipText.classList.add('notificationTip');
-            tipText.textContent = tip;
-        }
-
-        const closeButton = document.createElement('button');
-        closeButton.classList.add('closeNotification');
-        closeButton.innerHTML = '&times;';
-
-        const maxNotifications = 4;
-        const activeScreen = document.querySelector('.gameScreen').style.display !== 'none'
-            ? '.gameScreen .notificationSystem'
-            : '.startMenuScreen .notificationSystem';
-        const notificationSystem = document.querySelector(activeScreen);
-        const existingNotifications = notificationSystem.querySelectorAll('.notification');
-
-        if (existingNotifications.length >= maxNotifications) {
-            existingNotifications[0].remove();
-        }
-
-        // Append elements to the notification in the desired order.
-        notification.appendChild(progressBackground);
-        notification.appendChild(progressBar);
-        notification.appendChild(closeButton);
-        notification.appendChild(headerText);
-        notification.appendChild(messageText);
-        // Append tip element if provided.
-        if (tipText) {
-            notification.appendChild(tipText);
-        }
-
-        let fadeOutTimeout;
-        const startFadeOutTimer = () => {
-            clearTimeout(fadeOutTimeout);
-            progressBar.style.animation = 'progress-bar-shrink 4s linear forwards';
-            fadeOutTimeout = setTimeout(() => {
-                if (notification.isConnected) {
-                    notification.style.animation = 'slideOut 0.5s ease forwards';
-                }
-            }, 4000);
-        };
-
-        notification.addEventListener('mouseenter', () => {
-            clearTimeout(fadeOutTimeout);
-        });
-
-        notification.addEventListener('mouseleave', () => {
-            startFadeOutTimer();
-        });
-
-        closeButton.addEventListener('click', () => {
-            clearTimeout(fadeOutTimeout);
-            notification.remove();
-        });
-
-        notification.addEventListener('animationend', (e) => {
-            if (e.animationName === 'slideOut') {
-                notification.remove();
+            if (uiSettings.volume) {
+                // Turning volume off
+                volumeOn.style.display = 'none';
+                volumeOff.style.display = 'block';
+                uiSettings.volume = false;
+                showNotification(
+                    "Sound Notification🔇",
+                    "Volume is turned off"
+                );
+            } else {
+                // Turning volume on
+                volumeOn.style.display = 'block';
+                volumeOff.style.display = 'none';
+                uiSettings.volume = true;
+                showNotification(
+                    "Sound Notification🔊",
+                    "Volume is turned on"
+                );
             }
         });
-
-        document.querySelector(activeScreen).appendChild(notification);
-        startFadeOutTimer();
-    }
-    // Make showNotification available globally
-    window.showNotification = showNotification;
+    });
 });
+
+
+
+
+
+
 
 
 //---------------------------------- Creates Items to place indside inventory slots ----------------------------------//
@@ -319,35 +497,20 @@ function createItem(itemType, count = 1) {
 //---------------------------------------------- Add and Remove Items-------------------------------------------------//
 
 // Tilføjer items til inventory med tæller
-function addItemToInventory(itemType) {
-    // Select only the inventory slots in the bottom div (if needed)
-    const slots = document.querySelectorAll('#inventory .slot');
+function addItemToInventory(itemType){
+    const slots = document.querySelectorAll('.slot');
 
-    // If the item hasn't been discovered yet, mark it as discovered and update found-items.
     if (!discoveredItems.has(itemType.name)) {
         discoveredItems.add(itemType.name);
-        showNotification(
-            'New discovery!✨',
-            `You found a ${itemType.name}! `,
-            '#4CAF50',
-            itemType.image,
-            'Tip: Check your achievements for...'
-        );
-
-        // Update the found-items container
-        const foundItemsContainer = document.querySelector('.found-items');
-        const itemImg = foundItemsContainer.querySelector(`img[data-item="${itemType.name}"]`);
-        if (itemImg) {
-            itemImg.src = itemType.image; // Replace the placeholder with the actual item image
-        }
+        showNotification('New discovery!✨', `You found a ${itemType.name}! `, '#4CAF50', itemType.image, 'Tip: Check your achievements for... .');
     }
 
-    // Check if the item exists in inventory already
+    // Hvis item findes i inventory allerede
     for (let slot of slots) {
         if (slot.hasChildNodes() && slot.firstElementChild.dataset.itemName === itemType.name) {
             const item = slot.firstElementChild;
             const count = parseInt(item.dataset.count || '1');
-            const { capacity } = itemType;
+            const { capacity} = itemType;
 
             if (count < capacity) {
                 item.dataset.count = (count + 1).toString();
@@ -357,7 +520,7 @@ function addItemToInventory(itemType) {
         }
     }
 
-    // If the item doesn't exist, create a new stack in an empty slot
+    // Hvis item ikke findes, oprettes ny stack
     for (let slot of slots) {
         if (!slot.hasChildNodes()) {
             const item = createItem(itemType);
@@ -370,35 +533,7 @@ function addItemToInventory(itemType) {
     return false;
 }
 
-
-
-
 //----------------------------------------------Andre inventory events------------------------------------------------//
-
-function openPage(pageName, elmnt, color) {
-    // Hide all elements with class="tabcontent" by default */
-    let i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Remove the background color of all tablinks/buttons
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
-    }
-
-    // Show the specific tab content
-    document.getElementById(pageName).style.display = "block";
-
-    // Add the specific color to the button used to open the tab content
-    elmnt.style.backgroundColor = color;
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-
 
 // Opdaterer tælleren på item-elementet
 function updateCounter(itemElement) {
@@ -755,6 +890,7 @@ document.querySelectorAll('.item-in-action-box').forEach((itemButton) => {
 
 
 });
+
 
 //------------------------------------------------------ Chat --------------------------------------------------------//
 
