@@ -43,72 +43,6 @@
     transition: ease-in-out 0.5s;
 }
 
-
-.startMenuScreen{
-    width: 100vw;
-    height: 100vh;
-    font-size: 70px;
-    color: white;
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    gap: 20px;
-    padding: 25px;
-    background-color: black;
-
-}
-.icons{
-    width: 100%;
-    gap: 10px;
-    display: flex;
-    align-items: start;
-    justify-content: right;
-
-    #settings,#loadGameSettings{
-        padding-top: 10px;
-        cursor: pointer;
-    }
-}
-#volumeToggle, #loadGameVolumeToggle{
-    cursor: pointer;
-}
-#volumeOff, #loadGameVolumeOff{
-    display: none;
-    cursor: pointer;
-}
-
-.titel{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.spilknapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-
-}
-.spilknapper button{
-    align-items: center;
-    justify-content: center;
-    width: 448px;
-    height:64px;
-    font-size: 40px;
-    font-weight: 550;
-    border-radius: 25px;
-    border-style: none;
-    cursor: pointer;
-}
-
-.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
-
-    background-color: #989898;
-}
-
-
 .notificationSystem {
     position: fixed;
     right: 20px;
@@ -170,13 +104,15 @@
 
 
         .notificationMessage,.notificationTip {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 5px;
-            white-space: nowrap;
             font-size: 16px;
             padding: 0 10px 15px 10px;
             color: black;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
         }
 
 
@@ -186,10 +122,10 @@
             height: 20px;
             object-fit: cover;
         }
-
-
     }
 }
+
+
 
 @keyframes progress-bar-shrink {
     from{
@@ -222,6 +158,172 @@
     }
 }
 
+.startMenuScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 70px;
+    color: white;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 25px;
+    background-color: black;
+
+}
+.icons{
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    align-items: start;
+    justify-content: right;
+
+    .settings{
+        padding-top: 10px;
+        cursor: pointer;
+    }
+}
+.volumeToggle{
+    cursor: pointer;
+}
+.volumeOff{
+    display: none;
+    cursor: pointer;
+}
+
+.titel{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spilknapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+.spilknapper button{
+    align-items: center;
+    justify-content: center;
+    width: 448px;
+    height:64px;
+    font-size: 40px;
+    font-weight: 550;
+    border-radius: 25px;
+    border-style: none;
+    cursor: pointer;
+}
+
+.newGame:hover, .loadGame:hover, .setting-start-menu-knap:hover, .settings:hover, .action-buttons-bars button:hover, .chat-toggle:hover{
+
+    background-color: #989898;
+}
+
+.newGameScreen{
+    width: 100vw;
+    height: 100vh;
+    font-size: 60px;
+    color: white;
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 1fr;
+    padding: 25px;
+    background-color: black;
+
+    .volumeToggle{
+        height: 70px;
+    }
+
+    .newWorld{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .nameWorld{
+
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        height: 115px;
+        font-size: 25px;
+    }
+
+    #worldName {
+        transition: outline 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+
+    }
+    #worldName.error {
+        outline: 2px solid #FF5252;
+        box-shadow: 0 0 8px rgba(255, 82, 82, 0.5);
+        border-color: #FF5252;
+        opacity: 1;
+    }
+
+    #worldName.error-fade {
+        outline: 2px solid transparent;
+        box-shadow: 0 0 8px rgba(255, 82, 82, 0);
+        border-color: transparent;
+        transition: outline 1s ease, box-shadow 1s ease, border-color 1s ease;
+    }
+
+
+    .newWorldInput{
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        height: 100px;
+        gap: 10px;
+        border-style: none;
+
+
+        #worldName{
+            width: 350px;
+            height: 35px;
+            font-size: 25px;
+            border-radius: 25px;
+            padding: 10px;
+        }
+    }
+    .newGameScreenButtons{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: baseline;
+        height: 100%;
+
+        .newWorldButton, .cancelNewWorld{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 350px;
+            height:40px;
+            font-size: 35px;
+            font-weight: 550;
+            border-radius: 25px;
+            border-style: none;
+            cursor: pointer;
+        }
+        .newWorldButton{
+            background-image: url("pics/night.jpg") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            text-shadow: 2px 2px 4px gray;
+        }
+        .newWorldButton:hover{
+            background-image: url("pics/day.png") ;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+}
+
+
+
 /*-----------------------------------------------------load game screen-----------------------------------------------*/
 .loadGameScreen{
     width: 100vw;
@@ -234,28 +336,6 @@
     padding: 25px;
      background-color: black;
 }
-
-.load-game-icons{
-    width: 100%;
-    height: 50px;
-    gap: 10px;
-    display: flex;
-    align-items: start;
-    justify-content: right;
-}
-#loadGameSettings{
-    padding-top: 10px;
-    cursor: pointer;
-}
-
-#loadGameVolumeToggle {
-    cursor: pointer;
-
-}
-    #loadGameVolumeOff{
-        display: none;
-        cursor: pointer;
-    }
 
 
 .load-game-titel{
@@ -304,7 +384,7 @@
     align-items: center;
 }
 
-.trashcontainer {
+.trashContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -520,20 +600,10 @@ font-size: 12px;
     display: block;
 }
 
-
-.settings{
-    width: 50px;
-    height: 50px;
-    font-size: 10px;
-    border-radius: 25px;
-    border-style: none;
-    cursor: pointer;
-}
 .setting-box{
     display: flex;
     justify-content: end;
 }
-
 
 .mid{
     display: flex;
@@ -552,7 +622,7 @@ position: absolute;
     align-items: center;
     gap: 5px;
 }
-.tablink {
+.tabLink {
     background-color: #D9D9D9;
     color: white;
     border-top-left-radius: 10px;
@@ -570,7 +640,7 @@ position: absolute;
 
 
 }
-.tablink:hover {
+.tabLink:hover {
     background-color: #777;
 }
 
@@ -582,7 +652,7 @@ position: absolute;
 
 }
 
-.tabcontent {
+.tabContent {
     margin-top: 0;
     border-top: none;
 
@@ -596,7 +666,7 @@ position: absolute;
 
 #Actions, #Chest, #Achievements {background-color: #737373 ;}
 
-.tabcontent-box{
+.tabContent-box{
     display: flex;
     gap: 25px;
     justify-content: center;
