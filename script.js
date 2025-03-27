@@ -244,11 +244,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             saveWorldName(worldName);
 
+            showScreen('gameScreen');
+
             showNotification(
                 'Success',
                 `World "${worldName}" created successfully!`,
                 '#4CAF50'
             );
+
+            setTimeout(() => {
+                worldNameInput.value = '';
+                showScreen('gameScreen');
+            }, 2000); // Giver notifikationen tid til at blive vist
 
             worldNameInput.value = '';
             showScreen('gameScreen');
